@@ -33,6 +33,9 @@ export default function UnitProgression() {
   const [barracks3, setBarracks3] = useState(() => getCookie("barracks3") || "");
   const [barracks4, setBarracks4] = useState(() => getCookie("barracks4") || "");
 
+  // Validation error state
+  const [validationError, setValidationError] = useState("");
+
   const navigate = useNavigate();
 
   // Save barracksCapacitySingle to cookie when it changes
@@ -64,10 +67,59 @@ export default function UnitProgression() {
     setCookie("barracks4", barracks4);
   }, [barracks4]);
 
+  // Calculate time until target time
+  const calculateTimeUntil = (targetTime) => {
+    if (!targetTime) return 0;
+
+    // Parse target time (HH:MM format)
+    const parts = targetTime.trim().split(':');
+    if (parts.length !== 2) return 0;
+
+    const targetHour = parseInt(parts[0], 10);
+    const targetMinute = parseInt(parts[1], 10);
+
+    if (isNaN(targetHour) || isNaN(targetMinute)) return 0;
+
+    // Get current time
+    const now = new Date();
+    const currentHour = now.getHours();
+    const currentMinute = now.getMinutes();
+
+    // Create target date (today)
+    const target = new Date();
+    target.setHours(targetHour, targetMinute, 0, 0);
+
+    // If target time is earlier than current time, assume it's tomorrow
+    if (targetHour < currentHour || (targetHour === currentHour && targetMinute <= currentMinute)) {
+      target.setDate(target.getDate() + 1);
+    }
+
+    // Calculate difference in seconds
+    const diffMs = target - now;
+    return Math.floor(diffMs / 1000);
+  };
+
   // Navigate to Results page
   const goToResults = () => {
-    // Parse inputs
-    const totalTimeSeconds = parseTotalTime(availableTime);
+    // Validate required fields
+    if (!availableTime.trim()) {
+      setValidationError("Please enter the time of next Unit Progression");
+      return;
+    }
+    if (!barracksCapacitySingle.trim()) {
+      setValidationError("Please enter barracks capacity");
+      return;
+    }
+    if (!totalTrainingTime.trim()) {
+      setValidationError("Please enter total training time");
+      return;
+    }
+
+    // Clear any previous errors
+    setValidationError("");
+
+    // Calculate time until target
+    const totalTimeSeconds = calculateTimeUntil(availableTime);
     const maxUnits = parseInt(barracksCapacitySingle, 10) || 0;
     const maxTimeSeconds = parseTotalTime(totalTrainingTime);
 
@@ -127,21 +179,29 @@ export default function UnitProgression() {
 
       <div className="card">
         <h2>
-          Time Until Next Unit Progression
-          <InfoIcon text="Ask Alexa or Google for how much time until the next unit progression" />
+          Time of Next Unit Progression
+          <InfoIcon text="Enter the time when the next Unit Progression starts (e.g., 14:30 for 2:30 PM). If it's earlier than the current time, we'll assume it's tomorrow." />
         </h2>
 
         <label className="field">
-          <span>Total available time (HH:MM)</span>
+          <span>Time of next Unit Progression (HH:MM)</span>
           <input
             type="text"
-            placeholder="17:23"
+            placeholder="14:30"
             value={availableTime}
             onChange={(e) => setAvailableTime(e.target.value)}
             onKeyDown={handleKeyDown}
           />
         </label>
       </div>
+
+      {validationError && (
+        <div className="card" style={{ background: 'var(--card-border)', border: '2px solid #ef4444' }}>
+          <p style={{ margin: 0, color: '#ef4444', fontWeight: 600 }}>
+            {validationError}
+          </p>
+        </div>
+      )}
 
       <div className="card">
         <h2>Settings</h2>
