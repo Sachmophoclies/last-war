@@ -20,14 +20,73 @@ function setCookie(name, value, days = 365) {
   document.cookie = `${name}=${encodeURIComponent(value)}; expires=${expires}; path=/`;
 }
 
+// Unit Progression schedule in EST (24-hour format)
+// Day of week (0=Sun, 1=Mon, etc.) => array of times in EST
+const UNIT_PROGRESSION_SCHEDULE = {
+  1: ["09:00"], // Monday
+  2: ["05:00"], // Tuesday
+  3: ["01:00"], // Wednesday
+  4: ["05:00"], // Thursday
+  5: ["01:00", "21:00"], // Friday (two events)
+  6: ["17:00"], // Saturday
+};
+
+// Calculate the next Unit Progression time in user's local timezone
+function getNextUnitProgressionTime() {
+  const now = new Date();
+
+  // Get current time in EST
+  const nowInEST = new Date(now.toLocaleString('en-US', { timeZone: 'America/New_York' }));
+
+  // Check upcoming times for the next 7 days
+  for (let daysAhead = 0; daysAhead < 7; daysAhead++) {
+    const checkDate = new Date(nowInEST);
+    checkDate.setDate(checkDate.getDate() + daysAhead);
+    const dayOfWeek = checkDate.getDay();
+
+    const times = UNIT_PROGRESSION_SCHEDULE[dayOfWeek];
+    if (!times) continue;
+
+    for (const timeStr of times) {
+      const [hours, minutes] = timeStr.split(':').map(Number);
+
+      // Create the event time in EST
+      const eventDateEST = new Date(checkDate);
+      eventDateEST.setHours(hours, minutes, 0, 0);
+
+      // Check if this time is in the future (in EST)
+      if (eventDateEST > nowInEST) {
+        // Convert EST date string to a proper Date object in user's local timezone
+        // Format the EST date as ISO string components
+        const year = eventDateEST.getFullYear();
+        const month = String(eventDateEST.getMonth() + 1).padStart(2, '0');
+        const day = String(eventDateEST.getDate()).padStart(2, '0');
+        const hour = String(hours).padStart(2, '0');
+        const minute = String(minutes).padStart(2, '0');
+
+        // Create a date string that represents this EST time
+        const estDateString = `${year}-${month}-${day}T${hour}:${minute}:00-05:00`;
+        const localDate = new Date(estDateString);
+
+        // Format as HH:MM in user's local timezone
+        const localHours = localDate.getHours().toString().padStart(2, '0');
+        const localMinutes = localDate.getMinutes().toString().padStart(2, '0');
+        return `${localHours}:${localMinutes}`;
+      }
+    }
+  }
+
+  return ""; // Fallback if no time found
+}
+
 export default function UnitProgression() {
-  // Today's Time - not stored in cookies
+  // Today's Time - not stored in cookies, starts empty so placeholder shows
   const [availableTime, setAvailableTime] = useState("");
 
   // Settings - load from cookies or default to empty string
   const [barracksCapacitySingle, setBarracksCapacitySingle] = useState(() => getCookie("barracksCapacitySingle") || "");
   const [totalTrainingTime, setTotalTrainingTime] = useState(() => getCookie("totalTrainingTime") || "");
-  const [pointsPerUnit, setPointsPerUnit] = useState(() => getCookie("pointsPerUnit") || "33");
+  const [pointsPerUnit, setPointsPerUnit] = useState(() => getCookie("pointsPerUnit") || "22");
   const [barracks1, setBarracks1] = useState(() => getCookie("barracks1") || "");
   const [barracks2, setBarracks2] = useState(() => getCookie("barracks2") || "");
   const [barracks3, setBarracks3] = useState(() => getCookie("barracks3") || "");
@@ -101,9 +160,12 @@ export default function UnitProgression() {
 
   // Navigate to Results page
   const goToResults = () => {
+    // Use auto-calculated time if input is empty
+    const timeToUse = availableTime.trim() || getNextUnitProgressionTime();
+
     // Validate required fields
-    if (!availableTime.trim()) {
-      setValidationError("Please enter the time of next Unit Progression");
+    if (!timeToUse) {
+      setValidationError("Unable to determine next Unit Progression time");
       return;
     }
     if (!barracksCapacitySingle.trim()) {
@@ -119,14 +181,14 @@ export default function UnitProgression() {
     setValidationError("");
 
     // Calculate time until target
-    const totalTimeSeconds = calculateTimeUntil(availableTime);
+    const totalTimeSeconds = calculateTimeUntil(timeToUse);
     const maxUnits = parseInt(barracksCapacitySingle, 10) || 0;
     const maxTimeSeconds = parseTotalTime(totalTrainingTime);
 
     // Calculate exact time per unit (with sub-second precision)
     const timePerUnitSeconds = maxUnits > 0 ? maxTimeSeconds / maxUnits : 0;
 
-    const ppu = parseInt(pointsPerUnit, 10) || 33;
+    const ppu = parseInt(pointsPerUnit, 10) || 22;
     const barracksCapacities = [barracks1, barracks2, barracks3, barracks4];
 
     // Calculate true time and strategy
@@ -175,19 +237,22 @@ export default function UnitProgression() {
 
   return (
     <div className="page">
-      <h1>Arms Race - Unit Progression</h1>
+      <h1>
+        Arms Race - Unit Progression
+        <InfoIcon text="Use this tool to most efficiently max out your Arms Race - Unit Progression and open all boxes while using the least number of speedups." />
+      </h1>
 
       <div className="card">
         <h2>
           Time of Next Unit Progression
-          <InfoIcon text="Enter the time when the next Unit Progression starts (e.g., 14:30 for 2:30 PM). If it's earlier than the current time, we'll assume it's tomorrow." />
+          <InfoIcon text="The next Unit Progression time is automatically calculated based on the game schedule (converted to your local timezone). Leave empty to use auto-calculated time, or enter a custom time to override." />
         </h2>
 
         <label className="field">
-          <span>Time of next Unit Progression (HH:MM)</span>
+          <span>Time of next Unit Progression (HH:MM) - Auto-calculated in your timezone</span>
           <input
             type="text"
-            placeholder="14:30"
+            placeholder={getNextUnitProgressionTime()}
             value={availableTime}
             onChange={(e) => setAvailableTime(e.target.value)}
             onKeyDown={handleKeyDown}
@@ -255,7 +320,7 @@ export default function UnitProgression() {
                 </span>
                 <input
                   type="text"
-                  placeholder="33"
+                  placeholder="22"
                   value={pointsPerUnit}
                   onChange={(e) => setPointsPerUnit(e.target.value)}
                   onKeyDown={handleKeyDown}

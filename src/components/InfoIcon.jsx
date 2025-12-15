@@ -10,10 +10,15 @@ export default function InfoIcon({ text }) {
       const iconRect = iconRef.current.getBoundingClientRect();
       const popup = popupRef.current;
       const popupWidth = popup.offsetWidth;
+      const popupHeight = popup.offsetHeight;
       const viewportWidth = window.innerWidth;
+      const viewportHeight = window.innerHeight;
 
-      // Check if popover would extend off the right side of the screen
-      if (iconRect.right + popupWidth > viewportWidth - 20) {
+      // Check if popover would extend off the right side or top of screen
+      const wouldOverflowRight = iconRect.right + popupWidth > viewportWidth - 20;
+      const wouldOverflowTop = iconRect.top - popupHeight < 20;
+
+      if (wouldOverflowRight || wouldOverflowTop) {
         // Center the popover on screen
         popup.style.left = '50%';
         popup.style.top = '50%';
