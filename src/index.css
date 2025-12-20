@@ -109,6 +109,43 @@ body { margin: 0; background: linear-gradient(to right, var(--bg-gradient-start)
 .menu a:hover{ background: var(--menu-hover); }
 .menu a.active{ background: var(--menu-active); font-weight:700; }
 
+.menu-toggle{
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  width:100%;
+  padding:10px 12px;
+  border:none;
+  background:transparent;
+  color: var(--text-primary);
+  text-align:left;
+  cursor:pointer;
+  border-radius:12px;
+  font-size:1rem;
+  transition: background 0.15s ease;
+}
+.menu-toggle:hover{ background: var(--menu-hover); }
+.menu-toggle .arrow{
+  font-size:0.7rem;
+  color: var(--text-muted);
+}
+
+.submenu{
+  list-style:none;
+  padding:6px 0 6px 16px;
+  margin:0;
+  display:grid;
+  gap:4px;
+}
+.submenu a{
+  padding:8px 12px;
+  font-size:0.95rem;
+}
+.submenu .menu-toggle{
+  padding:8px 12px;
+  font-size:0.95rem;
+}
+
 .content{ padding:16px; padding-bottom:60px; }
 @media (min-width: 720px){
   .content{ padding-bottom:16px; }

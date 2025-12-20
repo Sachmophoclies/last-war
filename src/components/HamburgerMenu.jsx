@@ -20,6 +20,8 @@ export default function HamburgerMenu() {
   const [open, setOpen] = useState(false);
   const [darkMode, setDarkMode] = useState(true);
   const [debugMode, setDebugMode] = useState(false);
+  const [guidesOpen, setGuidesOpen] = useState(false);
+  const [skillsOpen, setSkillsOpen] = useState(false);
   const close = () => setOpen(false);
   const drawerRef = useRef(null);
   const firstMenuItemRef = useRef(null);
@@ -162,6 +164,66 @@ export default function HamburgerMenu() {
               Arms Race
             </NavLink>
           </li>
+
+          {debugMode && (
+            <li>
+              <button
+                className={`menu-toggle ${guidesOpen ? 'open' : ''}`}
+                onClick={() => setGuidesOpen(!guidesOpen)}
+                aria-expanded={guidesOpen}
+              >
+                Guides <span className="arrow">{guidesOpen ? '▼' : '▶'}</span>
+              </button>
+              {guidesOpen && (
+                <ul className="submenu">
+                  <li>
+                    <button
+                      className={`menu-toggle ${skillsOpen ? 'open' : ''}`}
+                      onClick={() => setSkillsOpen(!skillsOpen)}
+                      aria-expanded={skillsOpen}
+                    >
+                      Skills <span className="arrow">{skillsOpen ? '▼' : '▶'}</span>
+                    </button>
+                    {skillsOpen && (
+                      <ul className="submenu">
+                        <li>
+                          <NavLink to="/guides/skills/tank-heroes" onClick={close} className={({isActive}) => isActive ? "active" : ""}>
+                            Tank Heroes
+                          </NavLink>
+                        </li>
+                        <li>
+                          <NavLink to="/guides/skills/air-heroes" onClick={close} className={({isActive}) => isActive ? "active" : ""}>
+                            Air Heroes
+                          </NavLink>
+                        </li>
+                        <li>
+                          <NavLink to="/guides/skills/missile-heroes" onClick={close} className={({isActive}) => isActive ? "active" : ""}>
+                            Missile Heroes
+                          </NavLink>
+                        </li>
+                      </ul>
+                    )}
+                  </li>
+                  <li>
+                    <NavLink to="/guides/equipment" onClick={close} className={({isActive}) => isActive ? "active" : ""}>
+                      Equipment
+                    </NavLink>
+                  </li>
+                  <li>
+                    <NavLink to="/guides/buildings" onClick={close} className={({isActive}) => isActive ? "active" : ""}>
+                      Buildings
+                    </NavLink>
+                  </li>
+                  <li>
+                    <NavLink to="/guides/research" onClick={close} className={({isActive}) => isActive ? "active" : ""}>
+                      Research
+                    </NavLink>
+                  </li>
+                </ul>
+              )}
+            </li>
+          )}
+
           <li>
             <NavLink to="/about" onClick={close} className={({isActive}) => isActive ? "active" : ""}>
               About me

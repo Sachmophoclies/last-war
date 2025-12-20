@@ -22,6 +22,22 @@ export default function Shoutouts() {
           </a>
         </div>
       </div>
+
+      <div className="card">
+        <h2>RSS</h2>
+        <div>
+          <h3 style={{ marginTop: '0', marginBottom: '16px' }}>#1210 Aethernis</h3>
+          <a
+            href="https://ko-fi.com/aethernis"
+            target="_blank"
+            rel="noreferrer"
+            className="btn"
+            style={{ display: 'inline-block', textDecoration: 'none' }}
+          >
+            Visit Aethernis on Ko-fi
+          </a>
+        </div>
+      </div>
     </div>
   );
 }

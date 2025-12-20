@@ -1,0 +1,28 @@
+{
+  "skills": {
+    "tank-heroes": {
+      "title": "Tank Heroes - Skills Guide",
+      "imageUrl": "https://storage.ko-fi.com/cdn/useruploads/display/a3543fc8-e801-498c-9a7b-1a52d0d8f314_tanksquguide.png",
+      "author": "Aethernis",
+      "authorUrl": "https://ko-fi.com/aethernis"
+    },
+    "air-heroes": {
+      "title": "Air Heroes - Skills Guide",
+      "imageUrl": "https://storage.ko-fi.com/cdn/useruploads/display/f4a1a836-db06-4d13-ba30-af3965f14dae_airsquguide.png",
+      "author": "Aethernis",
+      "authorUrl": "https://ko-fi.com/aethernis"
+    },
+    "missile-heroes": {
+      "title": "Missile Heroes - Skills Guide",
+      "imageUrl": "",
+      "author": "",
+      "authorUrl": ""
+    }
+  },
+  "equipment": {
+    "title": "Equipment Guide",
+    "imageUrl": "https://storage.ko-fi.com/cdn/useruploads/display/b855471c-9246-47e9-999d-937b686eb395_gearlevelingguide.png",
+    "author": "MONO",
+    "authorUrl": "https://ko-fi.com/mono1223"
+  }
+}
