@@ -22,6 +22,8 @@ export default function HamburgerMenu() {
   const [debugMode, setDebugMode] = useState(false);
   const [guidesOpen, setGuidesOpen] = useState(false);
   const [skillsOpen, setSkillsOpen] = useState(false);
+  const [buildingsOpen, setBuildingsOpen] = useState(false);
+  const [hqOpen, setHqOpen] = useState(false);
   const close = () => setOpen(false);
   const drawerRef = useRef(null);
   const firstMenuItemRef = useRef(null);
@@ -196,11 +198,6 @@ export default function HamburgerMenu() {
                             Air Heroes
                           </NavLink>
                         </li>
-                        <li>
-                          <NavLink to="/guides/skills/missile-heroes" onClick={close} className={({isActive}) => isActive ? "active" : ""}>
-                            Missile Heroes
-                          </NavLink>
-                        </li>
                       </ul>
                     )}
                   </li>
@@ -210,9 +207,40 @@ export default function HamburgerMenu() {
                     </NavLink>
                   </li>
                   <li>
-                    <NavLink to="/guides/buildings" onClick={close} className={({isActive}) => isActive ? "active" : ""}>
-                      Buildings
-                    </NavLink>
+                    <button
+                      className={`menu-toggle ${buildingsOpen ? 'open' : ''}`}
+                      onClick={() => setBuildingsOpen(!buildingsOpen)}
+                      aria-expanded={buildingsOpen}
+                    >
+                      Buildings <span className="arrow">{buildingsOpen ? '▼' : '▶'}</span>
+                    </button>
+                    {buildingsOpen && (
+                      <ul className="submenu">
+                        <li>
+                          <button
+                            className={`menu-toggle ${hqOpen ? 'open' : ''}`}
+                            onClick={() => setHqOpen(!hqOpen)}
+                            aria-expanded={hqOpen}
+                          >
+                            HQ <span className="arrow">{hqOpen ? '▼' : '▶'}</span>
+                          </button>
+                          {hqOpen && (
+                            <ul className="submenu">
+                              <li>
+                                <NavLink to="/guides/buildings/hq/1-30" onClick={close} className={({isActive}) => isActive ? "active" : ""}>
+                                  1-30
+                                </NavLink>
+                              </li>
+                              <li>
+                                <NavLink to="/guides/buildings/hq/25-30" onClick={close} className={({isActive}) => isActive ? "active" : ""}>
+                                  25-30
+                                </NavLink>
+                              </li>
+                            </ul>
+                          )}
+                        </li>
+                      </ul>
+                    )}
                   </li>
                   <li>
                     <NavLink to="/guides/research" onClick={close} className={({isActive}) => isActive ? "active" : ""}>

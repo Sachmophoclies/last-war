@@ -11,12 +11,6 @@
       "imageUrl": "https://storage.ko-fi.com/cdn/useruploads/display/f4a1a836-db06-4d13-ba30-af3965f14dae_airsquguide.png",
       "author": "Aethernis",
       "authorUrl": "https://ko-fi.com/aethernis"
-    },
-    "missile-heroes": {
-      "title": "Missile Heroes - Skills Guide",
-      "imageUrl": "",
-      "author": "",
-      "authorUrl": ""
     }
   },
   "equipment": {
@@ -24,5 +18,27 @@
     "imageUrl": "https://storage.ko-fi.com/cdn/useruploads/display/b855471c-9246-47e9-999d-937b686eb395_gearlevelingguide.png",
     "author": "MONO",
     "authorUrl": "https://ko-fi.com/mono1223"
+  },
+  "buildings": {
+    "hq": {
+      "1-30": {
+        "title": "HQ 1-30 - Buildings Guide",
+        "imageUrl": "https://storage.ko-fi.com/cdn/useruploads/display/e7d76e45-372b-4fed-8388-506c004a0625_hqlevel.png",
+        "author": "Aethernis",
+        "authorUrl": "https://ko-fi.com/aethernis"
+      },
+      "25-30": {
+        "title": "HQ 25-30 - Buildings Guide",
+        "imageUrl": "https://storage.ko-fi.com/cdn/useruploads/display/68b00777-b666-494d-9b74-653892cbb9b2_lastwarhqlevel25-35-2.png",
+        "author": "Aethernis",
+        "authorUrl": "https://ko-fi.com/aethernis"
+      }
+    }
+  },
+  "store": {
+    "title": "Store Guide",
+    "imageUrl": "https://storage.ko-fi.com/cdn/useruploads/display/202cf36f-0020-43b8-b8dd-9dff8e0c96f5_storeguide-3.png",
+    "author": "Aethernis",
+    "authorUrl": "https://ko-fi.com/aethernis"
   }
 }

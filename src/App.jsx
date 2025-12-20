@@ -9,10 +9,11 @@ import Shoutouts from "./pages/Shoutouts.jsx";
 // Skills guides
 import SkillsTankHeroes from "./pages/Guides/Skills/TankHeroes.jsx";
 import SkillsAirHeroes from "./pages/Guides/Skills/AirHeroes.jsx";
-import SkillsMissileHeroes from "./pages/Guides/Skills/MissileHeroes.jsx";
 
 // Other guides
 import Equipment from "./pages/Guides/Equipment.jsx";
+import BuildingsHQ1_30 from "./pages/Guides/Buildings/HQ/HQ1_30.jsx";
+import BuildingsHQ25_30 from "./pages/Guides/Buildings/HQ/HQ25_30.jsx";
 
 function NotFound() {
   return (
@@ -38,10 +39,11 @@ export default function App() {
           {/* Skills Guides */}
           <Route path="/guides/skills/tank-heroes" element={<SkillsTankHeroes />} />
           <Route path="/guides/skills/air-heroes" element={<SkillsAirHeroes />} />
-          <Route path="/guides/skills/missile-heroes" element={<SkillsMissileHeroes />} />
 
           {/* Other Guides */}
           <Route path="/guides/equipment" element={<Equipment />} />
+          <Route path="/guides/buildings/hq/1-30" element={<BuildingsHQ1_30 />} />
+          <Route path="/guides/buildings/hq/25-30" element={<BuildingsHQ25_30 />} />
 
           <Route path="*" element={<NotFound />} />
         </Routes>
