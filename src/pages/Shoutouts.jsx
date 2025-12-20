@@ -37,6 +37,19 @@ export default function Shoutouts() {
             Visit Aethernis on Ko-fi
           </a>
         </div>
+
+        <div style={{ marginTop: '24px' }}>
+          <h3 style={{ marginTop: '0', marginBottom: '16px' }}>MONO</h3>
+          <a
+            href="https://ko-fi.com/mono1223"
+            target="_blank"
+            rel="noreferrer"
+            className="btn"
+            style={{ display: 'inline-block', textDecoration: 'none' }}
+          >
+            Visit MONO on Ko-fi
+          </a>
+        </div>
       </div>
     </div>
   );
