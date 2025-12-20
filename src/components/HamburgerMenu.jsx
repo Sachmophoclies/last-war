@@ -174,7 +174,7 @@ export default function HamburgerMenu() {
                 onClick={() => setGuidesOpen(!guidesOpen)}
                 aria-expanded={guidesOpen}
               >
-                Guides <span className="arrow">{guidesOpen ? '▼' : '▶'}</span>
+                External Guides <span className="arrow">{guidesOpen ? '▼' : '▶'}</span>
               </button>
               {guidesOpen && (
                 <ul className="submenu">
