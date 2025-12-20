@@ -88,9 +88,9 @@ export default function Results({ data }) {
 
             {speedUpBatches.map((batchSize, index) => (
               <li key={index} style={{ marginBottom: '12px' }}>
-                <strong>Train {batchSize} units</strong> in barracks 1{' '}
-                <span style={{ color: 'var(--text-muted)' }}>
-                  (use {Math.ceil((batchSize / speedUpUnits) * speedUpTimeMinutes)} minutes of speed-ups)
+                <strong>Train and <u>Speed-Up</u> {batchSize} units</strong> in barracks 1{' '}
+                <span style={{ color: 'var(--text-muted)', whiteSpace: 'nowrap' }}>
+                  (uses {Math.ceil((batchSize / speedUpUnits) * speedUpTimeMinutes)} minutes of speed-ups)
                 </span>
               </li>
             ))}
