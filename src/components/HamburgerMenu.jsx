@@ -225,6 +225,11 @@ export default function HamburgerMenu() {
                   </NavLink>
                 </li>
                 <li>
+                  <NavLink to="/guides/wanted-boss" onClick={close} className={({isActive}) => isActive ? "active" : ""}>
+                    Wanted Boss
+                  </NavLink>
+                </li>
+                <li>
                   <button
                     className={`menu-toggle ${buildingsOpen ? 'open' : ''}`}
                     onClick={() => setBuildingsOpen(!buildingsOpen)}

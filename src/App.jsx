@@ -13,6 +13,7 @@ import SkillsAirHeroes from "./pages/Guides/Skills/AirHeroes.jsx";
 // Other guides
 import Equipment from "./pages/Guides/Equipment.jsx";
 import Store from "./pages/Guides/Store.jsx";
+import WantedBoss from "./pages/Guides/WantedBoss.jsx";
 import BuildingsHQ1_30 from "./pages/Guides/Buildings/HQ/HQ1_30.jsx";
 import BuildingsHQ25_30 from "./pages/Guides/Buildings/HQ/HQ25_30.jsx";
 
@@ -44,6 +45,7 @@ export default function App() {
           {/* Other Guides */}
           <Route path="/guides/equipment" element={<Equipment />} />
           <Route path="/guides/store" element={<Store />} />
+          <Route path="/guides/wanted-boss" element={<WantedBoss />} />
           <Route path="/guides/buildings/hq/1-30" element={<BuildingsHQ1_30 />} />
           <Route path="/guides/buildings/hq/25-30" element={<BuildingsHQ25_30 />} />
 

@@ -87,7 +87,7 @@ export default function GuideImage({ title, imageUrl, author, authorUrl }) {
           className="btn"
           style={{ display: 'inline-block', textDecoration: 'none' }}
         >
-          Support {author} on Ko-fi
+          Support {author}
         </a>
       </div>
     </div>
