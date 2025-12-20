@@ -19,7 +19,7 @@ function setCookie(name, value, days = 365) {
 export default function HamburgerMenu() {
   const [open, setOpen] = useState(false);
   const [darkMode, setDarkMode] = useState(true);
-  const [debugMode, setDebugMode] = useState(false);
+  const [betaMode, setBetaMode] = useState(false);
   const [guidesOpen, setGuidesOpen] = useState(false);
   const [skillsOpen, setSkillsOpen] = useState(false);
   const [buildingsOpen, setBuildingsOpen] = useState(false);
@@ -41,12 +41,12 @@ export default function HamburgerMenu() {
     }
   }, []);
 
-  // Load debug mode from cookie on mount
+  // Load beta mode from cookie on mount
   useEffect(() => {
-    const savedDebugMode = getCookie("debugMode");
-    if (savedDebugMode === "true") {
-      setDebugMode(true);
-      document.body.setAttribute("data-debug", "true");
+    const savedBetaMode = getCookie("betaMode");
+    if (savedBetaMode === "true") {
+      setBetaMode(true);
+      document.body.setAttribute("data-beta", "true");
     }
   }, []);
 
@@ -64,17 +64,17 @@ export default function HamburgerMenu() {
     }
   };
 
-  // Toggle debug mode
-  const toggleDebugMode = () => {
-    const newMode = !debugMode;
-    setDebugMode(newMode);
+  // Toggle beta mode
+  const toggleBetaMode = () => {
+    const newMode = !betaMode;
+    setBetaMode(newMode);
 
     if (newMode) {
-      document.body.setAttribute("data-debug", "true");
-      setCookie("debugMode", "true");
+      document.body.setAttribute("data-beta", "true");
+      setCookie("betaMode", "true");
     } else {
-      document.body.removeAttribute("data-debug");
-      setCookie("debugMode", "false");
+      document.body.removeAttribute("data-beta");
+      setCookie("betaMode", "false");
     }
   };
 
@@ -167,7 +167,7 @@ export default function HamburgerMenu() {
             </NavLink>
           </li>
 
-          {debugMode && (
+          {betaMode && (
             <li>
               <button
                 className={`menu-toggle ${guidesOpen ? 'open' : ''}`}
@@ -276,14 +276,14 @@ export default function HamburgerMenu() {
 
         <div className="settings">
           <div
-            className={`setting-item ${debugMode ? 'active' : ''}`}
-            onClick={toggleDebugMode}
+            className={`setting-item ${betaMode ? 'active' : ''}`}
+            onClick={toggleBetaMode}
           >
-            <span>Debug</span>
+            <span>Beta</span>
             <input
               type="checkbox"
-              checked={debugMode}
-              onChange={toggleDebugMode}
+              checked={betaMode}
+              onChange={toggleBetaMode}
               disabled
               tabIndex={-1}
             />
