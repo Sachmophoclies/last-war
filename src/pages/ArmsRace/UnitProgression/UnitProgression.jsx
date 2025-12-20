@@ -31,6 +31,20 @@ const UNIT_PROGRESSION_SCHEDULE = {
   6: ["17:00"], // Saturday
 };
 
+const UNIT_POINTS_PER_LEVEL = {
+  1: 5,
+  2: 6,
+  3: 7,
+  4: 13,
+  5: 15,
+  6: 19,
+  7: 22,
+  8: 25,
+  9: 28,
+  10: 31,
+  11: 34
+}
+
 // Calculate the next Unit Progression time in user's local timezone
 function getNextUnitProgressionTime() {
   const now = new Date();
@@ -84,9 +98,9 @@ export default function UnitProgression() {
   const [availableTime, setAvailableTime] = useState("");
 
   // Settings - load from cookies or default to empty string
-  const [barracksCapacitySingle, setBarracksCapacitySingle] = useState(() => getCookie("barracksCapacitySingle") || "");
+  const [barracksCapacityStrongest, setBarracksCapacityStrongest] = useState(() => getCookie("barracksCapacityStrongest") || "");
   const [totalTrainingTime, setTotalTrainingTime] = useState(() => getCookie("totalTrainingTime") || "");
-  const [pointsPerUnit, setPointsPerUnit] = useState(() => getCookie("pointsPerUnit") || "22");
+  const [unitLevel, setUnitLevel] = useState(() => getCookie("unitLevel") || "7");
   const [barracks1, setBarracks1] = useState(() => getCookie("barracks1") || "");
   const [barracks2, setBarracks2] = useState(() => getCookie("barracks2") || "");
   const [barracks3, setBarracks3] = useState(() => getCookie("barracks3") || "");
@@ -97,20 +111,20 @@ export default function UnitProgression() {
 
   const navigate = useNavigate();
 
-  // Save barracksCapacitySingle to cookie when it changes
+  // Save barracksCapacityStrongest to cookie when it changes
   useEffect(() => {
-    setCookie("barracksCapacitySingle", barracksCapacitySingle);
-  }, [barracksCapacitySingle]);
+    setCookie("barracksCapacityStrongest", barracksCapacityStrongest);
+  }, [barracksCapacityStrongest]);
 
   // Save totalTrainingTime to cookie when it changes
   useEffect(() => {
     setCookie("totalTrainingTime", totalTrainingTime);
   }, [totalTrainingTime]);
 
-  // Save pointsPerUnit to cookie when it changes
+  // Save unitLevel to cookie when it changes
   useEffect(() => {
-    setCookie("pointsPerUnit", pointsPerUnit);
-  }, [pointsPerUnit]);
+    setCookie("unitLevel", unitLevel);
+  }, [unitLevel]);
 
   // Save barracks values to cookies when they change
   useEffect(() => {
@@ -168,7 +182,7 @@ export default function UnitProgression() {
       setValidationError("Unable to determine next Unit Progression time");
       return;
     }
-    if (!barracksCapacitySingle.trim()) {
+    if (!barracksCapacityStrongest.trim()) {
       setValidationError("Please enter barracks capacity");
       return;
     }
@@ -182,13 +196,14 @@ export default function UnitProgression() {
 
     // Calculate time until target
     const totalTimeSeconds = calculateTimeUntil(timeToUse);
-    const maxUnits = parseInt(barracksCapacitySingle, 10) || 0;
+    const maxUnits = parseInt(barracksCapacityStrongest, 10) || 0;
     const maxTimeSeconds = parseTotalTime(totalTrainingTime);
 
     // Calculate exact time per unit (with sub-second precision)
     const timePerUnitSeconds = maxUnits > 0 ? maxTimeSeconds / maxUnits : 0;
 
-    const ppu = parseInt(pointsPerUnit, 10) || 22;
+    // Look up points per unit based on unit level
+    const ppu = UNIT_POINTS_PER_LEVEL[parseInt(unitLevel, 10)] || UNIT_POINTS_PER_LEVEL[7];
     const barracksCapacities = [barracks1, barracks2, barracks3, barracks4];
 
     // Calculate true time and strategy
@@ -204,7 +219,7 @@ export default function UnitProgression() {
     navigate("/results", {
       state: {
         availableTime,
-        barracksCapacitySingle,
+        barracksCapacityStrongest,
         totalTrainingTime,
         pointsPerUnit: ppu,
         barracksCapacities,
@@ -238,7 +253,7 @@ export default function UnitProgression() {
   return (
     <div className="page">
       <h1>
-        Arms Race - Unit Progression
+        Arms Race - Unit Progression 
         <InfoIcon text="Use this tool to most efficiently max out your Arms Race - Unit Progression and open all boxes while using the least number of speedups." />
       </h1>
 
@@ -277,14 +292,14 @@ export default function UnitProgression() {
             <li>
               <label className="field">
                 <span>
-                  Barracks capacity (single)
+                  Barracks capacity (strongest)
                   <InfoIcon text="Pick one barracks and see what time it gives you when you move the slider all the way to the right" />
                 </span>
                 <input
                   type="number"
                   placeholder="729"
-                  value={barracksCapacitySingle}
-                  onChange={(e) => setBarracksCapacitySingle(e.target.value)}
+                  value={barracksCapacityStrongest}
+                  onChange={(e) => setBarracksCapacityStrongest(e.target.value)}
                   onKeyDown={handleKeyDown}
                 />
               </label>
@@ -314,17 +329,22 @@ export default function UnitProgression() {
           <ul className="list">
             <li>
               <label className="field">
-                <span>
-                  Points per unit
-                  <InfoIcon text="Look in the Unit progression arms race page and see how many points you get per unit trained. This will default to training level 7 troops with maximum 'Incentive - Training' research" />
-                </span>
-                <input
-                  type="text"
-                  placeholder="22"
-                  value={pointsPerUnit}
-                  onChange={(e) => setPointsPerUnit(e.target.value)}
-                  onKeyDown={handleKeyDown}
-                />
+                <span>Unit Level</span>
+                <select
+                  value={unitLevel}
+                  onChange={(e) => setUnitLevel(e.target.value)}
+                >
+                  <option value="1">Level 1 (5 points)</option>
+                  <option value="2">Level 2 (6 points)</option>
+                  <option value="3">Level 3 (7 points)</option>
+                  <option value="4">Level 4 (13 points)</option>
+                  <option value="5">Level 5 (15 points)</option>
+                  <option value="6">Level 6 (19 points)</option>
+                  <option value="7">Level 7 (22 points)</option>
+                  <option value="8">Level 8 (25 points)</option>
+                  <option value="9">Level 9 (28 points)</option>
+                  <option value="10">Level 10 (31 points)</option>
+                </select>
               </label>
             </li>
 
