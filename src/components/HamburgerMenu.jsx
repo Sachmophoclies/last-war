@@ -181,95 +181,93 @@ export default function HamburgerMenu() {
             )}
           </li>
 
-          {betaMode && (
-            <li>
-              <button
-                className={`menu-toggle ${guidesOpen ? 'open' : ''}`}
-                onClick={() => setGuidesOpen(!guidesOpen)}
-                aria-expanded={guidesOpen}
-              >
-                External Guides <span className="arrow">{guidesOpen ? '▼' : '▶'}</span>
-              </button>
-              {guidesOpen && (
-                <ul className="submenu">
-                  <li>
-                    <button
-                      className={`menu-toggle ${skillsOpen ? 'open' : ''}`}
-                      onClick={() => setSkillsOpen(!skillsOpen)}
-                      aria-expanded={skillsOpen}
-                    >
-                      Skills <span className="arrow">{skillsOpen ? '▼' : '▶'}</span>
-                    </button>
-                    {skillsOpen && (
-                      <ul className="submenu">
-                        <li>
-                          <NavLink to="/guides/skills/tank-heroes" onClick={close} className={({isActive}) => isActive ? "active" : ""}>
-                            Tank Heroes
-                          </NavLink>
-                        </li>
-                        <li>
-                          <NavLink to="/guides/skills/air-heroes" onClick={close} className={({isActive}) => isActive ? "active" : ""}>
-                            Air Heroes
-                          </NavLink>
-                        </li>
-                      </ul>
-                    )}
-                  </li>
-                  <li>
-                    <NavLink to="/guides/equipment" onClick={close} className={({isActive}) => isActive ? "active" : ""}>
-                      Equipment
-                    </NavLink>
-                  </li>
-                  <li>
-                    <NavLink to="/guides/store" onClick={close} className={({isActive}) => isActive ? "active" : ""}>
-                      Store
-                    </NavLink>
-                  </li>
-                  <li>
-                    <button
-                      className={`menu-toggle ${buildingsOpen ? 'open' : ''}`}
-                      onClick={() => setBuildingsOpen(!buildingsOpen)}
-                      aria-expanded={buildingsOpen}
-                    >
-                      Buildings <span className="arrow">{buildingsOpen ? '▼' : '▶'}</span>
-                    </button>
-                    {buildingsOpen && (
-                      <ul className="submenu">
-                        <li>
-                          <button
-                            className={`menu-toggle ${hqOpen ? 'open' : ''}`}
-                            onClick={() => setHqOpen(!hqOpen)}
-                            aria-expanded={hqOpen}
-                          >
-                            HQ <span className="arrow">{hqOpen ? '▼' : '▶'}</span>
-                          </button>
-                          {hqOpen && (
-                            <ul className="submenu">
-                              <li>
-                                <NavLink to="/guides/buildings/hq/1-30" onClick={close} className={({isActive}) => isActive ? "active" : ""}>
-                                  1-30
-                                </NavLink>
-                              </li>
-                              <li>
-                                <NavLink to="/guides/buildings/hq/25-30" onClick={close} className={({isActive}) => isActive ? "active" : ""}>
-                                  25-30
-                                </NavLink>
-                              </li>
-                            </ul>
-                          )}
-                        </li>
-                      </ul>
-                    )}
-                  </li>
-                  <li>
-                    <NavLink to="/guides/research" onClick={close} className={({isActive}) => isActive ? "active" : ""}>
-                      Research
-                    </NavLink>
-                  </li>
-                </ul>
-              )}
-            </li>
-          )}
+          <li>
+            <button
+              className={`menu-toggle ${guidesOpen ? 'open' : ''}`}
+              onClick={() => setGuidesOpen(!guidesOpen)}
+              aria-expanded={guidesOpen}
+            >
+              External Guides <span className="arrow">{guidesOpen ? '▼' : '▶'}</span>
+            </button>
+            {guidesOpen && (
+              <ul className="submenu">
+                <li>
+                  <button
+                    className={`menu-toggle ${skillsOpen ? 'open' : ''}`}
+                    onClick={() => setSkillsOpen(!skillsOpen)}
+                    aria-expanded={skillsOpen}
+                  >
+                    Skills <span className="arrow">{skillsOpen ? '▼' : '▶'}</span>
+                  </button>
+                  {skillsOpen && (
+                    <ul className="submenu">
+                      <li>
+                        <NavLink to="/guides/skills/tank-heroes" onClick={close} className={({isActive}) => isActive ? "active" : ""}>
+                          Tank Heroes
+                        </NavLink>
+                      </li>
+                      <li>
+                        <NavLink to="/guides/skills/air-heroes" onClick={close} className={({isActive}) => isActive ? "active" : ""}>
+                          Air Heroes
+                        </NavLink>
+                      </li>
+                    </ul>
+                  )}
+                </li>
+                <li>
+                  <NavLink to="/guides/equipment" onClick={close} className={({isActive}) => isActive ? "active" : ""}>
+                    Equipment
+                  </NavLink>
+                </li>
+                <li>
+                  <NavLink to="/guides/store" onClick={close} className={({isActive}) => isActive ? "active" : ""}>
+                    Store
+                  </NavLink>
+                </li>
+                <li>
+                  <button
+                    className={`menu-toggle ${buildingsOpen ? 'open' : ''}`}
+                    onClick={() => setBuildingsOpen(!buildingsOpen)}
+                    aria-expanded={buildingsOpen}
+                  >
+                    Buildings <span className="arrow">{buildingsOpen ? '▼' : '▶'}</span>
+                  </button>
+                  {buildingsOpen && (
+                    <ul className="submenu">
+                      <li>
+                        <button
+                          className={`menu-toggle ${hqOpen ? 'open' : ''}`}
+                          onClick={() => setHqOpen(!hqOpen)}
+                          aria-expanded={hqOpen}
+                        >
+                          HQ <span className="arrow">{hqOpen ? '▼' : '▶'}</span>
+                        </button>
+                        {hqOpen && (
+                          <ul className="submenu">
+                            <li>
+                              <NavLink to="/guides/buildings/hq/1-30" onClick={close} className={({isActive}) => isActive ? "active" : ""}>
+                                1-30
+                              </NavLink>
+                            </li>
+                            <li>
+                              <NavLink to="/guides/buildings/hq/25-30" onClick={close} className={({isActive}) => isActive ? "active" : ""}>
+                                25-30
+                              </NavLink>
+                            </li>
+                          </ul>
+                        )}
+                      </li>
+                    </ul>
+                  )}
+                </li>
+                <li>
+                  <NavLink to="/guides/research" onClick={close} className={({isActive}) => isActive ? "active" : ""}>
+                    Research
+                  </NavLink>
+                </li>
+              </ul>
+            )}
+          </li>
 
           <li>
             <NavLink to="/about" onClick={close} className={({isActive}) => isActive ? "active" : ""}>
