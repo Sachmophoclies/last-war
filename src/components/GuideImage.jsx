@@ -4,8 +4,19 @@ export default function GuideImage({ title, imageUrl, author, authorUrl }) {
   const [imageLoaded, setImageLoaded] = useState(false);
   const [zoomed, setZoomed] = useState(false);
 
+  // Determine if imageUrl is a local asset or external URL
+  const isLocalImage = imageUrl && !imageUrl.startsWith('http');
+  const imageSrc = isLocalImage ? `/last-war/assets/guides/${imageUrl}` : imageUrl;
+
+  // Check if author information is available
+  const hasAuthor = author && authorUrl;
+  const displayAuthor = author || "Unknown";
+
+  // GitHub issue URL for crediting unknown authors
+  const githubIssueUrl = "https://github.com/sachm/last-war/issues/new?template=guide-credit.md&title=Credit%20for%20Guide:%20" + encodeURIComponent(title);
+
   // If no guide data is provided, show placeholder
-  if (!imageUrl || !author) {
+  if (!imageUrl) {
     return (
       <div className="page">
         <h1>{title || "Guide"}</h1>
@@ -25,15 +36,21 @@ export default function GuideImage({ title, imageUrl, author, authorUrl }) {
       <div className="card">
         <div style={{ marginBottom: '16px' }}>
           <p style={{ margin: 0, fontSize: '0.9rem', color: 'var(--text-muted)' }}>
-            Guide created by{' '}
-            <a
-              href={authorUrl}
-              target="_blank"
-              rel="noreferrer"
-              style={{ color: 'var(--text-primary)', textDecoration: 'underline' }}
-            >
-              {author}
-            </a>
+            {hasAuthor ? (
+              <>
+                Guide created by{' '}
+                <a
+                  href={authorUrl}
+                  target="_blank"
+                  rel="noreferrer"
+                  style={{ color: 'var(--text-primary)', textDecoration: 'underline' }}
+                >
+                  {author}
+                </a>
+              </>
+            ) : (
+              'Author unknown'
+            )}
           </p>
         </div>
 
@@ -55,8 +72,8 @@ export default function GuideImage({ title, imageUrl, author, authorUrl }) {
             </div>
           )}
           <img
-            src={imageUrl}
-            alt={`${title} by ${author}`}
+            src={imageSrc}
+            alt={`${title} by ${displayAuthor}`}
             onLoad={() => setImageLoaded(true)}
             style={{
               width: '100%',
@@ -76,19 +93,38 @@ export default function GuideImage({ title, imageUrl, author, authorUrl }) {
       </div>
 
       <div className="card">
-        <h2>Support the Creator</h2>
-        <p>
-          If you find this guide helpful, consider supporting {author}.
-        </p>
-        <a
-          href={authorUrl}
-          target="_blank"
-          rel="noreferrer"
-          className="btn"
-          style={{ display: 'inline-block', textDecoration: 'none' }}
-        >
-          Support {author}
-        </a>
+        <h2>{hasAuthor ? 'Support the Creator' : 'Unknown Author'}</h2>
+        {hasAuthor ? (
+          <>
+            <p>
+              If you find this guide helpful, consider supporting {author}.
+            </p>
+            <a
+              href={authorUrl}
+              target="_blank"
+              rel="noreferrer"
+              className="btn"
+              style={{ display: 'inline-block', textDecoration: 'none' }}
+            >
+              Support {author}
+            </a>
+          </>
+        ) : (
+          <>
+            <p>
+              The author of this guide is unknown. If you know who created this guide and would like to give them credit, please raise an issue on GitHub.
+            </p>
+            <a
+              href={githubIssueUrl}
+              target="_blank"
+              rel="noreferrer"
+              className="btn"
+              style={{ display: 'inline-block', textDecoration: 'none' }}
+            >
+              Help Credit This Author
+            </a>
+          </>
+        )}
       </div>
     </div>
   );
