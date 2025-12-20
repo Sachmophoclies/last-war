@@ -20,6 +20,7 @@ export default function HamburgerMenu() {
   const [open, setOpen] = useState(false);
   const [darkMode, setDarkMode] = useState(true);
   const [betaMode, setBetaMode] = useState(false);
+  const [utilitiesOpen, setUtilitiesOpen] = useState(false);
   const [guidesOpen, setGuidesOpen] = useState(false);
   const [skillsOpen, setSkillsOpen] = useState(false);
   const [buildingsOpen, setBuildingsOpen] = useState(false);
@@ -156,15 +157,28 @@ export default function HamburgerMenu() {
 
         <ul className="menu">
           <li>
-            <NavLink
-              to="/"
-              end
-              onClick={close}
-              className={({isActive}) => isActive ? "active" : ""}
+            <button
+              className={`menu-toggle ${utilitiesOpen ? 'open' : ''}`}
+              onClick={() => setUtilitiesOpen(!utilitiesOpen)}
+              aria-expanded={utilitiesOpen}
               ref={firstMenuItemRef}
             >
-              Arms Race
-            </NavLink>
+              Satch's Utilities <span className="arrow">{utilitiesOpen ? '▼' : '▶'}</span>
+            </button>
+            {utilitiesOpen && (
+              <ul className="submenu">
+                <li>
+                  <NavLink
+                    to="/"
+                    end
+                    onClick={close}
+                    className={({isActive}) => isActive ? "active" : ""}
+                  >
+                    Arms Race
+                  </NavLink>
+                </li>
+              </ul>
+            )}
           </li>
 
           {betaMode && (
