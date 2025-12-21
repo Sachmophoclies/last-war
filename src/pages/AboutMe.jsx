@@ -1,4 +1,5 @@
 import { useState, useMemo } from "react";
+import aboutMeData from "../data/aboutMe.json";
 
 // Shuffle array using Fisher-Yates algorithm
 function shuffleArray(array) {
@@ -10,25 +11,12 @@ function shuffleArray(array) {
   return shuffled;
 }
 
-const FIRST_FACT = "I started Last War: Survival on Apr 29th 2025. I got kicked out of an alliance and got picked up by MMMP. I am a low spender. I try to use math to beat the whales.";
-
-const OTHER_FACTS = [
-  "I was born in Cleveland and grew up in Ft. Lauderdale, FL.",
-  "I cooked in restaurants for 15 years until Covid closed down. I went back to school and got my BS in Computer Science.",
-  "I live in New England.",
-  "I like turtles.",
-  "I'm bald.",
-  "I like astronomy.",
-  "I still don't know who let the dogs out.",
-  "I'm a millenial."
-];
-
 export default function AboutMe() {
   const [currentIndex, setCurrentIndex] = useState(0);
 
   // Randomize the list once on mount
   const randomizedFacts = useMemo(() => {
-    return [FIRST_FACT, ...shuffleArray(OTHER_FACTS)];
+    return [aboutMeData.FIRST_FACT, ...shuffleArray(aboutMeData.OTHER_FACTS)];
   }, []);
 
   const handleClick = () => {
