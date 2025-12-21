@@ -9,7 +9,7 @@ export default function GuideImage({ title, imageUrl, author, authorUrl }) {
   const displayAuthor = author || "Unknown";
 
   // GitHub issue URL for crediting unknown authors
-  const githubIssueUrl = "https://github.com/sachm/last-war/issues/new?template=guide-credit.md&title=Credit%20for%20Guide:%20" + encodeURIComponent(title);
+  const githubIssueUrl = "https://github.com/Sachmophoclies/last-war/issues/new?template=guide-credit.md&title=Credit%20for%20Guide:%20" + encodeURIComponent(title);
 
   // If no guide data is provided, show placeholder
   if (!imageUrl) {
