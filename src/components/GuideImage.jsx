@@ -4,10 +4,6 @@ export default function GuideImage({ title, imageUrl, author, authorUrl }) {
   const [imageLoaded, setImageLoaded] = useState(false);
   const [zoomed, setZoomed] = useState(false);
 
-  // Determine if imageUrl is a local asset or external URL
-  const isLocalImage = imageUrl && !imageUrl.startsWith('http');
-  const imageSrc = isLocalImage ? `/last-war/assets/guides/${imageUrl}` : imageUrl;
-
   // Check if author information is available
   const hasAuthor = author && authorUrl;
   const displayAuthor = author || "Unknown";
@@ -72,7 +68,7 @@ export default function GuideImage({ title, imageUrl, author, authorUrl }) {
             </div>
           )}
           <img
-            src={imageSrc}
+            src={imageUrl}
             alt={`${title} by ${displayAuthor}`}
             onLoad={() => setImageLoaded(true)}
             style={{

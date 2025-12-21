@@ -25,6 +25,7 @@ export default function HamburgerMenu() {
   const [skillsOpen, setSkillsOpen] = useState(false);
   const [buildingsOpen, setBuildingsOpen] = useState(false);
   const [hqOpen, setHqOpen] = useState(false);
+  const [testOpen, setTestOpen] = useState(false);
   const close = () => setOpen(false);
   const drawerRef = useRef(null);
   const firstMenuItemRef = useRef(null);
@@ -270,6 +271,31 @@ export default function HamburgerMenu() {
                     </ul>
                   )}
                 </li>
+                {betaMode && (
+                  <li>
+                    <button
+                      className={`menu-toggle ${testOpen ? 'open' : ''}`}
+                      onClick={() => setTestOpen(!testOpen)}
+                      aria-expanded={testOpen}
+                    >
+                      Test <span className="arrow">{testOpen ? '▼' : '▶'}</span>
+                    </button>
+                    {testOpen && (
+                      <ul className="submenu">
+                        <li>
+                          <NavLink to="/guides/test/no-author" onClick={close} className={({isActive}) => isActive ? "active" : ""}>
+                            No Author
+                          </NavLink>
+                        </li>
+                        <li>
+                          <NavLink to="/guides/test/author-no-url" onClick={close} className={({isActive}) => isActive ? "active" : ""}>
+                            Author No URL
+                          </NavLink>
+                        </li>
+                      </ul>
+                    )}
+                  </li>
+                )}
               </ul>
             )}
           </li>

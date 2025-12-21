@@ -52,5 +52,16 @@
     "imageUrl": "https://storage.ko-fi.com/cdn/useruploads/display/6e909f84-7d8d-4bad-917a-255a84f03f5c_desertstormbattlefield-8.png",
     "author": "Aethernis",
     "authorUrl": "https://ko-fi.com/aethernis"
+  },
+  "test": {
+  "testWithNoAuthor": {
+    "title": "Test with No Author",
+    "imageUrl": "/last-war/assets/guides/test.png"
+  },
+  "testWithAuthorNoUrl": {
+    "title": "Test with Author but no URL",
+    "imageUrl": "/last-war/assets/guides/test.png",
+    "author": "Satch"
   }
+}
 }

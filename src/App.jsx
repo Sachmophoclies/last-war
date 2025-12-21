@@ -18,6 +18,10 @@ import DesertStorm from "./pages/Guides/DesertStorm.jsx";
 import BuildingsHQ1_30 from "./pages/Guides/Buildings/HQ/HQ1_30.jsx";
 import BuildingsHQ25_30 from "./pages/Guides/Buildings/HQ/HQ25_30.jsx";
 
+// Test guides
+import TestWithNoAuthor from "./pages/Guides/Test/TestWithNoAuthor.jsx";
+import TestWithAuthorNoUrl from "./pages/Guides/Test/TestWithAuthorNoUrl.jsx";
+
 function NotFound() {
   return (
     <div style={{ padding: '2rem', textAlign: 'center' }}>
@@ -50,6 +54,10 @@ export default function App() {
           <Route path="/guides/desert-storm" element={<DesertStorm />} />
           <Route path="/guides/buildings/hq/1-30" element={<BuildingsHQ1_30 />} />
           <Route path="/guides/buildings/hq/25-30" element={<BuildingsHQ25_30 />} />
+
+          {/* Test Guides */}
+          <Route path="/guides/test/no-author" element={<TestWithNoAuthor />} />
+          <Route path="/guides/test/author-no-url" element={<TestWithAuthorNoUrl />} />
 
           <Route path="*" element={<NotFound />} />
         </Routes>
