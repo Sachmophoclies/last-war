@@ -1,23 +1,39 @@
 {
-  "skills": {
-    "tank-heroes": {
-      "title": "Tank Heroes - Skills Guide",
-      "imageUrl": "https://storage.ko-fi.com/cdn/useruploads/display/a3543fc8-e801-498c-9a7b-1a52d0d8f314_tanksquguide.png",
+  "squad": {
+    "basicSetup": {
+      "title": "Hero Guide",
+      "imageUrl": "https://storage.ko-fi.com/cdn/useruploads/display/51a989e3-1065-437e-9139-ce233d919417_herobeginnerguide.png",
       "author": "Aethernis",
       "authorUrl": "https://ko-fi.com/aethernis"
     },
-    "air-heroes": {
-      "title": "Air Heroes - Skills Guide",
-      "imageUrl": "https://storage.ko-fi.com/cdn/useruploads/display/f4a1a836-db06-4d13-ba30-af3965f14dae_airsquguide.png",
-      "author": "Aethernis",
-      "authorUrl": "https://ko-fi.com/aethernis"
+    "skills": {
+      "tank-heroes": {
+        "title": "Tank Heroes - Skills Guide",
+        "imageUrl": "https://storage.ko-fi.com/cdn/useruploads/display/a3543fc8-e801-498c-9a7b-1a52d0d8f314_tanksquguide.png",
+        "author": "Aethernis",
+        "authorUrl": "https://ko-fi.com/aethernis"
+      },
+      "air-heroes": {
+        "title": "Air Heroes - Skills Guide",
+        "imageUrl": "https://storage.ko-fi.com/cdn/useruploads/display/f4a1a836-db06-4d13-ba30-af3965f14dae_airsquguide.png",
+        "author": "Aethernis",
+        "authorUrl": "https://ko-fi.com/aethernis"
+      }
+    },
+    "equipment": {
+      "levelingGuide": {
+        "title": "Equipment Guide",
+        "imageUrl": "https://storage.ko-fi.com/cdn/useruploads/display/b855471c-9246-47e9-999d-937b686eb395_gearlevelingguide.png",
+        "author": "MONO",
+        "authorUrl": "https://ko-fi.com/mono1223"
+      },
+      "resourceCost": {
+        "title": "resourceCost",
+        "imageUrl": "https://storage.ko-fi.com/cdn/useruploads/display/3bf7beb4-c743-44ac-92c5-c94ad4ed17ab_gearcraftingguide.png",
+        "author": "Aethernis",
+        "authorUrl": "https://ko-fi.com/aethernis"
+      }
     }
-  },
-  "equipment": {
-    "title": "Equipment Guide",
-    "imageUrl": "https://storage.ko-fi.com/cdn/useruploads/display/b855471c-9246-47e9-999d-937b686eb395_gearlevelingguide.png",
-    "author": "MONO",
-    "authorUrl": "https://ko-fi.com/mono1223"
   },
   "buildings": {
     "hq": {
@@ -41,27 +57,29 @@
     "author": "Aethernis",
     "authorUrl": "https://ko-fi.com/aethernis"
   },
-  "wantedBoss": {
-    "title": "Wanted Boss",
-    "imageUrl": "https://storage.ko-fi.com/cdn/useruploads/display/f474f824-33f3-4afd-9662-61f558b9efac_wb-lineup.png",
-    "author": "MONO",
-    "authorUrl": "https://ko-fi.com/mono1223"
-  },
-  "desertStorm": {
-    "title": "Desert Storm",
-    "imageUrl": "https://storage.ko-fi.com/cdn/useruploads/display/6e909f84-7d8d-4bad-917a-255a84f03f5c_desertstormbattlefield-8.png",
-    "author": "Aethernis",
-    "authorUrl": "https://ko-fi.com/aethernis"
+  "events": {
+    "wantedBoss": {
+      "title": "Wanted Boss",
+      "imageUrl": "https://storage.ko-fi.com/cdn/useruploads/display/f474f824-33f3-4afd-9662-61f558b9efac_wb-lineup.png",
+      "author": "MONO",
+      "authorUrl": "https://ko-fi.com/mono1223"
+    },
+    "desertStorm": {
+      "title": "Desert Storm",
+      "imageUrl": "https://storage.ko-fi.com/cdn/useruploads/display/6e909f84-7d8d-4bad-917a-255a84f03f5c_desertstormbattlefield-8.png",
+      "author": "Aethernis",
+      "authorUrl": "https://ko-fi.com/aethernis"
+    }
   },
   "test": {
-  "testWithNoAuthor": {
-    "title": "Test with No Author",
-    "imageUrl": "/last-war/assets/guides/test.png"
-  },
-  "testWithAuthorNoUrl": {
-    "title": "Test with Author but no URL",
-    "imageUrl": "/last-war/assets/guides/test.png",
-    "author": "Satch"
+    "testWithNoAuthor": {
+      "title": "Test with No Author",
+      "imageUrl": "/last-war/assets/guides/test.png"
+    },
+    "testWithAuthorNoUrl": {
+      "title": "Test with Author but no URL",
+      "imageUrl": "/last-war/assets/guides/test.png",
+      "author": "Satch"
+    }
   }
-}
 }

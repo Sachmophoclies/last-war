@@ -22,9 +22,12 @@ export default function HamburgerMenu() {
   const [betaMode, setBetaMode] = useState(false);
   const [utilitiesOpen, setUtilitiesOpen] = useState(false);
   const [guidesOpen, setGuidesOpen] = useState(false);
+  const [squadOpen, setSquadOpen] = useState(false);
   const [skillsOpen, setSkillsOpen] = useState(false);
+  const [equipmentOpen, setEquipmentOpen] = useState(false);
   const [buildingsOpen, setBuildingsOpen] = useState(false);
   const [hqOpen, setHqOpen] = useState(false);
+  const [eventsOpen, setEventsOpen] = useState(false);
   const [testOpen, setTestOpen] = useState(false);
   const close = () => setOpen(false);
   const drawerRef = useRef(null);
@@ -194,46 +197,67 @@ export default function HamburgerMenu() {
               <ul className="submenu">
                 <li>
                   <button
-                    className={`menu-toggle ${skillsOpen ? 'open' : ''}`}
-                    onClick={() => setSkillsOpen(!skillsOpen)}
-                    aria-expanded={skillsOpen}
+                    className={`menu-toggle ${squadOpen ? 'open' : ''}`}
+                    onClick={() => setSquadOpen(!squadOpen)}
+                    aria-expanded={squadOpen}
                   >
-                    Skills <span className="arrow">{skillsOpen ? '▼' : '▶'}</span>
+                    Squad <span className="arrow">{squadOpen ? '▼' : '▶'}</span>
                   </button>
-                  {skillsOpen && (
+                  {squadOpen && (
                     <ul className="submenu">
                       <li>
-                        <NavLink to="/guides/skills/tank-heroes" onClick={close} className={({isActive}) => isActive ? "active" : ""}>
-                          Tank Heroes
+                        <NavLink to="/guides/squad/basic-setup" onClick={close} className={({isActive}) => isActive ? "active" : ""}>
+                          Hero Guide
                         </NavLink>
                       </li>
                       <li>
-                        <NavLink to="/guides/skills/air-heroes" onClick={close} className={({isActive}) => isActive ? "active" : ""}>
-                          Air Heroes
-                        </NavLink>
+                        <button
+                          className={`menu-toggle ${skillsOpen ? 'open' : ''}`}
+                          onClick={() => setSkillsOpen(!skillsOpen)}
+                          aria-expanded={skillsOpen}
+                        >
+                          Skills <span className="arrow">{skillsOpen ? '▼' : '▶'}</span>
+                        </button>
+                        {skillsOpen && (
+                          <ul className="submenu">
+                            <li>
+                              <NavLink to="/guides/squad/skills/tank-heroes" onClick={close} className={({isActive}) => isActive ? "active" : ""}>
+                                Tank Heroes
+                              </NavLink>
+                            </li>
+                            <li>
+                              <NavLink to="/guides/squad/skills/air-heroes" onClick={close} className={({isActive}) => isActive ? "active" : ""}>
+                                Air Heroes
+                              </NavLink>
+                            </li>
+                          </ul>
+                        )}
+                      </li>
+                      <li>
+                        <button
+                          className={`menu-toggle ${equipmentOpen ? 'open' : ''}`}
+                          onClick={() => setEquipmentOpen(!equipmentOpen)}
+                          aria-expanded={equipmentOpen}
+                        >
+                          Equipment <span className="arrow">{equipmentOpen ? '▼' : '▶'}</span>
+                        </button>
+                        {equipmentOpen && (
+                          <ul className="submenu">
+                            <li>
+                              <NavLink to="/guides/squad/equipment/leveling-guide" onClick={close} className={({isActive}) => isActive ? "active" : ""}>
+                                Leveling Guide
+                              </NavLink>
+                            </li>
+                            <li>
+                              <NavLink to="/guides/squad/equipment/resource-cost" onClick={close} className={({isActive}) => isActive ? "active" : ""}>
+                                Resource Cost
+                              </NavLink>
+                            </li>
+                          </ul>
+                        )}
                       </li>
                     </ul>
                   )}
-                </li>
-                <li>
-                  <NavLink to="/guides/equipment" onClick={close} className={({isActive}) => isActive ? "active" : ""}>
-                    Equipment
-                  </NavLink>
-                </li>
-                <li>
-                  <NavLink to="/guides/store" onClick={close} className={({isActive}) => isActive ? "active" : ""}>
-                    Store
-                  </NavLink>
-                </li>
-                <li>
-                  <NavLink to="/guides/wanted-boss" onClick={close} className={({isActive}) => isActive ? "active" : ""}>
-                    Wanted Boss
-                  </NavLink>
-                </li>
-                <li>
-                  <NavLink to="/guides/desert-storm" onClick={close} className={({isActive}) => isActive ? "active" : ""}>
-                    Desert Storm
-                  </NavLink>
                 </li>
                 <li>
                   <button
@@ -267,6 +291,34 @@ export default function HamburgerMenu() {
                             </li>
                           </ul>
                         )}
+                      </li>
+                    </ul>
+                  )}
+                </li>
+                <li>
+                  <NavLink to="/guides/store" onClick={close} className={({isActive}) => isActive ? "active" : ""}>
+                    Store
+                  </NavLink>
+                </li>
+                <li>
+                  <button
+                    className={`menu-toggle ${eventsOpen ? 'open' : ''}`}
+                    onClick={() => setEventsOpen(!eventsOpen)}
+                    aria-expanded={eventsOpen}
+                  >
+                    Events <span className="arrow">{eventsOpen ? '▼' : '▶'}</span>
+                  </button>
+                  {eventsOpen && (
+                    <ul className="submenu">
+                      <li>
+                        <NavLink to="/guides/events/wanted-boss" onClick={close} className={({isActive}) => isActive ? "active" : ""}>
+                          Wanted Boss
+                        </NavLink>
+                      </li>
+                      <li>
+                        <NavLink to="/guides/events/desert-storm" onClick={close} className={({isActive}) => isActive ? "active" : ""}>
+                          Desert Storm
+                        </NavLink>
                       </li>
                     </ul>
                   )}

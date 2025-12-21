@@ -1,8 +1,8 @@
-import GuideImage from "../../components/GuideImage.jsx";
-import guidesData from "../../data/guides.json";
+import GuideImage from "../../../components/GuideImage.jsx";
+import guidesData from "../../../data/guides.json";
 
 export default function DesertStorm() {
-  const guideData = guidesData.desertStorm;
+  const guideData = guidesData.events.desertStorm;
 
   return (
     <GuideImage

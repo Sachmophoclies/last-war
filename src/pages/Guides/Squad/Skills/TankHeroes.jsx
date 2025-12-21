@@ -1,8 +1,8 @@
-import GuideImage from "../../../components/GuideImage.jsx";
-import guidesData from "../../../data/guides.json";
+import GuideImage from "../../../../components/GuideImage.jsx";
+import guidesData from "../../../../data/guides.json";
 
 export default function TankHeroes() {
-  const guideData = guidesData.skills["tank-heroes"];
+  const guideData = guidesData.squad.skills["tank-heroes"];
 
   return (
     <GuideImage

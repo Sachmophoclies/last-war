@@ -1,8 +1,8 @@
 import GuideImage from "../../../components/GuideImage.jsx";
 import guidesData from "../../../data/guides.json";
 
-export default function AirHeroes() {
-  const guideData = guidesData.skills["air-heroes"];
+export default function WantedBoss() {
+  const guideData = guidesData.events.wantedBoss;
 
   return (
     <GuideImage

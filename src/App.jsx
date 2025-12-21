@@ -6,17 +6,23 @@ import ResultsPage from "./pages/ArmsRace/UnitProgression/ResultsPage.jsx";
 import AboutMe from "./pages/AboutMe.jsx";
 import Shoutouts from "./pages/Shoutouts.jsx";
 
-// Skills guides
-import SkillsTankHeroes from "./pages/Guides/Skills/TankHeroes.jsx";
-import SkillsAirHeroes from "./pages/Guides/Skills/AirHeroes.jsx";
+// Squad guides
+import BasicSetup from "./pages/Guides/Squad/BasicSetup.jsx";
+import SkillsTankHeroes from "./pages/Guides/Squad/Skills/TankHeroes.jsx";
+import SkillsAirHeroes from "./pages/Guides/Squad/Skills/AirHeroes.jsx";
+import EquipmentLevelingGuide from "./pages/Guides/Squad/Equipment/LevelingGuide.jsx";
+import EquipmentResourceCost from "./pages/Guides/Squad/Equipment/ResourceCost.jsx";
 
-// Other guides
-import Equipment from "./pages/Guides/Equipment.jsx";
-import Store from "./pages/Guides/Store.jsx";
-import WantedBoss from "./pages/Guides/WantedBoss.jsx";
-import DesertStorm from "./pages/Guides/DesertStorm.jsx";
+// Buildings guides
 import BuildingsHQ1_30 from "./pages/Guides/Buildings/HQ/HQ1_30.jsx";
 import BuildingsHQ25_30 from "./pages/Guides/Buildings/HQ/HQ25_30.jsx";
+
+// Store guide
+import Store from "./pages/Guides/Store.jsx";
+
+// Events guides
+import WantedBoss from "./pages/Guides/Events/WantedBoss.jsx";
+import DesertStorm from "./pages/Guides/Events/DesertStorm.jsx";
 
 // Test guides
 import TestWithNoAuthor from "./pages/Guides/Test/TestWithNoAuthor.jsx";
@@ -43,17 +49,23 @@ export default function App() {
           <Route path="/about" element={<AboutMe />} />
           <Route path="/shoutouts" element={<Shoutouts />} />
 
-          {/* Skills Guides */}
-          <Route path="/guides/skills/tank-heroes" element={<SkillsTankHeroes />} />
-          <Route path="/guides/skills/air-heroes" element={<SkillsAirHeroes />} />
+          {/* Squad Guides */}
+          <Route path="/guides/squad/basic-setup" element={<BasicSetup />} />
+          <Route path="/guides/squad/skills/tank-heroes" element={<SkillsTankHeroes />} />
+          <Route path="/guides/squad/skills/air-heroes" element={<SkillsAirHeroes />} />
+          <Route path="/guides/squad/equipment/leveling-guide" element={<EquipmentLevelingGuide />} />
+          <Route path="/guides/squad/equipment/resource-cost" element={<EquipmentResourceCost />} />
 
-          {/* Other Guides */}
-          <Route path="/guides/equipment" element={<Equipment />} />
-          <Route path="/guides/store" element={<Store />} />
-          <Route path="/guides/wanted-boss" element={<WantedBoss />} />
-          <Route path="/guides/desert-storm" element={<DesertStorm />} />
+          {/* Buildings Guides */}
           <Route path="/guides/buildings/hq/1-30" element={<BuildingsHQ1_30 />} />
           <Route path="/guides/buildings/hq/25-30" element={<BuildingsHQ25_30 />} />
+
+          {/* Store Guide */}
+          <Route path="/guides/store" element={<Store />} />
+
+          {/* Events Guides */}
+          <Route path="/guides/events/wanted-boss" element={<WantedBoss />} />
+          <Route path="/guides/events/desert-storm" element={<DesertStorm />} />
 
           {/* Test Guides */}
           <Route path="/guides/test/no-author" element={<TestWithNoAuthor />} />
