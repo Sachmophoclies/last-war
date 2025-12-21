@@ -396,6 +396,16 @@ export default function HamburgerMenu() {
             />
           </div>
         </div>
+
+        <div style={{
+          padding: '12px 24px',
+          textAlign: 'center',
+          fontSize: '0.75rem',
+          color: 'var(--text-muted)',
+          borderTop: '1px solid var(--border-color)'
+        }}>
+          v2.1.0 (Dec. 21, 2025)
+        </div>
       </nav>
     </>
   );
