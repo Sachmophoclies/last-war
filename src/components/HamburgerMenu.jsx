@@ -1,5 +1,6 @@
 import { useState, useEffect, useRef } from "react";
 import { NavLink } from "react-router-dom";
+import versionData from "../data/version.json";
 
 const PACK_URL = "https://www.lastwar.com/"; // official site :contentReference[oaicite:1]{index=1}
 
@@ -404,7 +405,7 @@ export default function HamburgerMenu() {
           color: 'var(--text-muted)',
           borderTop: '1px solid var(--border-color)'
         }}>
-          v2.1.1 (Dec. 21, 2025)
+          v{versionData.version} ({versionData.date})
         </div>
       </nav>
     </>
