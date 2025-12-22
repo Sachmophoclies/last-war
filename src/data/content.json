@@ -1,6 +1,20 @@
 {
   "home": {
-    "description": "placeholder"
+    "header": "What kind of player are you?",
+    "level": {
+      "0": "I just started playing",
+      "1": "I don't want to spend money on this game",
+      "2": "I am okay spending a little money, if it makes sense",
+      "3": "Not a Whale, I Swear",
+      "4": "Whale"
+    },
+    "response": {
+      "0": "Check out the External Guides in the menu",
+      "1": "Check out the External Guides in the menu",
+      "2": "Check out the External Guides in the menu",
+      "3": "Check out my utilities in the menu",
+      "4": "Check out my utilities in the menu"
+    }
   },
   "app": {
     "description": "This app is a pet project of mine. I don't like having to search around for guides, so I put them in one place. I will also be adding some utilities over time."
