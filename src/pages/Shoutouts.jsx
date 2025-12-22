@@ -1,53 +1,55 @@
+import content from "../data/content.json";
+
 export default function Shoutouts() {
   return (
     <div className="page">
-      <h1>Shoutouts</h1>
+      <h1>{content.shoutouts.title}</h1>
 
       <div className="card">
-        <h2>Friends & Community</h2>
+        <h2>{content.shoutouts.friendsAndCommunity.title}</h2>
 
         <div>
-          <h3 style={{ marginTop: '0' }}>DJ Nyx</h3>
+          <h3 style={{ marginTop: '0' }}>{content.shoutouts.friendsAndCommunity.djNyx.name}</h3>
           <p>
-            Alliance member who holds awesome DJ sets on Twitch. Check out the streams!
+            {content.shoutouts.friendsAndCommunity.djNyx.description}
           </p>
           <a
-            href="https://www.twitch.tv/n_y_x_official"
+            href={content.shoutouts.friendsAndCommunity.djNyx.url}
             target="_blank"
             rel="noreferrer"
             className="btn"
             style={{ display: 'inline-block', textDecoration: 'none' }}
           >
-            Visit DJ Nyx on Twitch
+            {content.shoutouts.friendsAndCommunity.djNyx.buttonText}
           </a>
         </div>
       </div>
 
       <div className="card">
-        <h2>RSS</h2>
+        <h2>{content.shoutouts.rss.title}</h2>
         <div>
-          <h3 style={{ marginTop: '0', marginBottom: '16px' }}>#1210 Aethernis</h3>
+          <h3 style={{ marginTop: '0', marginBottom: '16px' }}>{content.shoutouts.rss.aethernis.name}</h3>
           <a
-            href="https://ko-fi.com/aethernis"
+            href={content.shoutouts.rss.aethernis.url}
             target="_blank"
             rel="noreferrer"
             className="btn"
             style={{ display: 'inline-block', textDecoration: 'none' }}
           >
-            Visit Aethernis on Ko-fi
+            {content.shoutouts.rss.aethernis.buttonText}
           </a>
         </div>
 
         <div style={{ marginTop: '24px' }}>
-          <h3 style={{ marginTop: '0', marginBottom: '16px' }}>MONO</h3>
+          <h3 style={{ marginTop: '0', marginBottom: '16px' }}>{content.shoutouts.rss.mono.name}</h3>
           <a
-            href="https://ko-fi.com/mono1223"
+            href={content.shoutouts.rss.mono.url}
             target="_blank"
             rel="noreferrer"
             className="btn"
             style={{ display: 'inline-block', textDecoration: 'none' }}
           >
-            Visit MONO on Ko-fi
+            {content.shoutouts.rss.mono.buttonText}
           </a>
         </div>
       </div>

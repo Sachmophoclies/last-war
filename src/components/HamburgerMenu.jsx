@@ -29,6 +29,7 @@ export default function HamburgerMenu() {
   const [buildingsOpen, setBuildingsOpen] = useState(false);
   const [hqOpen, setHqOpen] = useState(false);
   const [eventsOpen, setEventsOpen] = useState(false);
+  const [aboutOpen, setAboutOpen] = useState(false);
   const [testOpen, setTestOpen] = useState(false);
   const close = () => setOpen(false);
   const drawerRef = useRef(null);
@@ -354,9 +355,27 @@ export default function HamburgerMenu() {
           </li>
 
           <li>
-            <NavLink to="/about" onClick={close} className={({isActive}) => isActive ? "active" : ""}>
-              About me
-            </NavLink>
+            <button
+              className={`menu-toggle ${aboutOpen ? 'open' : ''}`}
+              onClick={() => setAboutOpen(!aboutOpen)}
+              aria-expanded={aboutOpen}
+            >
+              About <span className="arrow">{aboutOpen ? '▼' : '▶'}</span>
+            </button>
+            {aboutOpen && (
+              <ul className="submenu">
+                <li>
+                  <NavLink to="/about/app" onClick={close} className={({isActive}) => isActive ? "active" : ""}>
+                    This App
+                  </NavLink>
+                </li>
+                <li>
+                  <NavLink to="/about/satch" onClick={close} className={({isActive}) => isActive ? "active" : ""}>
+                    Satch
+                  </NavLink>
+                </li>
+              </ul>
+            )}
           </li>
           <li>
             <NavLink to="/shoutouts" onClick={close} className={({isActive}) => isActive ? "active" : ""}>

@@ -1,4 +1,5 @@
 import { useState } from "react";
+import content from "../data/content.json";
 
 export default function GuideImage({ title, imageUrl, author, authorUrl }) {
   const [imageLoaded, setImageLoaded] = useState(false);
@@ -18,7 +19,7 @@ export default function GuideImage({ title, imageUrl, author, authorUrl }) {
         <h1>{title || "Guide"}</h1>
         <div className="card">
           <p style={{ textAlign: 'center', padding: '40px 20px', color: 'var(--text-muted)' }}>
-            This guide is coming soon. Check back later!
+            {content.guides.comingSoon}
           </p>
         </div>
       </div>
@@ -34,7 +35,7 @@ export default function GuideImage({ title, imageUrl, author, authorUrl }) {
           <p style={{ margin: 0, fontSize: '0.9rem', color: 'var(--text-muted)' }}>
             {hasAuthor ? (
               <>
-                Guide created by{' '}
+                {content.guides.createdBy}{' '}
                 <a
                   href={authorUrl}
                   target="_blank"
@@ -45,7 +46,7 @@ export default function GuideImage({ title, imageUrl, author, authorUrl }) {
                 </a>
               </>
             ) : (
-              'Author unknown'
+              content.guides.authorUnknown
             )}
           </p>
         </div>
@@ -64,7 +65,7 @@ export default function GuideImage({ title, imageUrl, author, authorUrl }) {
               textAlign: 'center',
               color: 'var(--text-muted)'
             }}>
-              Loading guide...
+              {content.guides.loadingGuide}
             </div>
           )}
           <img
@@ -84,16 +85,16 @@ export default function GuideImage({ title, imageUrl, author, authorUrl }) {
         </div>
 
         <div style={{ marginTop: '16px', fontSize: '0.85rem', color: 'var(--text-muted)', textAlign: 'center' }}>
-          Click image to {zoomed ? 'zoom out' : 'zoom in'}
+          {zoomed ? content.guides.clickToZoomOut : content.guides.clickToZoomIn}
         </div>
       </div>
 
       <div className="card">
-        <h2>{hasAuthor ? 'Support the Creator' : 'Unknown Author'}</h2>
+        <h2>{hasAuthor ? content.guides.supportCreator.title : content.guides.unknownAuthor.title}</h2>
         {hasAuthor ? (
           <>
             <p>
-              If you find this guide helpful, consider supporting {author}.
+              {content.guides.supportCreator.message} {author}.
             </p>
             <a
               href={authorUrl}
@@ -102,13 +103,13 @@ export default function GuideImage({ title, imageUrl, author, authorUrl }) {
               className="btn"
               style={{ display: 'inline-block', textDecoration: 'none' }}
             >
-              Support {author}
+              {content.guides.supportCreator.buttonText} {author}
             </a>
           </>
         ) : (
           <>
             <p>
-              The author of this guide is unknown. If you know who created this guide and would like to give them credit, please raise an issue on GitHub.
+              {content.guides.unknownAuthor.message}
             </p>
             <a
               href={githubIssueUrl}
@@ -117,7 +118,7 @@ export default function GuideImage({ title, imageUrl, author, authorUrl }) {
               className="btn"
               style={{ display: 'inline-block', textDecoration: 'none' }}
             >
-              Help Credit This Author
+              {content.guides.unknownAuthor.buttonText}
             </a>
           </>
         )}

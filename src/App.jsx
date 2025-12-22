@@ -4,6 +4,8 @@ import CookieConsent from "./components/CookieConsent.jsx";
 import UnitProgression from "./pages/ArmsRace/UnitProgression/UnitProgression.jsx";
 import ResultsPage from "./pages/ArmsRace/UnitProgression/ResultsPage.jsx";
 import AboutMe from "./pages/AboutMe.jsx";
+import AboutApp from "./pages/AboutApp.jsx";
+import AboutSatch from "./pages/AboutSatch.jsx";
 import Shoutouts from "./pages/Shoutouts.jsx";
 
 // Squad guides
@@ -47,6 +49,8 @@ export default function App() {
           <Route path="/" element={<UnitProgression />} />
           <Route path="/results" element={<ResultsPage />} />
           <Route path="/about" element={<AboutMe />} />
+          <Route path="/about/app" element={<AboutApp />} />
+          <Route path="/about/satch" element={<AboutSatch />} />
           <Route path="/shoutouts" element={<Shoutouts />} />
 
           {/* Squad Guides */}

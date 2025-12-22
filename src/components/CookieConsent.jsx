@@ -1,4 +1,5 @@
 import { useState, useEffect } from "react";
+import content from "../data/content.json";
 
 const CONSENT_COOKIE_NAME = "cookie-consent";
 const CONSENT_COOKIE_VALUE = "accepted";
@@ -38,18 +39,17 @@ export default function CookieConsent() {
     <div className="cookie-consent-backdrop">
       <div className="cookie-consent-banner">
         <div className="cookie-consent-content">
-          <h3>Cookie Notice</h3>
+          <h3>{content.cookies.title}</h3>
           <p>
-            This site uses essential cookies to store your preferences and settings locally.
-            I do not use any tracking, analytics, or marketing cookies. Your data stays on your device.
+            {content.cookies.message}
           </p>
         </div>
         <div className="cookie-consent-actions">
           <button onClick={declineCookies} className="cookie-consent-decline">
-            Decline
+            {content.cookies.decline}
           </button>
           <button onClick={acceptCookies} className="cookie-consent-accept">
-            Accept & Continue
+            {content.cookies.accept}
           </button>
         </div>
       </div>

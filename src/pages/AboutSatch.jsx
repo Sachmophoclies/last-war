@@ -11,7 +11,7 @@ function shuffleArray(array) {
   return shuffled;
 }
 
-export default function AboutMe() {
+export default function AboutSatch() {
   const [currentIndex, setCurrentIndex] = useState(0);
 
   // Randomize the list once on mount
@@ -25,12 +25,12 @@ export default function AboutMe() {
 
   return (
     <div className="page">
-      <h1>About me</h1>
+      <h1>{aboutData.me.title}</h1>
 
       <div className="card clickable-card" onClick={handleClick}>
         <p>{randomizedFacts[currentIndex]}</p>
         <div style={{ marginTop: '16px', fontSize: '0.85rem', color: 'var(--text-muted)', textAlign: 'center' }}>
-          Click for more
+          {aboutData.me.clickForMore}
         </div>
       </div>
     </div>

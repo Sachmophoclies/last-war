@@ -1,0 +1,72 @@
+{
+  "home": {
+    "description": "placeholder"
+  },
+  "app": {
+    "description": "This app is a pet project of mine. I don't like having to search around for guides, so I put them in one place. I will also be adding some utilities over time."
+  },
+  "me": {
+    "title": "About Satch",
+    "clickForMore": "Click for more",
+    "FIRST_FACT": "I started Last War: Survival on Apr 29th 2025. I got kicked out of an alliance and got picked up by MMMP. I am a low spender. I try to use math to beat the whales.",
+    "OTHER_FACTS": [
+      "I was born in Cleveland and grew up in Ft. Lauderdale, FL.",
+      "I cooked in restaurants for 15 years until Covid closed down. I went back to school and got my BS in Computer Science.",
+      "I live in New England.",
+      "I like turtles.",
+      "I'm bald.",
+      "I like astronomy.",
+      "I still don't know who let the dogs out.",
+      "I'm a millenial."
+    ]
+  },
+  "shoutouts": {
+    "title": "Shoutouts",
+    "friendsAndCommunity": {
+      "title": "Friends & Community",
+      "djNyx": {
+        "name": "DJ Nyx",
+        "description": "Alliance member who holds awesome DJ sets on Twitch. Check out the streams!",
+        "buttonText": "Visit DJ Nyx on Twitch",
+        "url": "https://www.twitch.tv/n_y_x_official"
+      }
+    },
+    "rss": {
+      "title": "RSS",
+      "aethernis": {
+        "name": "#1210 Aethernis",
+        "buttonText": "Visit Aethernis on Ko-fi",
+        "url": "https://ko-fi.com/aethernis"
+      },
+      "mono": {
+        "name": "MONO",
+        "buttonText": "Visit MONO on Ko-fi",
+        "url": "https://ko-fi.com/mono1223"
+      }
+    }
+  },
+  "guides": {
+    "createdBy": "Guide created by",
+    "authorUnknown": "Author unknown",
+    "loadingGuide": "Loading guide...",
+    "clickToZoomIn": "Click image to zoom in",
+    "clickToZoomOut": "Click image to zoom out",
+    "supportCreator": {
+      "title": "Support the Creator",
+      "message": "If you find this guide helpful, consider supporting",
+      "buttonText": "Support"
+    },
+    "unknownAuthor": {
+      "title": "Unknown Author",
+      "message": "The author of this guide is unknown. If you know who created this guide and would like to give them credit, please raise an issue on GitHub.",
+      "buttonText": "Help Credit This Author"
+    },
+    "comingSoon": "This guide is coming soon. Check back later!"
+  },
+  "cookies": {
+    "title": "Cookie Notice",
+    "message": "This site uses essential cookies to store your preferences and settings locally. I do not use any tracking, analytics, or marketing cookies. Your data stays on your device.",
+    "decline": "Decline",
+    "accept": "Accept & Continue"
+  }
+}
