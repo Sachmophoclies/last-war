@@ -2,15 +2,17 @@ import { useState } from "react";
 import content from "../data/content.json";
 import BackButton from "./BackButton.jsx";
 
-export default function GuideImage({ title, imageUrl, author, authorUrl }) {
+export default function GuideImage({ title, imageUrl, author, authorUrl, trusted = true }) {
   const [imageLoaded, setImageLoaded] = useState(false);
   const [zoomed, setZoomed] = useState(false);
 
-  // Check if author information is available
-  const hasAuthor = author && authorUrl;
+  // Determine author information state
+  const hasAuthor = !!author;
+  const hasAuthorUrl = !!authorUrl;
+  const hasFullAttribution = hasAuthor && hasAuthorUrl;
   const displayAuthor = author || "Unknown";
 
-  // GitHub issue URL for crediting unknown authors
+  // GitHub issue URL for crediting unknown authors or reporting incorrect attribution
   const githubIssueUrl = "https://github.com/Sachmophoclies/last-war/issues/new?template=guide-credit.md&title=Credit%20for%20Guide:%20" + encodeURIComponent(title);
 
   // If no guide data is provided, show placeholder
@@ -35,7 +37,7 @@ export default function GuideImage({ title, imageUrl, author, authorUrl }) {
       <div className="card">
         <div style={{ marginBottom: '16px' }}>
           <p style={{ margin: 0, fontSize: '0.9rem', color: 'var(--text-muted)' }}>
-            {hasAuthor ? (
+            {hasFullAttribution ? (
               <>
                 {content.guides.createdBy}{' '}
                 <a
@@ -46,6 +48,12 @@ export default function GuideImage({ title, imageUrl, author, authorUrl }) {
                 >
                   {author}
                 </a>
+                {!trusted && ' (Community Credited)'}
+              </>
+            ) : hasAuthor ? (
+              <>
+                {content.guides.createdBy} {author}
+                {!trusted && ' (Community Credited)'}
               </>
             ) : (
               content.guides.authorUnknown
@@ -92,8 +100,15 @@ export default function GuideImage({ title, imageUrl, author, authorUrl }) {
       </div>
 
       <div className="card">
-        <h2>{hasAuthor ? content.guides.supportCreator.title : content.guides.unknownAuthor.title}</h2>
-        {hasAuthor ? (
+        <h2>
+          {hasFullAttribution
+            ? content.guides.supportCreator.title
+            : hasAuthor
+            ? "About This Guide"
+            : content.guides.unknownAuthor.title}
+        </h2>
+
+        {hasFullAttribution ? (
           <>
             <p>
               {content.guides.supportCreator.message} {author}.
@@ -103,9 +118,36 @@ export default function GuideImage({ title, imageUrl, author, authorUrl }) {
               target="_blank"
               rel="noreferrer"
               className="btn"
-              style={{ display: 'inline-block', textDecoration: 'none' }}
+              style={{ display: 'inline-block', textDecoration: 'none', marginRight: '8px' }}
             >
               {content.guides.supportCreator.buttonText} {author}
+            </a>
+            {!trusted && (
+              <a
+                href={githubIssueUrl}
+                target="_blank"
+                rel="noreferrer"
+                className="btn"
+                style={{ display: 'inline-block', textDecoration: 'none', background: 'var(--text-muted)', marginTop: '8px' }}
+              >
+                Report Incorrect Attribution
+              </a>
+            )}
+          </>
+        ) : hasAuthor ? (
+          <>
+            <p>
+              This guide is attributed to {author}, but no support link is available.
+              {!trusted && " This attribution was provided by the community."}
+            </p>
+            <a
+              href={githubIssueUrl}
+              target="_blank"
+              rel="noreferrer"
+              className="btn"
+              style={{ display: 'inline-block', textDecoration: 'none' }}
+            >
+              {!trusted ? "Report Incorrect Attribution" : "Add Support Link"}
             </a>
           </>
         ) : (

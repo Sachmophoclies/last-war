@@ -1,85 +1,98 @@
 {
-  "squad": {
-    "basicSetup": {
+  "guides": [
+    {
+      "id": "squad/basic-setup",
       "title": "Hero Guide",
       "imageUrl": "https://storage.ko-fi.com/cdn/useruploads/display/51a989e3-1065-437e-9139-ce233d919417_herobeginnerguide.png",
       "author": "Aethernis",
-      "authorUrl": "https://ko-fi.com/aethernis"
+      "authorUrl": "https://ko-fi.com/aethernis",
+      "trusted": true
     },
-    "skills": {
-      "tank-heroes": {
-        "title": "Tank Heroes - Skills Guide",
-        "imageUrl": "https://storage.ko-fi.com/cdn/useruploads/display/a3543fc8-e801-498c-9a7b-1a52d0d8f314_tanksquguide.png",
-        "author": "Aethernis",
-        "authorUrl": "https://ko-fi.com/aethernis"
-      },
-      "air-heroes": {
-        "title": "Air Heroes - Skills Guide",
-        "imageUrl": "https://storage.ko-fi.com/cdn/useruploads/display/f4a1a836-db06-4d13-ba30-af3965f14dae_airsquguide.png",
-        "author": "Aethernis",
-        "authorUrl": "https://ko-fi.com/aethernis"
-      }
+    {
+      "id": "squad/skills/tank-heroes",
+      "title": "Tank Heroes - Skills Guide",
+      "imageUrl": "https://storage.ko-fi.com/cdn/useruploads/display/a3543fc8-e801-498c-9a7b-1a52d0d8f314_tanksquguide.png",
+      "author": "Aethernis",
+      "authorUrl": "https://ko-fi.com/aethernis",
+      "trusted": true
     },
-    "equipment": {
-      "levelingGuide": {
-        "title": "Equipment Guide",
-        "imageUrl": "https://storage.ko-fi.com/cdn/useruploads/display/b855471c-9246-47e9-999d-937b686eb395_gearlevelingguide.png",
-        "author": "MONO",
-        "authorUrl": "https://ko-fi.com/mono1223"
-      },
-      "resourceCost": {
-        "title": "resourceCost",
-        "imageUrl": "https://storage.ko-fi.com/cdn/useruploads/display/3bf7beb4-c743-44ac-92c5-c94ad4ed17ab_gearcraftingguide.png",
-        "author": "Aethernis",
-        "authorUrl": "https://ko-fi.com/aethernis"
-      }
-    }
-  },
-  "buildings": {
-    "hq": {
-      "1-30": {
-        "title": "HQ 1-30 - Buildings Guide",
-        "imageUrl": "https://storage.ko-fi.com/cdn/useruploads/display/e7d76e45-372b-4fed-8388-506c004a0625_hqlevel.png",
-        "author": "Aethernis",
-        "authorUrl": "https://ko-fi.com/aethernis"
-      },
-      "25-30": {
-        "title": "HQ 25-30 - Buildings Guide",
-        "imageUrl": "https://storage.ko-fi.com/cdn/useruploads/display/68b00777-b666-494d-9b74-653892cbb9b2_lastwarhqlevel25-35-2.png",
-        "author": "Aethernis",
-        "authorUrl": "https://ko-fi.com/aethernis"
-      }
-    }
-  },
-  "store": {
-    "title": "Store Guide",
-    "imageUrl": "https://storage.ko-fi.com/cdn/useruploads/display/202cf36f-0020-43b8-b8dd-9dff8e0c96f5_storeguide-3.png",
-    "author": "Aethernis",
-    "authorUrl": "https://ko-fi.com/aethernis"
-  },
-  "events": {
-    "wantedBoss": {
+    {
+      "id": "squad/skills/air-heroes",
+      "title": "Air Heroes - Skills Guide",
+      "imageUrl": "https://storage.ko-fi.com/cdn/useruploads/display/f4a1a836-db06-4d13-ba30-af3965f14dae_airsquguide.png",
+      "author": "Aethernis",
+      "authorUrl": "https://ko-fi.com/aethernis",
+      "trusted": true
+    },
+    {
+      "id": "squad/equipment/leveling-guide",
+      "title": "Equipment Guide",
+      "imageUrl": "https://storage.ko-fi.com/cdn/useruploads/display/b855471c-9246-47e9-999d-937b686eb395_gearlevelingguide.png",
+      "author": "MONO",
+      "authorUrl": "https://ko-fi.com/mono1223",
+      "trusted": true
+    },
+    {
+      "id": "squad/equipment/resource-cost",
+      "title": "Equipment Crafting Cost",
+      "imageUrl": "https://storage.ko-fi.com/cdn/useruploads/display/3bf7beb4-c743-44ac-92c5-c94ad4ed17ab_gearcraftingguide.png",
+      "author": "Aethernis",
+      "authorUrl": "https://ko-fi.com/aethernis",
+      "trusted": true
+    },
+    {
+      "id": "buildings/hq/1-30",
+      "title": "HQ 1-30 - Buildings Guide",
+      "imageUrl": "https://storage.ko-fi.com/cdn/useruploads/display/e7d76e45-372b-4fed-8388-506c004a0625_hqlevel.png",
+      "author": "Aethernis",
+      "authorUrl": "https://ko-fi.com/aethernis",
+      "trusted": true
+    },
+    {
+      "id": "buildings/hq/25-30",
+      "title": "HQ 25-30 - Buildings Guide",
+      "imageUrl": "https://storage.ko-fi.com/cdn/useruploads/display/68b00777-b666-494d-9b74-653892cbb9b2_lastwarhqlevel25-35-2.png",
+      "author": "Aethernis",
+      "authorUrl": "https://ko-fi.com/aethernis",
+      "trusted": true
+    },
+    {
+      "id": "store",
+      "title": "Store Guide",
+      "imageUrl": "https://storage.ko-fi.com/cdn/useruploads/display/202cf36f-0020-43b8-b8dd-9dff8e0c96f5_storeguide-3.png",
+      "author": "Aethernis",
+      "authorUrl": "https://ko-fi.com/aethernis",
+      "trusted": true
+    },
+    {
+      "id": "events/wanted-boss",
       "title": "Wanted Boss",
       "imageUrl": "https://storage.ko-fi.com/cdn/useruploads/display/f474f824-33f3-4afd-9662-61f558b9efac_wb-lineup.png",
       "author": "MONO",
-      "authorUrl": "https://ko-fi.com/mono1223"
+      "authorUrl": "https://ko-fi.com/mono1223",
+      "trusted": true
     },
-    "desertStorm": {
+    {
+      "id": "events/desert-storm",
       "title": "Desert Storm",
       "imageUrl": "https://storage.ko-fi.com/cdn/useruploads/display/6e909f84-7d8d-4bad-917a-255a84f03f5c_desertstormbattlefield-8.png",
       "author": "Aethernis",
-      "authorUrl": "https://ko-fi.com/aethernis"
-    }
-  },
-  "test": {
-    "testWithNoAuthor": {
-      "title": "Test with No Author",
-      "imageUrl": "/last-war/assets/guides/test.png"
+      "authorUrl": "https://ko-fi.com/aethernis",
+      "trusted": true
     },
-    "testWithAuthorNoUrl": {
+    {
+      "id": "test/no-author",
+      "title": "Test with No Author",
+      "imageUrl": "/last-war/assets/guides/test.png",
+      "trusted": false
+    },
+    {
+      "id": "test/author-no-url",
       "title": "Test with Author but no URL",
       "imageUrl": "/last-war/assets/guides/test.png",
-      "author": "Satch"
+      "author": "Satch",
+      "authorUrl": null,
+      "trusted": false
     }
-  }
+  ]
 }

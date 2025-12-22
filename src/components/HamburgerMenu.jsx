@@ -175,8 +175,7 @@ export default function HamburgerMenu() {
               <ul className="submenu">
                 <li>
                   <NavLink
-                    to="/"
-                    end
+                    to="/unit-progression"
                     onClick={close}
                     className={({isActive}) => isActive ? "active" : ""}
                   >
