@@ -1,6 +1,7 @@
 import { Routes, Route } from "react-router-dom";
 import HamburgerMenu from "./components/HamburgerMenu.jsx";
 import CookieConsent from "./components/CookieConsent.jsx";
+import Home from "./pages/Home.jsx";
 import UnitProgression from "./pages/ArmsRace/UnitProgression/UnitProgression.jsx";
 import ResultsPage from "./pages/ArmsRace/UnitProgression/ResultsPage.jsx";
 import AboutMe from "./pages/AboutMe.jsx";
@@ -46,7 +47,8 @@ export default function App() {
 
       <main className="content">
         <Routes>
-          <Route path="/" element={<UnitProgression />} />
+          <Route path="/" element={<Home />} />
+          <Route path="/unit-progression" element={<UnitProgression />} />
           <Route path="/results" element={<ResultsPage />} />
           <Route path="/about" element={<AboutMe />} />
           <Route path="/about/app" element={<AboutApp />} />

@@ -1,6 +1,6 @@
 {
   "home": {
-    "description": "placeholder"
+    "description": "This is still a work in progress. Navigate below or via the menu."
   },
   "app": {
     "description": "This app is a pet project of mine. I don't like having to search around for guides, so I put them in one place. I will also be adding some utilities over time."
@@ -39,7 +39,7 @@
         "url": "https://ko-fi.com/aethernis"
       },
       "mono": {
-        "name": "MONO",
+        "name": "#1223 MONO",
         "buttonText": "Visit MONO on Ko-fi",
         "url": "https://ko-fi.com/mono1223"
       }
