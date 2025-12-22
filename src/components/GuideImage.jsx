@@ -1,5 +1,6 @@
 import { useState } from "react";
 import content from "../data/content.json";
+import BackButton from "./BackButton.jsx";
 
 export default function GuideImage({ title, imageUrl, author, authorUrl }) {
   const [imageLoaded, setImageLoaded] = useState(false);
@@ -22,6 +23,7 @@ export default function GuideImage({ title, imageUrl, author, authorUrl }) {
             {content.guides.comingSoon}
           </p>
         </div>
+        <BackButton />
       </div>
     );
   }
@@ -123,6 +125,8 @@ export default function GuideImage({ title, imageUrl, author, authorUrl }) {
           </>
         )}
       </div>
+
+      <BackButton />
     </div>
   );
 }

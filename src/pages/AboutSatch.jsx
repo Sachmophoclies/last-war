@@ -1,5 +1,6 @@
 import { useState, useMemo } from "react";
 import aboutData from "../data/content.json";
+import BackButton from "../components/BackButton.jsx";
 
 // Shuffle array using Fisher-Yates algorithm
 function shuffleArray(array) {
@@ -33,6 +34,8 @@ export default function AboutSatch() {
           {aboutData.me.clickForMore}
         </div>
       </div>
+
+      <BackButton />
     </div>
   );
 }

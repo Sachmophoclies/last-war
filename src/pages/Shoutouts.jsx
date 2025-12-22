@@ -1,4 +1,5 @@
 import content from "../data/content.json";
+import BackButton from "../components/BackButton.jsx";
 
 export default function Shoutouts() {
   return (
@@ -53,6 +54,8 @@ export default function Shoutouts() {
           </a>
         </div>
       </div>
+
+      <BackButton />
     </div>
   );
 }

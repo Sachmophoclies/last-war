@@ -1,4 +1,5 @@
 import aboutData from "../data/content.json";
+import BackButton from "../components/BackButton.jsx";
 
 export default function AboutApp() {
   return (
@@ -8,6 +9,8 @@ export default function AboutApp() {
       <div className="card">
         <p>{aboutData.app.description}</p>
       </div>
+
+      <BackButton />
     </div>
   );
 }

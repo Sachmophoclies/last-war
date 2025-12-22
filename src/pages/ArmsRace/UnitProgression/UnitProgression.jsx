@@ -1,6 +1,7 @@
 import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import InfoIcon from "../../../components/InfoIcon.jsx";
+import Footer from "../../../components/Footer.jsx";
 import {
   parseTotalTime,
   calculateTrueTime,
@@ -252,7 +253,7 @@ export default function UnitProgression() {
   return (
     <div className="page">
       <h1>
-        Arms Race - Unit Progression 
+        Arms Race - Unit Progression
         <InfoIcon text="Use this tool to most efficiently max out your Arms Race - Unit Progression and open all boxes while using the least number of speedups." />
       </h1>
 
@@ -389,23 +390,11 @@ export default function UnitProgression() {
         </div>
       </div>
 
-      <div className="desktop-actions">
-        <button className="desktop-action-btn check" onClick={goToResults} aria-label="View Results">
-          ✓
-        </button>
-        <button className="desktop-action-btn clear" onClick={clearTodaysTime} aria-label="Clear Today's Time">
-          ✕
-        </button>
-      </div>
-
-      <div className="mobile-footer">
-        <div className="mobile-footer-check" onClick={goToResults}>
-          <span>✓</span>
-        </div>
-        <div className="mobile-footer-clear" onClick={clearTodaysTime}>
-          <span>✕</span>
-        </div>
-      </div>
+      <Footer
+        onBack={() => navigate(-1)}
+        onCheck={goToResults}
+        onClear={clearTodaysTime}
+      />
     </div>
   );
 }
