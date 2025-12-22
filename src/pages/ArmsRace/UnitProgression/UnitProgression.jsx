@@ -23,12 +23,11 @@ function setCookie(name, value, days = 365) {
 // Unit Progression schedule in EST (24-hour format)
 // Day of week (0=Sun, 1=Mon, etc.) => array of times in EST
 const UNIT_PROGRESSION_SCHEDULE = {
-  1: ["09:00"], // Monday
-  2: ["05:00"], // Tuesday
-  3: ["01:00"], // Wednesday
-  4: ["05:00"], // Thursday
-  5: ["01:00", "21:00"], // Friday (two events)
-  6: ["17:00"], // Saturday
+  0: ["13:00"], // Sunday
+  1: ["01:00", "21:00"], // Monday
+  3: ["13:00"], // Wednesday
+  4: ["01:00"], // Thursday
+  5: ["05:00", "17:00", "21:00"], // Friday (three events)
 };
 
 const UNIT_POINTS_PER_LEVEL = {
