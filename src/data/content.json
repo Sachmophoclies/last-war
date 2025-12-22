@@ -63,6 +63,32 @@
     },
     "comingSoon": "This guide is coming soon. Check back later!"
   },
+  "seasons": {
+    "1": {
+      "title": "Season 1",
+      "description": "Season 1 content coming soon."
+    },
+    "2": {
+      "title": "Season 2",
+      "description": "Season 2 content coming soon."
+    },
+    "3": {
+      "title": "Season 3",
+      "description": "Season 3 content coming soon."
+    },
+    "4": {
+      "title": "Season 4",
+      "description": "Season 4 content coming soon."
+    },
+    "5": {
+      "title": "Season 5",
+      "description": "Season 5 content coming soon."
+    },
+    "6": {
+      "title": "Season 6",
+      "description": "Season 6 content coming soon."
+    }
+  },
   "cookies": {
     "title": "Cookie Notice",
     "message": "This site uses essential cookies to store your preferences and settings locally. I do not use any tracking, analytics, or marketing cookies. Your data stays on your device.",

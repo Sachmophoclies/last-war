@@ -9,6 +9,7 @@ import AboutApp from "./pages/AboutApp.jsx";
 import AboutSatch from "./pages/AboutSatch.jsx";
 import Shoutouts from "./pages/Shoutouts.jsx";
 import DynamicGuide from "./pages/Guides/DynamicGuide.jsx";
+import Season from "./pages/Guides/Season.jsx";
 
 function NotFound() {
   return (
@@ -33,6 +34,9 @@ export default function App() {
           <Route path="/about/app" element={<AboutApp />} />
           <Route path="/about/satch" element={<AboutSatch />} />
           <Route path="/shoutouts" element={<Shoutouts />} />
+
+          {/* Season Routes */}
+          <Route path="/guides/seasons/:seasonNumber" element={<Season />} />
 
           {/* All Guides - Dynamic Route */}
           <Route path="/guides/*" element={<DynamicGuide />} />

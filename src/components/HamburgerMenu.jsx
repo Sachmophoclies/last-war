@@ -29,6 +29,7 @@ export default function HamburgerMenu() {
   const [buildingsOpen, setBuildingsOpen] = useState(false);
   const [hqOpen, setHqOpen] = useState(false);
   const [eventsOpen, setEventsOpen] = useState(false);
+  const [seasonsOpen, setSeasonsOpen] = useState(false);
   const [aboutOpen, setAboutOpen] = useState(false);
   const [testOpen, setTestOpen] = useState(false);
   const close = () => setOpen(false);
@@ -319,6 +320,49 @@ export default function HamburgerMenu() {
                       <li>
                         <NavLink to="/guides/events/desert-storm" onClick={close} className={({isActive}) => isActive ? "active" : ""}>
                           Desert Storm
+                        </NavLink>
+                      </li>
+                    </ul>
+                  )}
+                </li>
+                <li>
+                  <button
+                    className={`menu-toggle ${seasonsOpen ? 'open' : ''}`}
+                    onClick={() => setSeasonsOpen(!seasonsOpen)}
+                    aria-expanded={seasonsOpen}
+                  >
+                    Seasons <span className="arrow">{seasonsOpen ? '▼' : '▶'}</span>
+                  </button>
+                  {seasonsOpen && (
+                    <ul className="submenu">
+                      <li>
+                        <NavLink to="/guides/seasons/1" onClick={close} className={({isActive}) => isActive ? "active" : ""}>
+                          Season 1
+                        </NavLink>
+                      </li>
+                      <li>
+                        <NavLink to="/guides/seasons/2" onClick={close} className={({isActive}) => isActive ? "active" : ""}>
+                          Season 2
+                        </NavLink>
+                      </li>
+                      <li>
+                        <NavLink to="/guides/seasons/3" onClick={close} className={({isActive}) => isActive ? "active" : ""}>
+                          Season 3
+                        </NavLink>
+                      </li>
+                      <li>
+                        <NavLink to="/guides/seasons/4" onClick={close} className={({isActive}) => isActive ? "active" : ""}>
+                          Season 4
+                        </NavLink>
+                      </li>
+                      <li>
+                        <NavLink to="/guides/seasons/5" onClick={close} className={({isActive}) => isActive ? "active" : ""}>
+                          Season 5
+                        </NavLink>
+                      </li>
+                      <li>
+                        <NavLink to="/guides/seasons/6" onClick={close} className={({isActive}) => isActive ? "active" : ""}>
+                          Season 6
                         </NavLink>
                       </li>
                     </ul>

@@ -56,6 +56,17 @@ export default function Home() {
             { title: "Wanted Boss", path: "/guides/events/wanted-boss" },
             { title: "Desert Storm", path: "/guides/events/desert-storm" }
           ]
+        },
+        {
+          title: "Seasons",
+          children: [
+            { title: "Season 1", path: "/guides/seasons/1" },
+            { title: "Season 2", path: "/guides/seasons/2" },
+            { title: "Season 3", path: "/guides/seasons/3" },
+            { title: "Season 4", path: "/guides/seasons/4" },
+            { title: "Season 5", path: "/guides/seasons/5" },
+            { title: "Season 6", path: "/guides/seasons/6" }
+          ]
         }
       ]
     },
