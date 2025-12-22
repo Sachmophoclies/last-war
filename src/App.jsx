@@ -1,6 +1,7 @@
 import { Routes, Route } from "react-router-dom";
 import HamburgerMenu from "./components/HamburgerMenu.jsx";
 import CookieConsent from "./components/CookieConsent.jsx";
+import SmartPeoplePopup from "./components/SmartPeoplePopup.jsx";
 import Home from "./pages/Home.jsx";
 import UnitProgression from "./pages/ArmsRace/UnitProgression/UnitProgression.jsx";
 import ResultsPage from "./pages/ArmsRace/UnitProgression/ResultsPage.jsx";
@@ -24,6 +25,7 @@ export default function App() {
   return (
     <div className="app">
       <HamburgerMenu />
+      <SmartPeoplePopup />
 
       <main className="content">
         <Routes>

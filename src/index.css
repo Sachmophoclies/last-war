@@ -562,3 +562,97 @@ body { margin: 0; background: linear-gradient(to right, var(--bg-gradient-start)
 body:not([data-debug="true"]) .debug-only{
   display:none;
 }
+
+/* Smart People Popup */
+.smart-people-backdrop{
+  position: fixed;
+  inset: 0;
+  background: rgba(0,0,0,0.6);
+  z-index: 100;
+}
+.smart-people-popup{
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  background: var(--card-bg);
+  border: 2px solid var(--card-border);
+  border-radius: 14px;
+  width: 90%;
+  max-width: 400px;
+  box-shadow: 0 8px 24px rgba(0,0,0,0.3);
+  z-index: 101;
+  overflow: hidden;
+}
+.smart-people-x{
+  font-size: 80px;
+  font-weight: 700;
+  color: #ef4444;
+  text-align: center;
+  padding: 20px 0 10px 0;
+  line-height: 1;
+}
+.smart-people-content{
+  padding: 0 24px 20px 24px;
+  text-align: center;
+  color: var(--text-primary);
+}
+.smart-people-checkbox{
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  cursor: pointer;
+  user-select: none;
+  font-size: 0.9rem;
+  color: var(--text-secondary);
+}
+.smart-people-checkbox input[type="checkbox"]{
+  width: auto;
+  cursor: pointer;
+  margin: 0;
+}
+.smart-people-footer{
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+}
+.smart-people-button-decline{
+  background: #ef4444;
+  padding: 16px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+  cursor: pointer;
+  transition: background 0.15s ease;
+  border-top: 1px solid rgba(0,0,0,0.1);
+}
+.smart-people-button-decline:hover{
+  background: #dc2626;
+}
+.smart-people-button-accept{
+  background: #22c55e;
+  padding: 16px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+  cursor: pointer;
+  transition: background 0.15s ease;
+  border-bottom-left-radius: 14px;
+  border-bottom-right-radius: 14px;
+}
+.smart-people-button-accept:hover{
+  background: #16a34a;
+}
+.smart-people-button-icon{
+  font-size: 24px;
+  color: #fff;
+  font-weight: 700;
+}
+.smart-people-button-text{
+  font-size: 1rem;
+  color: #fff;
+  font-weight: 600;
+}
