@@ -2,6 +2,8 @@ import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import InfoIcon from "../../../components/InfoIcon.jsx";
 import Footer from "../../../components/Footer.jsx";
+import FirstViewPopup from "../../../components/FirstViewPopup.jsx";
+import content from "../../../data/content.json";
 import {
   parseTotalTime,
   calculateTrueTime,
@@ -251,11 +253,17 @@ export default function UnitProgression() {
   // const unitSeconds = ...
 
   return (
-    <div className="page">
-      <h1>
-        Arms Race - Unit Progression
-        <InfoIcon text="Use this tool to most efficiently max out your Arms Race - Unit Progression and open all boxes while using the least number of speedups." />
-      </h1>
+    <>
+      <FirstViewPopup
+        pageKey="armsRace"
+        content={content.satchsGuides.armsRace}
+      />
+
+      <div className="page">
+        <h1>
+          Arms Race - Unit Progression
+          <InfoIcon text="Use this tool to most efficiently max out your Arms Race - Unit Progression and open all boxes while using the least number of speedups." />
+        </h1>
 
       <div className="card">
         <h2>
@@ -395,6 +403,7 @@ export default function UnitProgression() {
         onCheck={goToResults}
         onClear={clearTodaysTime}
       />
-    </div>
+      </div>
+    </>
   );
 }

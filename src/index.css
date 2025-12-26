@@ -562,3 +562,113 @@ body { margin: 0; background: linear-gradient(to right, var(--bg-gradient-start)
 body:not([data-debug="true"]) .debug-only{
   display:none;
 }
+
+/* First View Popup - Reusable full-screen popup */
+.first-view-popup{
+  position: fixed;
+  inset: 0;
+  background: var(--card-bg);
+  z-index: 110;
+  display: flex;
+  flex-direction: column;
+  padding: 5px;
+}
+@media (min-width: 720px){
+  .first-view-popup{
+    padding: 0;
+    left: 0;
+    right: 0;
+  }
+}
+.first-view-content{
+  flex: 1;
+  overflow-y: auto;
+  padding: 16px;
+  padding-bottom: 80px;
+}
+.first-view-content h1{
+  color: var(--text-primary);
+  margin-top: 0;
+  text-shadow: none;
+}
+.first-view-content h2{
+  color: var(--text-primary);
+  margin-top: 1.5em;
+  margin-bottom: 0.5em;
+}
+.first-view-content p{
+  color: var(--text-primary);
+  line-height: 1.6;
+  margin: 0.75em 0;
+}
+.first-view-content ul{
+  color: var(--text-primary);
+  line-height: 1.8;
+  padding-left: 1.5em;
+}
+.first-view-content li{
+  margin: 0.5em 0;
+}
+.first-view-section{
+  margin-bottom: 1.5em;
+}
+.first-view-footer{
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  display: flex;
+  background: var(--card-bg);
+  border-top: 1px solid var(--card-border);
+  z-index: 111;
+}
+.first-view-footer-check{
+  width: 50%;
+  background: #22c55e;
+  padding: 16px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: background 0.15s ease;
+}
+.first-view-footer-check:hover{
+  background: #16a34a;
+}
+.first-view-footer-check span{
+  font-size: 24px;
+  color: #fff;
+  font-weight: 700;
+}
+.first-view-footer-dismiss{
+  width: 50%;
+  background: var(--card-bg);
+  padding: 16px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  border-left: 1px solid var(--card-border);
+}
+.first-view-footer-label{
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  cursor: pointer;
+  user-select: none;
+  color: var(--text-primary);
+  font-size: 0.875rem;
+}
+@media (min-width: 720px){
+  .first-view-footer-label{
+    font-size: 1rem;
+  }
+}
+.first-view-footer-label input[type="checkbox"]{
+  width: auto;
+  cursor: pointer;
+  margin: 0;
+}
+.first-view-footer-label span{
+  white-space: nowrap;
+}
