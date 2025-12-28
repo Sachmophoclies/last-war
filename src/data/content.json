@@ -7,47 +7,13 @@
   },
   "satchsGuides": {
     "armsRace": {
-      "title": "Get all your Arms Race Boxes!",
+      "title": "Arms Race - Unit Progression Calculator",
       "sections": [
         {
           "heading": "What Does This Tool Do?",
           "paragraphs": [
-            "This calculator helps you maximize your Unit Progression event score while using the LEAST number of speedups possible. It tells you exactly when to start training and when to use speedups to open all reward boxes efficiently."
-          ]
-        },
-        {
-          "heading": "The Problem This Solves",
-          "bullets": [
-            "Without planning, players waste speedups training units too early or too late",
-            "Many players miss reward boxes because they didn't calculate the optimal training schedule",
-            "It's hard to mentally calculate the perfect time to start training based on your barracks capacity",
-            "Players often over-speedup when they could have trained naturally and saved resources"
-          ]
-        },
-        {
-          "heading": "How It Works",
-          "paragraphs": [
-            "Enter your strongest barracks capacity and the total training time shown in-game. The tool calculates the EXACT time you should start training to finish right when the event begins.",
-            "If you have multiple barracks with different capacities, enter those too - the calculator will tell you when each barracks will fill up during training, so you know exactly when to speedup to the next checkpoint."
-          ]
-        },
-        {
-          "heading": "Key Benefits",
-          "bullets": [
-            "Save precious speedups by training as much as possible naturally",
-            "Never miss a reward box due to poor timing",
-            "See your total points and speedup strategy before you commit",
-            "Account for multiple barracks filling at different times",
-            "Auto-calculates next Unit Progression time in YOUR timezone"
-          ]
-        },
-        {
-          "heading": "Pro Tips",
-          "bullets": [
-            "Always check the calculated start time - if it's in the past, you'll need more speedups",
-            "The tool accounts for the fact that training slows down as barracks fill up",
-            "Use the optional barracks fields if you want precision - otherwise just the main fields work great",
-            "The auto-calculated time updates based on the real game schedule"
+            "This calculator helps you maximize your Unit Progression event score while using the LEAST number of speedups possible. It tells you exactly how many units to train and when to use speedups to open all reward boxes efficiently.",
+            "You can also use this tool to determine how many units to queue up so training completes exactly when you need it."
           ]
         }
       ]
