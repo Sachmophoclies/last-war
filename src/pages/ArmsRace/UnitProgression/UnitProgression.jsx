@@ -23,14 +23,16 @@ function setCookie(name, value, days = 365) {
   document.cookie = `${name}=${encodeURIComponent(value)}; expires=${expires}; path=/`;
 }
 
-// Unit Progression schedule in EST (24-hour format)
-// Day of week (0=Sun, 1=Mon, etc.) => array of times in EST
+// Unit Progression schedule in server time (UTC-2) (24-hour format)
+// Day of week (0=Sun, 1=Mon, etc.) => array of times in server time
 const UNIT_PROGRESSION_SCHEDULE = {
-  0: ["13:00"], // Sunday
-  1: ["01:00", "21:00"], // Monday
-  3: ["13:00"], // Wednesday
-  4: ["01:00"], // Thursday
-  5: ["05:00", "17:00", "21:00"], // Friday (three events)
+  1: ["08:00"], // Monday
+  2: ["00:00"], // Tuesday
+  3: ["16:00"], // Wednesday
+  4: ["04:00"], // Thursday
+  5: ["08:00", "20:00"], // Friday (two events)
+  6: ["00:00"], // Saturday
+  0: ["16:00"], // Sunday (day 0, not 7)
 };
 
 const UNIT_POINTS_PER_LEVEL = {
@@ -51,12 +53,15 @@ const UNIT_POINTS_PER_LEVEL = {
 function getNextUnitProgressionTime() {
   const now = new Date();
 
-  // Get current time in EST
-  const nowInEST = new Date(now.toLocaleString('en-US', { timeZone: 'America/New_York' }));
+  // Get current UTC time
+  const nowUTC = new Date(now.getTime() + now.getTimezoneOffset() * 60000);
+
+  // Convert to server time (UTC-2)
+  const nowServerTime = new Date(nowUTC.getTime() - 2 * 3600000);
 
   // Check upcoming times for the next 7 days
   for (let daysAhead = 0; daysAhead < 7; daysAhead++) {
-    const checkDate = new Date(nowInEST);
+    const checkDate = new Date(nowServerTime);
     checkDate.setDate(checkDate.getDate() + daysAhead);
     const dayOfWeek = checkDate.getDay();
 
@@ -66,23 +71,17 @@ function getNextUnitProgressionTime() {
     for (const timeStr of times) {
       const [hours, minutes] = timeStr.split(':').map(Number);
 
-      // Create the event time in EST
-      const eventDateEST = new Date(checkDate);
-      eventDateEST.setHours(hours, minutes, 0, 0);
+      // Create the event time in server time (UTC-2)
+      const eventDateServer = new Date(checkDate);
+      eventDateServer.setHours(hours, minutes, 0, 0);
 
-      // Check if this time is in the future (in EST)
-      if (eventDateEST > nowInEST) {
-        // Convert EST date string to a proper Date object in user's local timezone
-        // Format the EST date as ISO string components
-        const year = eventDateEST.getFullYear();
-        const month = String(eventDateEST.getMonth() + 1).padStart(2, '0');
-        const day = String(eventDateEST.getDate()).padStart(2, '0');
-        const hour = String(hours).padStart(2, '0');
-        const minute = String(minutes).padStart(2, '0');
+      // Check if this time is in the future (in server time)
+      if (eventDateServer > nowServerTime) {
+        // Convert server time to UTC
+        const eventDateUTC = new Date(eventDateServer.getTime() + 2 * 3600000);
 
-        // Create a date string that represents this EST time
-        const estDateString = `${year}-${month}-${day}T${hour}:${minute}:00-05:00`;
-        const localDate = new Date(estDateString);
+        // Convert UTC to user's local timezone
+        const localDate = new Date(eventDateUTC.getTime() - now.getTimezoneOffset() * 60000);
 
         // Format as HH:MM in user's local timezone
         const localHours = localDate.getHours().toString().padStart(2, '0');
@@ -107,6 +106,9 @@ export default function UnitProgression() {
   const [barracks2, setBarracks2] = useState(() => getCookie("barracks2") || "");
   const [barracks3, setBarracks3] = useState(() => getCookie("barracks3") || "");
   const [barracks4, setBarracks4] = useState(() => getCookie("barracks4") || "");
+
+  // +24hr button toggle state
+  const [is24HrAdded, setIs24HrAdded] = useState(false);
 
   // Validation error state
   const [validationError, setValidationError] = useState("");
@@ -236,6 +238,41 @@ export default function UnitProgression() {
   // Clear today's time
   const clearTodaysTime = () => {
     setAvailableTime("");
+    setIs24HrAdded(false);
+  };
+
+  // Toggle 24 hours to the auto-calculated time
+  const toggle24Hours = () => {
+    const autoTime = getNextUnitProgressionTime();
+    if (!autoTime) return;
+
+    if (is24HrAdded) {
+      // Remove 24 hours - reset to auto-calculated time
+      setAvailableTime("");
+      setIs24HrAdded(false);
+    } else {
+      // Add 24 hours
+      const [hours, minutes] = autoTime.split(':').map(Number);
+      const now = new Date();
+
+      // Create a date for the auto-calculated time
+      let targetDate = new Date();
+      targetDate.setHours(hours, minutes, 0, 0);
+
+      // If the time is earlier than now, it's tomorrow
+      if (targetDate < now) {
+        targetDate.setDate(targetDate.getDate() + 1);
+      }
+
+      // Add 24 hours
+      targetDate.setHours(targetDate.getHours() + 24);
+
+      // Format as HH:MM
+      const newHours = targetDate.getHours().toString().padStart(2, '0');
+      const newMinutes = targetDate.getMinutes().toString().padStart(2, '0');
+      setAvailableTime(`${newHours}:${newMinutes}`);
+      setIs24HrAdded(true);
+    }
   };
 
   // Handle Enter key press
@@ -273,13 +310,33 @@ export default function UnitProgression() {
 
         <label className="field">
           <span>Time of next Unit Progression (HH:MM) - Auto-calculated in your timezone</span>
-          <input
-            type="text"
-            placeholder={getNextUnitProgressionTime()}
-            value={availableTime}
-            onChange={(e) => setAvailableTime(e.target.value)}
-            onKeyDown={handleKeyDown}
-          />
+          <div style={{ display: 'flex', gap: '8px' }}>
+            <input
+              type="text"
+              placeholder={getNextUnitProgressionTime()}
+              value={availableTime}
+              onChange={(e) => setAvailableTime(e.target.value)}
+              onKeyDown={handleKeyDown}
+              style={{ flex: 1 }}
+            />
+            <button
+              type="button"
+              onClick={toggle24Hours}
+              style={{
+                padding: '8px 16px',
+                background: is24HrAdded ? '#22c55e' : 'var(--button-bg)',
+                color: is24HrAdded ? '#fff' : 'var(--button-text)',
+                border: '1px solid var(--card-border)',
+                borderRadius: '4px',
+                cursor: 'pointer',
+                whiteSpace: 'nowrap',
+                fontSize: '0.9em',
+                fontWeight: is24HrAdded ? '600' : '400'
+              }}
+            >
+              +24 hr
+            </button>
+          </div>
         </label>
       </div>
 
