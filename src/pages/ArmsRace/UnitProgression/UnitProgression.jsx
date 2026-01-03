@@ -359,6 +359,8 @@ export default function UnitProgression() {
                     height: '18px',
                     width: '18px',
                     left: is24HrAdded ? '25px' : '3px',
+                    top: '50%',
+                    transform: 'translateY(-50%)',
                     backgroundColor: 'white',
                     border: '1px solid #000',
                     boxShadow: 'inset 0 0 0 1px #ccc',
