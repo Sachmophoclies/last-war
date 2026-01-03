@@ -49,8 +49,8 @@ const UNIT_POINTS_PER_LEVEL = {
   11: 34
 }
 
-// Calculate the next Unit Progression time in user's local timezone
-function getNextUnitProgressionTime() {
+// Calculate the next Unit Progression time as a full Date object in user's local timezone
+function getNextUnitProgressionDate() {
   const now = new Date();
 
   // Get current UTC time
@@ -83,38 +83,34 @@ function getNextUnitProgressionTime() {
         // Convert UTC to user's local timezone
         const localDate = new Date(eventDateUTC.getTime() - now.getTimezoneOffset() * 60000);
 
-        // Format as HH:MM in user's local timezone
-        const localHours = localDate.getHours().toString().padStart(2, '0');
-        const localMinutes = localDate.getMinutes().toString().padStart(2, '0');
-        return `${localHours}:${localMinutes}`;
+        return localDate;
       }
     }
   }
 
-  return ""; // Fallback if no time found
+  return null; // Fallback if no time found
+}
+
+// Calculate the next Unit Progression time in user's local timezone (HH:MM format)
+function getNextUnitProgressionTime() {
+  const localDate = getNextUnitProgressionDate();
+  if (!localDate) return "";
+
+  const localHours = localDate.getHours().toString().padStart(2, '0');
+  const localMinutes = localDate.getMinutes().toString().padStart(2, '0');
+  return `${localHours}:${localMinutes}`;
 }
 
 export default function UnitProgression() {
   // Helper function to check if next event is >24hrs away
   const checkIsBeyond24Hours = () => {
-    const nextTime = getNextUnitProgressionTime();
-    if (!nextTime) return false;
-
     const now = new Date();
-    const [hours, minutes] = nextTime.split(':').map(Number);
-    const target = new Date();
-    target.setHours(hours, minutes, 0, 0);
+    const nextEventDate = getNextUnitProgressionDate();
 
-    while (target <= now) {
-      target.setDate(target.getDate() + 1);
-    }
+    if (!nextEventDate) return false;
 
-    const diffMs = target - now;
+    const diffMs = nextEventDate - now;
     const hoursUntil = diffMs / (1000 * 60 * 60);
-
-    console.log('[Init] Next event time:', nextTime);
-    console.log('[Init] Hours until event:', hoursUntil);
-    console.log('[Init] Is beyond 24hrs:', hoursUntil > 24);
 
     return hoursUntil > 24;
   };
@@ -125,17 +121,10 @@ export default function UnitProgression() {
 
     if (!isBeyond24) return "";
 
-    const nextTime = getNextUnitProgressionTime();
-    const now = new Date();
-    const [hours, minutes] = nextTime.split(':').map(Number);
-    const target = new Date();
-    target.setHours(hours, minutes, 0, 0);
+    const nextEventDate = getNextUnitProgressionDate();
+    if (!nextEventDate) return "";
 
-    while (target <= now) {
-      target.setDate(target.getDate() + 1);
-    }
-
-    const targetPlus24 = new Date(target.getTime() + 24 * 60 * 60 * 1000);
+    const targetPlus24 = new Date(nextEventDate.getTime() + 24 * 60 * 60 * 1000);
     const newHours = targetPlus24.getHours().toString().padStart(2, '0');
     const newMinutes = targetPlus24.getMinutes().toString().padStart(2, '0');
     return `${newHours}:${newMinutes}`;
@@ -296,33 +285,20 @@ export default function UnitProgression() {
 
   // Toggle 24 hours to the auto-calculated time
   const toggle24Hours = () => {
-    const autoTime = getNextUnitProgressionTime();
-    if (!autoTime) return;
+    const nextEventDate = getNextUnitProgressionDate();
+    if (!nextEventDate) return;
 
     if (is24HrAdded) {
       // Remove 24 hours - reset to auto-calculated time
       setAvailableTime("");
       setIs24HrAdded(false);
     } else {
-      // Add 24 hours
-      const [hours, minutes] = autoTime.split(':').map(Number);
-      const now = new Date();
-
-      // Create a date for the auto-calculated time
-      let targetDate = new Date();
-      targetDate.setHours(hours, minutes, 0, 0);
-
-      // If the time is earlier than now, it's tomorrow
-      if (targetDate < now) {
-        targetDate.setDate(targetDate.getDate() + 1);
-      }
-
-      // Add 24 hours (86400000 milliseconds = 24 hours)
-      targetDate = new Date(targetDate.getTime() + 24 * 60 * 60 * 1000);
+      // Add 24 hours to the next event date
+      const targetPlus24 = new Date(nextEventDate.getTime() + 24 * 60 * 60 * 1000);
 
       // Format as HH:MM
-      const newHours = targetDate.getHours().toString().padStart(2, '0');
-      const newMinutes = targetDate.getMinutes().toString().padStart(2, '0');
+      const newHours = targetPlus24.getHours().toString().padStart(2, '0');
+      const newMinutes = targetPlus24.getMinutes().toString().padStart(2, '0');
       setAvailableTime(`${newHours}:${newMinutes}`);
       setIs24HrAdded(true);
     }
