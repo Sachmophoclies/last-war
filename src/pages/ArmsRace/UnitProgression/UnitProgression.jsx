@@ -95,8 +95,51 @@ function getNextUnitProgressionTime() {
 }
 
 export default function UnitProgression() {
-  // Today's Time - not stored in cookies, starts empty so placeholder shows
-  const [availableTime, setAvailableTime] = useState("");
+  // Helper function to check if next event is >24hrs away
+  const checkIsBeyond24Hours = () => {
+    const nextTime = getNextUnitProgressionTime();
+    if (!nextTime) return false;
+
+    const now = new Date();
+    const [hours, minutes] = nextTime.split(':').map(Number);
+    const target = new Date();
+    target.setHours(hours, minutes, 0, 0);
+
+    while (target <= now) {
+      target.setDate(target.getDate() + 1);
+    }
+
+    const diffMs = target - now;
+    const hoursUntil = diffMs / (1000 * 60 * 60);
+
+    console.log('[Init] Next event time:', nextTime);
+    console.log('[Init] Hours until event:', hoursUntil);
+    console.log('[Init] Is beyond 24hrs:', hoursUntil > 24);
+
+    return hoursUntil > 24;
+  };
+
+  // Today's Time - initialize with +24hr time if next event is >24hrs away
+  const [availableTime, setAvailableTime] = useState(() => {
+    const isBeyond24 = checkIsBeyond24Hours();
+
+    if (!isBeyond24) return "";
+
+    const nextTime = getNextUnitProgressionTime();
+    const now = new Date();
+    const [hours, minutes] = nextTime.split(':').map(Number);
+    const target = new Date();
+    target.setHours(hours, minutes, 0, 0);
+
+    while (target <= now) {
+      target.setDate(target.getDate() + 1);
+    }
+
+    const targetPlus24 = new Date(target.getTime() + 24 * 60 * 60 * 1000);
+    const newHours = targetPlus24.getHours().toString().padStart(2, '0');
+    const newMinutes = targetPlus24.getMinutes().toString().padStart(2, '0');
+    return `${newHours}:${newMinutes}`;
+  });
 
   // Settings - load from cookies or default to empty string
   const [barracksCapacityStrongest, setBarracksCapacityStrongest] = useState(() => getCookie("barracksCapacityStrongest") || "");
@@ -107,8 +150,8 @@ export default function UnitProgression() {
   const [barracks3, setBarracks3] = useState(() => getCookie("barracks3") || "");
   const [barracks4, setBarracks4] = useState(() => getCookie("barracks4") || "");
 
-  // +24hr button toggle state
-  const [is24HrAdded, setIs24HrAdded] = useState(false);
+  // +24hr button toggle state - initialize based on whether next event is >24hrs away
+  const [is24HrAdded, setIs24HrAdded] = useState(() => checkIsBeyond24Hours());
 
   // Validation error state
   const [validationError, setValidationError] = useState("");
@@ -173,6 +216,17 @@ export default function UnitProgression() {
     // Calculate difference in seconds
     const diffMs = target - now;
     return Math.floor(diffMs / 1000);
+  };
+
+  // Check if next event is more than 24 hours away
+  const isNextEventBeyond24Hours = () => {
+    const nextTime = getNextUnitProgressionTime();
+    if (!nextTime) return false;
+
+    const secondsUntil = calculateTimeUntil(nextTime);
+    const hoursUntil = secondsUntil / 3600;
+
+    return hoursUntil > 24;
   };
 
   // Navigate to Results page

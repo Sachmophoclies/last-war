@@ -68,7 +68,7 @@ export const PPSU = 10; // Points per minute of speed up
 
 /**
  * Calculate the optimal training strategy to reach the goal efficiently
- * All 4 barracks train in parallel, so each can train the same number of units up to their capacity
+ * Each barracks trains to its full capacity
  * @param {number} trueTimeSeconds - The true time in seconds (rounded up to nearest unit time)
  * @param {number} timePerUnitSeconds - Time to train one unit in seconds
  * @param {number} pointsPerUnit - Points earned per unit trained
@@ -87,22 +87,22 @@ export function calculateTrainingStrategy(trueTimeSeconds, timePerUnitSeconds, p
     };
   }
 
-  // Calculate base number of units that can be trained in true time PER BARRACKS
-  const unitsPerBarracks = Math.floor(trueTimeSeconds / timePerUnitSeconds);
-
   // Parse barracks capacities (barracks 1, 2, 3, 4)
   const capacities = barracksCapacities.map(cap => {
     const parsed = parseInt(cap, 10);
-    return isNaN(parsed) || parsed <= 0 ? Infinity : parsed;
+    return isNaN(parsed) || parsed <= 0 ? 0 : parsed;
   });
 
-  // Calculate actual units each barracks will train (limited by capacity)
-  const barracks = [
-    Math.min(unitsPerBarracks, capacities[0] || Infinity), // Barracks 1
-    Math.min(unitsPerBarracks, capacities[1] || Infinity), // Barracks 2
-    Math.min(unitsPerBarracks, capacities[2] || Infinity), // Barracks 3
-    Math.min(unitsPerBarracks, capacities[3] || Infinity)  // Barracks 4
-  ];
+  // If capacities are provided, train each barracks to its full capacity
+  // Otherwise, calculate based on available time
+  const barracks = capacities.every(c => c > 0)
+    ? [...capacities] // Train to full capacity
+    : [
+        Math.floor(trueTimeSeconds / timePerUnitSeconds),
+        Math.floor(trueTimeSeconds / timePerUnitSeconds),
+        Math.floor(trueTimeSeconds / timePerUnitSeconds),
+        Math.floor(trueTimeSeconds / timePerUnitSeconds)
+      ];
 
   // Calculate points from barracks 2-4 normal training
   const pointsFromBarracks234 = (barracks[1] + barracks[2] + barracks[3]) * pointsPerUnit;
@@ -127,7 +127,7 @@ export function calculateTrainingStrategy(trueTimeSeconds, timePerUnitSeconds, p
       pointsFromSpeedUp: 0,
       totalPoints: totalNormalPoints,
       deficit: 0,
-      exceedsCapacity: barracks.some((b, i) => b < unitsPerBarracks && capacities[i] !== Infinity)
+      exceedsCapacity: false
     };
   }
 
@@ -153,7 +153,7 @@ export function calculateTrainingStrategy(trueTimeSeconds, timePerUnitSeconds, p
     pointsFromSpeedUp,
     totalPoints,
     deficit: Math.max(0, GOAL - totalPoints),
-    exceedsCapacity: barracks.some((b, i) => b < unitsPerBarracks && capacities[i] !== Infinity),
+    exceedsCapacity: false,
     speedUpTimeMinutes: speedUpUnitsNeeded * timePerUnitMinutes
   };
 }
