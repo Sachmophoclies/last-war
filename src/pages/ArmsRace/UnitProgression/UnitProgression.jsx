@@ -159,15 +159,14 @@ export default function UnitProgression() {
 
     // Get current time
     const now = new Date();
-    const currentHour = now.getHours();
-    const currentMinute = now.getMinutes();
 
     // Create target date (today)
     const target = new Date();
     target.setHours(targetHour, targetMinute, 0, 0);
 
-    // If target time is earlier than current time, assume it's tomorrow
-    if (targetHour < currentHour || (targetHour === currentHour && targetMinute <= currentMinute)) {
+    // If target time is in the past, it could be tomorrow or later
+    // Keep adding days until we find a future time
+    while (target <= now) {
       target.setDate(target.getDate() + 1);
     }
 
@@ -264,8 +263,8 @@ export default function UnitProgression() {
         targetDate.setDate(targetDate.getDate() + 1);
       }
 
-      // Add 24 hours
-      targetDate.setHours(targetDate.getHours() + 24);
+      // Add 24 hours (86400000 milliseconds = 24 hours)
+      targetDate = new Date(targetDate.getTime() + 24 * 60 * 60 * 1000);
 
       // Format as HH:MM
       const newHours = targetDate.getHours().toString().padStart(2, '0');
@@ -310,7 +309,7 @@ export default function UnitProgression() {
 
         <label className="field">
           <span>Time of next Unit Progression (HH:MM) - Auto-calculated in your timezone</span>
-          <div style={{ display: 'flex', gap: '8px' }}>
+          <div style={{ display: 'flex', gap: '8px', alignItems: 'center' }}>
             <input
               type="text"
               placeholder={getNextUnitProgressionTime()}
@@ -319,23 +318,65 @@ export default function UnitProgression() {
               onKeyDown={handleKeyDown}
               style={{ flex: 1 }}
             />
-            <button
-              type="button"
-              onClick={toggle24Hours}
-              style={{
-                padding: '8px 16px',
-                background: is24HrAdded ? '#22c55e' : 'var(--button-bg)',
-                color: is24HrAdded ? '#fff' : 'var(--button-text)',
-                border: '1px solid var(--card-border)',
-                borderRadius: '4px',
-                cursor: 'pointer',
+            <div style={{
+              display: 'flex',
+              alignItems: 'center',
+              gap: '8px',
+              maxWidth: '25%',
+              minWidth: 'fit-content'
+            }}>
+              <label style={{
+                position: 'relative',
+                display: 'inline-block',
+                width: '46px',
+                height: '24px',
+                flexShrink: 0
+              }}>
+                <input
+                  type="checkbox"
+                  checked={is24HrAdded}
+                  onChange={toggle24Hours}
+                  style={{
+                    opacity: 0,
+                    width: 0,
+                    height: 0
+                  }}
+                />
+                <span style={{
+                  position: 'absolute',
+                  cursor: 'pointer',
+                  top: 0,
+                  left: 0,
+                  right: 0,
+                  bottom: 0,
+                  backgroundColor: is24HrAdded ? '#22c55e' : '#ccc',
+                  transition: '0.3s',
+                  borderRadius: '24px'
+                }}>
+                  <span style={{
+                    position: 'absolute',
+                    content: '""',
+                    height: '18px',
+                    width: '18px',
+                    left: is24HrAdded ? '25px' : '3px',
+                    backgroundColor: 'white',
+                    border: '1px solid #000',
+                    boxShadow: 'inset 0 0 0 1px #ccc',
+                    transition: '0.3s',
+                    borderRadius: '50%'
+                  }}></span>
+                </span>
+              </label>
+              <span style={{
+                fontSize: '0.85em',
+                fontWeight: '500',
                 whiteSpace: 'nowrap',
-                fontSize: '0.9em',
-                fontWeight: is24HrAdded ? '600' : '400'
-              }}
-            >
-              +24 hr
-            </button>
+                color: 'var(--text)',
+                userSelect: 'none'
+              }}>
+                +24hr
+              </span>
+            </div>
           </div>
         </label>
       </div>
