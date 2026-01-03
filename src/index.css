@@ -474,6 +474,9 @@ body { margin: 0; background: linear-gradient(to right, var(--bg-gradient-start)
 .mobile-footer-back:first-child{
   border-radius:14px 0 0 0;
 }
+.mobile-footer-back:only-child{
+  border-radius:0 14px 0 0;
+}
 .mobile-footer-back:hover{
   background:#4f46e5;
 }
