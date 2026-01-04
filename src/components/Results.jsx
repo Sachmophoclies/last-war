@@ -109,6 +109,11 @@ export default function Results({ data }) {
           <div style={{ marginBottom: '8px' }}>
             <strong>Total Units Trained:</strong> {totalUnits.toLocaleString()}
           </div>
+          {data.startingPoints > 0 && (
+            <div style={{ marginBottom: '8px' }}>
+              <strong>Starting Points:</strong> {data.startingPoints.toLocaleString()}
+            </div>
+          )}
           <div style={{ marginBottom: '8px' }}>
             <strong>Total Points Earned:</strong> {Math.floor(totalPoints).toLocaleString()} / {GOAL.toLocaleString()}
           </div>
@@ -136,6 +141,9 @@ export default function Results({ data }) {
         </div>
         <div style={{ marginBottom: '8px' }}>
           <strong>Input - Total Training Time:</strong> {data.totalTrainingTime || 'N/A'}
+        </div>
+        <div style={{ marginBottom: '8px' }}>
+          <strong>Input - Starting Points:</strong> {data.startingPoints || 0}
         </div>
         <div className="divider"></div>
         <div style={{ marginBottom: '8px' }}>

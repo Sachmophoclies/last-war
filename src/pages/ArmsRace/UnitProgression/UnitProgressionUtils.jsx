@@ -73,9 +73,10 @@ export const PPSU = 10; // Points per minute of speed up
  * @param {number} timePerUnitSeconds - Time to train one unit in seconds
  * @param {number} pointsPerUnit - Points earned per unit trained
  * @param {number[]} barracksCapacities - Array of max capacities for each barracks (optional)
+ * @param {number} startingPoints - Points already earned (default 0)
  * @returns {Object} Training strategy with units to train normally and units to speed up
  */
-export function calculateTrainingStrategy(trueTimeSeconds, timePerUnitSeconds, pointsPerUnit, barracksCapacities = []) {
+export function calculateTrainingStrategy(trueTimeSeconds, timePerUnitSeconds, pointsPerUnit, barracksCapacities = [], startingPoints = 0) {
   if (timePerUnitSeconds <= 0 || pointsPerUnit <= 0) {
     return {
       totalUnits: 0,
@@ -86,6 +87,9 @@ export function calculateTrainingStrategy(trueTimeSeconds, timePerUnitSeconds, p
       exceedsCapacity: false
     };
   }
+
+  // Adjust goal based on starting points
+  const adjustedGoal = Math.max(0, GOAL - startingPoints);
 
   // Parse barracks capacities (barracks 1, 2, 3, 4)
   const capacities = barracksCapacities.map(cap => {
@@ -115,11 +119,12 @@ export function calculateTrainingStrategy(trueTimeSeconds, timePerUnitSeconds, p
   // Total points from normal training
   const totalNormalPoints = pointsFromBarracks1Normal + pointsFromBarracks234;
 
-  // Calculate deficit
-  const deficit = GOAL - totalNormalPoints;
+  // Calculate deficit based on adjusted goal
+  const deficit = adjustedGoal - totalNormalPoints;
 
   if (deficit <= 0) {
     // Already at or above goal with normal training
+    // Continue training until the event time even if we exceed the goal
     return {
       totalUnits: barracks.reduce((sum, b) => sum + b, 0),
       barracks,
@@ -127,7 +132,7 @@ export function calculateTrainingStrategy(trueTimeSeconds, timePerUnitSeconds, p
       pointsFromBarracks234,
       pointsFromBarracks1Normal,
       pointsFromSpeedUp: 0,
-      totalPoints: totalNormalPoints,
+      totalPoints: totalNormalPoints + startingPoints,
       deficit: 0,
       exceedsCapacity: false
     };
@@ -144,7 +149,7 @@ export function calculateTrainingStrategy(trueTimeSeconds, timePerUnitSeconds, p
   const speedUpUnitsNeeded = Math.ceil(deficit / pointsPerSpeedUpUnit);
 
   const pointsFromSpeedUp = speedUpUnitsNeeded * pointsPerSpeedUpUnit;
-  const totalPoints = totalNormalPoints + pointsFromSpeedUp;
+  const totalPoints = totalNormalPoints + pointsFromSpeedUp + startingPoints;
 
   return {
     totalUnits: barracks.reduce((sum, b) => sum + b, 0) + speedUpUnitsNeeded,

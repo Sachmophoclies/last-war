@@ -139,6 +139,11 @@ export default function UnitProgression() {
   const [barracks3, setBarracks3] = useState(() => getCookie("barracks3") || "");
   const [barracks4, setBarracks4] = useState(() => getCookie("barracks4") || "");
 
+  // Starting Points - session storage only (resets when page is closed)
+  const [startingPoints, setStartingPoints] = useState(() => {
+    return sessionStorage.getItem("startingPoints") || "";
+  });
+
   // +24hr button toggle state - initialize based on whether next event is >24hrs away
   const [is24HrAdded, setIs24HrAdded] = useState(() => checkIsBeyond24Hours());
 
@@ -175,6 +180,15 @@ export default function UnitProgression() {
   useEffect(() => {
     setCookie("barracks4", barracks4);
   }, [barracks4]);
+
+  // Save starting points to session storage when it changes
+  useEffect(() => {
+    if (startingPoints) {
+      sessionStorage.setItem("startingPoints", startingPoints);
+    } else {
+      sessionStorage.removeItem("startingPoints");
+    }
+  }, [startingPoints]);
 
   // Calculate time until target time
   const calculateTimeUntil = (targetTime) => {
@@ -280,13 +294,17 @@ export default function UnitProgression() {
     const ppu = UNIT_POINTS_PER_LEVEL[parseInt(unitLevel, 10)] || UNIT_POINTS_PER_LEVEL[7];
     const barracksCapacities = [barracks1, barracks2, barracks3, barracks4];
 
+    // Parse starting points
+    const startingPointsValue = parseInt(startingPoints, 10) || 0;
+
     // Calculate true time and strategy
     const trueTimeSeconds = calculateTrueTime(totalTimeSeconds, timePerUnitSeconds);
     const strategy = calculateTrainingStrategy(
       trueTimeSeconds,
       timePerUnitSeconds,
       ppu,
-      barracksCapacities
+      barracksCapacities,
+      startingPointsValue
     );
 
     // Navigate with calculation results
@@ -300,7 +318,8 @@ export default function UnitProgression() {
         totalTimeSeconds,
         timePerUnitSeconds,
         trueTimeSeconds,
-        strategy
+        strategy,
+        startingPoints: startingPointsValue
       }
     });
   };
@@ -551,6 +570,24 @@ export default function UnitProgression() {
                     onKeyDown={handleKeyDown}
                   />
                 </div>
+              </label>
+            </li>
+
+            <li>
+              <label className="field">
+                <span>
+                  Starting Points
+                  <InfoIcon text="If you already have points, enter them here. The tool will calculate how many additional points you need to reach 75,000." />
+                </span>
+                <input
+                  type="number"
+                  placeholder="0"
+                  value={startingPoints}
+                  onChange={(e) => setStartingPoints(e.target.value)}
+                  onKeyDown={handleKeyDown}
+                  min="0"
+                  max="74999"
+                />
               </label>
             </li>
           </ul>
