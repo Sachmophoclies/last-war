@@ -93,16 +93,18 @@ export function calculateTrainingStrategy(trueTimeSeconds, timePerUnitSeconds, p
     return isNaN(parsed) || parsed <= 0 ? 0 : parsed;
   });
 
-  // If capacities are provided, train each barracks to its full capacity
-  // Otherwise, calculate based on available time
-  const barracks = capacities.every(c => c > 0)
-    ? [...capacities] // Train to full capacity
-    : [
-        Math.floor(trueTimeSeconds / timePerUnitSeconds),
-        Math.floor(trueTimeSeconds / timePerUnitSeconds),
-        Math.floor(trueTimeSeconds / timePerUnitSeconds),
-        Math.floor(trueTimeSeconds / timePerUnitSeconds)
-      ];
+  // Calculate units based on available time
+  const unitsBasedOnTime = Math.floor(trueTimeSeconds / timePerUnitSeconds);
+
+  // Cap each barracks at its capacity (if provided), otherwise use time-based calculation
+  const barracks = capacities.map((capacity, index) => {
+    if (capacity > 0) {
+      // Cap at the barracks capacity
+      return Math.min(unitsBasedOnTime, capacity);
+    }
+    // No capacity limit specified, use time-based calculation
+    return unitsBasedOnTime;
+  });
 
   // Calculate points from barracks 2-4 normal training
   const pointsFromBarracks234 = (barracks[1] + barracks[2] + barracks[3]) * pointsPerUnit;

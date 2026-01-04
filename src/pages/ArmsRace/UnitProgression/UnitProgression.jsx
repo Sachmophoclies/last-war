@@ -220,8 +220,43 @@ export default function UnitProgression() {
 
   // Navigate to Results page
   const goToResults = () => {
-    // Use auto-calculated time if input is empty
-    const timeToUse = availableTime.trim() || getNextUnitProgressionTime();
+    // Determine the time to use and calculate seconds until target
+    let timeToUse;
+    let totalTimeSeconds;
+    const nextEventDate = getNextUnitProgressionDate();
+
+    if (!nextEventDate) {
+      setValidationError("Unable to determine next Unit Progression time");
+      return;
+    }
+
+    if (availableTime.trim() && is24HrAdded) {
+      // Toggle is ON - use next event + 24 hours
+      const targetPlus24 = new Date(nextEventDate.getTime() + 24 * 60 * 60 * 1000);
+      timeToUse = availableTime.trim();
+
+      // Calculate seconds until the exact event + 24hr date
+      const now = new Date();
+      const diffMs = targetPlus24 - now;
+      totalTimeSeconds = Math.floor(diffMs / 1000);
+    } else if (availableTime.trim() && !is24HrAdded) {
+      // User manually entered a custom time (not from toggle)
+      timeToUse = availableTime.trim();
+      totalTimeSeconds = calculateTimeUntil(timeToUse);
+    } else {
+      // Toggle is OFF and no manual input - use next event date directly
+      timeToUse = getNextUnitProgressionTime();
+
+      // Calculate seconds until the exact event date
+      const now = new Date();
+      const diffMs = nextEventDate - now;
+      totalTimeSeconds = Math.floor(diffMs / 1000);
+    }
+
+    console.log("=== ARMS RACE CALCULATION DEBUG ===");
+    console.log("availableTime (user input):", availableTime);
+    console.log("is24HrAdded (toggle state):", is24HrAdded);
+    console.log("timeToUse (final):", timeToUse);
 
     // Validate required fields
     if (!timeToUse) {
@@ -240,13 +275,17 @@ export default function UnitProgression() {
     // Clear any previous errors
     setValidationError("");
 
-    // Calculate time until target
-    const totalTimeSeconds = calculateTimeUntil(timeToUse);
     const maxUnits = parseInt(barracksCapacityStrongest, 10) || 0;
     const maxTimeSeconds = parseTotalTime(totalTrainingTime);
 
+    console.log("totalTimeSeconds (time until event):", totalTimeSeconds, "seconds =", (totalTimeSeconds / 3600).toFixed(2), "hours");
+    console.log("maxUnits:", maxUnits);
+    console.log("maxTimeSeconds:", maxTimeSeconds);
+
     // Calculate exact time per unit (with sub-second precision)
     const timePerUnitSeconds = maxUnits > 0 ? maxTimeSeconds / maxUnits : 0;
+
+    console.log("timePerUnitSeconds:", timePerUnitSeconds);
 
     // Look up points per unit based on unit level
     const ppu = UNIT_POINTS_PER_LEVEL[parseInt(unitLevel, 10)] || UNIT_POINTS_PER_LEVEL[7];
@@ -260,6 +299,10 @@ export default function UnitProgression() {
       ppu,
       barracksCapacities
     );
+
+    console.log("trueTimeSeconds:", trueTimeSeconds);
+    console.log("strategy:", strategy);
+    console.log("=== END DEBUG ===");
 
     // Navigate with calculation results
     navigate("/results", {
@@ -288,8 +331,13 @@ export default function UnitProgression() {
     const nextEventDate = getNextUnitProgressionDate();
     if (!nextEventDate) return;
 
+    console.log("=== TOGGLE 24HR DEBUG ===");
+    console.log("Current is24HrAdded:", is24HrAdded);
+    console.log("nextEventDate:", nextEventDate);
+
     if (is24HrAdded) {
       // Remove 24 hours - reset to auto-calculated time
+      console.log("Turning OFF +24hr, clearing availableTime");
       setAvailableTime("");
       setIs24HrAdded(false);
     } else {
@@ -299,7 +347,9 @@ export default function UnitProgression() {
       // Format as HH:MM
       const newHours = targetPlus24.getHours().toString().padStart(2, '0');
       const newMinutes = targetPlus24.getMinutes().toString().padStart(2, '0');
-      setAvailableTime(`${newHours}:${newMinutes}`);
+      const newTime = `${newHours}:${newMinutes}`;
+      console.log("Turning ON +24hr, setting availableTime to:", newTime);
+      setAvailableTime(newTime);
       setIs24HrAdded(true);
     }
   };
