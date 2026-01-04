@@ -32,8 +32,15 @@ export default function Results({ data }) {
     return `${String(hrs).padStart(2, '0')}:${String(mins).padStart(2, '0')}:${String(secs).padStart(2, '0')}`;
   };
 
+  // Check if all barracks have the same number of units (and no speedups)
+  const allBarracksSame = barracks[0] === barracks[1] &&
+                          barracks[1] === barracks[2] &&
+                          barracks[2] === barracks[3] &&
+                          barracks[0] > 0 &&
+                          speedUpUnits === 0;
+
   // Check if barracks 2, 3, 4 all have the same number of units
-  const canCombine = barracks[1] === barracks[2] && barracks[2] === barracks[3] && barracks[1] > 0;
+  const canCombine234 = barracks[1] === barracks[2] && barracks[2] === barracks[3] && barracks[1] > 0;
 
   // Get barracks 1 capacity for breaking up speed-up batches
   const barracks1Capacity = parseInt(data.barracksCapacities?.[0], 10);
@@ -62,43 +69,51 @@ export default function Results({ data }) {
 
         <div style={{ marginBottom: '24px' }}>
           <ol style={{ paddingLeft: '20px', margin: 0 }}>
-            {canCombine ? (
+            {allBarracksSame ? (
               <li style={{ marginBottom: '12px' }}>
-                <strong>Train {barracks[1]} units</strong> in each of barracks 4, 3, and 2
+                <strong>Train {barracks[0]} units</strong> in all barracks
               </li>
             ) : (
               <>
-                {barracks[3] > 0 && (
+                {canCombine234 ? (
                   <li style={{ marginBottom: '12px' }}>
-                    <strong>Train {barracks[3]} units</strong> in barracks 4
+                    <strong>Train {barracks[1]} units</strong> in each of barracks 4, 3, and 2
                   </li>
+                ) : (
+                  <>
+                    {barracks[3] > 0 && (
+                      <li style={{ marginBottom: '12px' }}>
+                        <strong>Train {barracks[3]} units</strong> in barracks 4
+                      </li>
+                    )}
+                    {barracks[2] > 0 && (
+                      <li style={{ marginBottom: '12px' }}>
+                        <strong>Train {barracks[2]} units</strong> in barracks 3
+                      </li>
+                    )}
+                    {barracks[1] > 0 && (
+                      <li style={{ marginBottom: '12px' }}>
+                        <strong>Train {barracks[1]} units</strong> in barracks 2
+                      </li>
+                    )}
+                  </>
                 )}
-                {barracks[2] > 0 && (
-                  <li style={{ marginBottom: '12px' }}>
-                    <strong>Train {barracks[2]} units</strong> in barracks 3
+
+                {speedUpBatches.map((batchSize, index) => (
+                  <li key={index} style={{ marginBottom: '12px' }}>
+                    <strong>Train and <u>Speed-Up</u> {batchSize} units</strong> in barracks 1{' '}
+                    <span style={{ color: 'var(--text-muted)', whiteSpace: 'nowrap' }}>
+                      (uses {Math.ceil((batchSize / speedUpUnits) * speedUpTimeMinutes)} minutes of speed-ups)
+                    </span>
                   </li>
-                )}
-                {barracks[1] > 0 && (
+                ))}
+
+                {barracks[0] > 0 && (
                   <li style={{ marginBottom: '12px' }}>
-                    <strong>Train {barracks[1]} units</strong> in barracks 2
+                    <strong>Train {barracks[0]} units</strong> in barracks 1
                   </li>
                 )}
               </>
-            )}
-
-            {speedUpBatches.map((batchSize, index) => (
-              <li key={index} style={{ marginBottom: '12px' }}>
-                <strong>Train and <u>Speed-Up</u> {batchSize} units</strong> in barracks 1{' '}
-                <span style={{ color: 'var(--text-muted)', whiteSpace: 'nowrap' }}>
-                  (uses {Math.ceil((batchSize / speedUpUnits) * speedUpTimeMinutes)} minutes of speed-ups)
-                </span>
-              </li>
-            ))}
-
-            {barracks[0] > 0 && (
-              <li style={{ marginBottom: '12px' }}>
-                <strong>Train {barracks[0]} units</strong> in barracks 1
-              </li>
             )}
           </ol>
         </div>

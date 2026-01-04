@@ -281,21 +281,46 @@ export default function UnitProgression() {
       return;
     }
 
+    // Parse and validate numeric fields
+    const maxUnits = parseInt(barracksCapacityStrongest, 10);
+    if (isNaN(maxUnits) || maxUnits <= 0) {
+      setValidationError("Barracks capacity must be a positive number");
+      return;
+    }
+
+    const maxTimeSeconds = parseTotalTime(totalTrainingTime);
+    if (maxTimeSeconds <= 0) {
+      setValidationError("Total training time must be valid and positive");
+      return;
+    }
+
+    // Validate optional barracks capacities
+    const barracksCapacities = [barracks1, barracks2, barracks3, barracks4];
+    for (let i = 0; i < barracksCapacities.length; i++) {
+      if (barracksCapacities[i].trim()) {
+        const capacity = parseInt(barracksCapacities[i], 10);
+        if (isNaN(capacity) || capacity < 0) {
+          setValidationError(`Barracks ${i + 1} capacity must be a positive number or empty`);
+          return;
+        }
+      }
+    }
+
+    // Parse and validate starting points
+    const startingPointsValue = parseInt(startingPoints, 10) || 0;
+    if (startingPoints.trim() && (isNaN(startingPointsValue) || startingPointsValue < 0)) {
+      setValidationError("Starting points must be a positive number or empty");
+      return;
+    }
+
     // Clear any previous errors
     setValidationError("");
-
-    const maxUnits = parseInt(barracksCapacityStrongest, 10) || 0;
-    const maxTimeSeconds = parseTotalTime(totalTrainingTime);
 
     // Calculate exact time per unit (with sub-second precision)
     const timePerUnitSeconds = maxUnits > 0 ? maxTimeSeconds / maxUnits : 0;
 
     // Look up points per unit based on unit level
     const ppu = UNIT_POINTS_PER_LEVEL[parseInt(unitLevel, 10)] || UNIT_POINTS_PER_LEVEL[7];
-    const barracksCapacities = [barracks1, barracks2, barracks3, barracks4];
-
-    // Parse starting points
-    const startingPointsValue = parseInt(startingPoints, 10) || 0;
 
     // Calculate true time and strategy
     const trueTimeSeconds = calculateTrueTime(totalTimeSeconds, timePerUnitSeconds);
@@ -586,7 +611,6 @@ export default function UnitProgression() {
                   onChange={(e) => setStartingPoints(e.target.value)}
                   onKeyDown={handleKeyDown}
                   min="0"
-                  max="74999"
                 />
               </label>
             </li>
