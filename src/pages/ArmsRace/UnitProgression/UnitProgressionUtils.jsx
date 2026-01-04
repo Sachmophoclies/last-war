@@ -1,26 +1,49 @@
 /**
- * Parse total available time from HH:MM or HH:MM:SS format
- * @param {string} timeStr - Time string in HH:MM or HH:MM:SS format
+ * Parse total available time from various formats:
+ * - HH:MM or HH:MM:SS
+ * - Xd HH:MM:SS (e.g., "2d 14:30:25")
+ * - X HH:MM:SS (e.g., "2 14:30:25")
+ * @param {string} timeStr - Time string in supported formats
  * @returns {number} Total seconds
  */
 export function parseTotalTime(timeStr) {
   if (!timeStr || typeof timeStr !== 'string') return 0;
 
-  const parts = timeStr.trim().split(':').map(p => parseInt(p, 10));
+  let workingStr = timeStr.trim();
+  let days = 0;
+
+  // Check for days format: "Xd HH:MM:SS" or "X HH:MM:SS"
+  const daysMatch = workingStr.match(/^(\d+)d?\s+(.+)$/);
+  if (daysMatch) {
+    days = parseInt(daysMatch[1], 10);
+    workingStr = daysMatch[2];
+
+    if (isNaN(days)) return 0;
+  }
+
+  // Parse the time portion (HH:MM:SS or HH:MM)
+  const parts = workingStr.split(':').map(p => parseInt(p, 10));
 
   if (parts.some(isNaN)) return 0;
+
+  let totalSeconds = 0;
 
   if (parts.length === 2) {
     // HH:MM format
     const [hours, minutes] = parts;
-    return hours * 3600 + minutes * 60;
+    totalSeconds = hours * 3600 + minutes * 60;
   } else if (parts.length === 3) {
     // HH:MM:SS format
     const [hours, minutes, seconds] = parts;
-    return hours * 3600 + minutes * 60 + seconds;
+    totalSeconds = hours * 3600 + minutes * 60 + seconds;
+  } else {
+    return 0;
   }
 
-  return 0;
+  // Add days if present
+  totalSeconds += days * 86400; // 86400 seconds in a day
+
+  return totalSeconds;
 }
 
 /**

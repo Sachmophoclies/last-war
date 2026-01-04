@@ -273,24 +273,28 @@ export default function UnitProgression() {
       return;
     }
     if (!barracksCapacityStrongest.trim()) {
-      setValidationError("Please enter barracks capacity");
+      setValidationError("Barracks capacity is required");
       return;
     }
     if (!totalTrainingTime.trim()) {
-      setValidationError("Please enter total training time");
+      setValidationError("Total training time is required");
       return;
     }
 
     // Parse and validate numeric fields
     const maxUnits = parseInt(barracksCapacityStrongest, 10);
-    if (isNaN(maxUnits) || maxUnits <= 0) {
-      setValidationError("Barracks capacity must be a positive number");
+    if (isNaN(maxUnits)) {
+      setValidationError("Barracks capacity must be a number");
+      return;
+    }
+    if (maxUnits <= 0) {
+      setValidationError("Barracks capacity must be greater than 0");
       return;
     }
 
     const maxTimeSeconds = parseTotalTime(totalTrainingTime);
     if (maxTimeSeconds <= 0) {
-      setValidationError("Total training time must be valid and positive");
+      setValidationError("Total training time is invalid (use format HH:MM:SS or HH:MM)");
       return;
     }
 
@@ -299,8 +303,12 @@ export default function UnitProgression() {
     for (let i = 0; i < barracksCapacities.length; i++) {
       if (barracksCapacities[i].trim()) {
         const capacity = parseInt(barracksCapacities[i], 10);
-        if (isNaN(capacity) || capacity < 0) {
-          setValidationError(`Barracks ${i + 1} capacity must be a positive number or empty`);
+        if (isNaN(capacity)) {
+          setValidationError(`Barracks ${i + 1} capacity must be a number`);
+          return;
+        }
+        if (capacity < 0) {
+          setValidationError(`Barracks ${i + 1} capacity cannot be negative`);
           return;
         }
       }
@@ -308,9 +316,15 @@ export default function UnitProgression() {
 
     // Parse and validate starting points
     const startingPointsValue = parseInt(startingPoints, 10) || 0;
-    if (startingPoints.trim() && (isNaN(startingPointsValue) || startingPointsValue < 0)) {
-      setValidationError("Starting points must be a positive number or empty");
-      return;
+    if (startingPoints.trim()) {
+      if (isNaN(startingPointsValue)) {
+        setValidationError("Starting points must be a number");
+        return;
+      }
+      if (startingPointsValue < 0) {
+        setValidationError("Starting points cannot be negative");
+        return;
+      }
     }
 
     // Clear any previous errors
@@ -347,12 +361,6 @@ export default function UnitProgression() {
         startingPoints: startingPointsValue
       }
     });
-  };
-
-  // Clear today's time
-  const clearTodaysTime = () => {
-    setAvailableTime("");
-    setIs24HrAdded(false);
   };
 
   // Toggle 24 hours to the auto-calculated time
@@ -621,7 +629,6 @@ export default function UnitProgression() {
       <Footer
         onBack={() => navigate(-1)}
         onCheck={goToResults}
-        onClear={clearTodaysTime}
       />
       </div>
     </>
