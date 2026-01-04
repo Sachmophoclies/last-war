@@ -20,7 +20,6 @@ function setCookie(name, value, days = 365) {
 export default function HamburgerMenu() {
   const [open, setOpen] = useState(false);
   const [darkMode, setDarkMode] = useState(true);
-  const [betaMode, setBetaMode] = useState(false);
   const [utilitiesOpen, setUtilitiesOpen] = useState(false);
   const [guidesOpen, setGuidesOpen] = useState(false);
   const [squadOpen, setSquadOpen] = useState(false);
@@ -31,7 +30,6 @@ export default function HamburgerMenu() {
   const [eventsOpen, setEventsOpen] = useState(false);
   const [seasonsOpen, setSeasonsOpen] = useState(false);
   const [aboutOpen, setAboutOpen] = useState(false);
-  const [testOpen, setTestOpen] = useState(false);
   const close = () => setOpen(false);
   const drawerRef = useRef(null);
   const firstMenuItemRef = useRef(null);
@@ -49,14 +47,6 @@ export default function HamburgerMenu() {
     }
   }, []);
 
-  // Load beta mode from cookie on mount
-  useEffect(() => {
-    const savedBetaMode = getCookie("betaMode");
-    if (savedBetaMode === "true") {
-      setBetaMode(true);
-      document.body.setAttribute("data-beta", "true");
-    }
-  }, []);
 
   // Toggle dark mode
   const toggleDarkMode = () => {
@@ -72,19 +62,6 @@ export default function HamburgerMenu() {
     }
   };
 
-  // Toggle beta mode
-  const toggleBetaMode = () => {
-    const newMode = !betaMode;
-    setBetaMode(newMode);
-
-    if (newMode) {
-      document.body.setAttribute("data-beta", "true");
-      setCookie("betaMode", "true");
-    } else {
-      document.body.removeAttribute("data-beta");
-      setCookie("betaMode", "false");
-    }
-  };
 
   // Handle Escape key to close menu
   useEffect(() => {
@@ -368,31 +345,6 @@ export default function HamburgerMenu() {
                     </ul>
                   )}
                 </li>
-                {betaMode && (
-                  <li>
-                    <button
-                      className={`menu-toggle ${testOpen ? 'open' : ''}`}
-                      onClick={() => setTestOpen(!testOpen)}
-                      aria-expanded={testOpen}
-                    >
-                      Test <span className="arrow">{testOpen ? '▼' : '▶'}</span>
-                    </button>
-                    {testOpen && (
-                      <ul className="submenu">
-                        <li>
-                          <NavLink to="/guides/test/no-author" onClick={close} className={({isActive}) => isActive ? "active" : ""}>
-                            No Author
-                          </NavLink>
-                        </li>
-                        <li>
-                          <NavLink to="/guides/test/author-no-url" onClick={close} className={({isActive}) => isActive ? "active" : ""}>
-                            Author No URL
-                          </NavLink>
-                        </li>
-                      </ul>
-                    )}
-                  </li>
-                )}
               </ul>
             )}
           </li>
@@ -433,19 +385,6 @@ export default function HamburgerMenu() {
         </ul>
 
         <div className="settings">
-          <div
-            className={`setting-item ${betaMode ? 'active' : ''}`}
-            onClick={toggleBetaMode}
-          >
-            <span>Beta</span>
-            <input
-              type="checkbox"
-              checked={betaMode}
-              onChange={toggleBetaMode}
-              disabled
-              tabIndex={-1}
-            />
-          </div>
           <div
             className={`setting-item ${darkMode ? 'active' : ''}`}
             onClick={toggleDarkMode}
