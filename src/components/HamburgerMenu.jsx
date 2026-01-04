@@ -1,6 +1,7 @@
 import { useState, useEffect, useRef } from "react";
 import { NavLink } from "react-router-dom";
 import versionData from "../data/version.json";
+import ProblemModal from "./ProblemModal";
 
 const PACK_URL = "https://www.lastwar.com/"; // official site :contentReference[oaicite:1]{index=1}
 
@@ -20,6 +21,7 @@ function setCookie(name, value, days = 365) {
 export default function HamburgerMenu() {
   const [open, setOpen] = useState(false);
   const [darkMode, setDarkMode] = useState(true);
+  const [problemModalOpen, setProblemModalOpen] = useState(false);
   const [utilitiesOpen, setUtilitiesOpen] = useState(false);
   const [guidesOpen, setGuidesOpen] = useState(false);
   const [squadOpen, setSquadOpen] = useState(false);
@@ -386,6 +388,13 @@ export default function HamburgerMenu() {
 
         <div className="settings">
           <div
+            className="setting-item"
+            onClick={() => setProblemModalOpen(true)}
+            style={{ cursor: 'pointer' }}
+          >
+            <span>Problem?</span>
+          </div>
+          <div
             className={`setting-item ${darkMode ? 'active' : ''}`}
             onClick={toggleDarkMode}
           >
@@ -409,6 +418,11 @@ export default function HamburgerMenu() {
           v{versionData.version} ({versionData.date})
         </div>
       </nav>
+
+      <ProblemModal
+        isOpen={problemModalOpen}
+        onClose={() => setProblemModalOpen(false)}
+      />
     </>
   );
 }
