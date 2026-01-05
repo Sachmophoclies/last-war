@@ -1,7 +1,8 @@
 import { useEffect, useRef } from "react";
 import "./Modal.css";
+import Footer from "./Footer";
 
-export default function Modal({ isOpen, onClose, title, children }) {
+function Modal({ isOpen, onClose, title, children }) {
   const modalRef = useRef(null);
 
   // Handle Escape key to close modal
@@ -51,6 +52,26 @@ export default function Modal({ isOpen, onClose, title, children }) {
 
   if (!isOpen) return null;
 
+  // Separate children into body and footer
+  const body = [];
+  const footer = [];
+
+  if (Array.isArray(children)) {
+    children.forEach(child => {
+      if (child?.type === Footer) {
+        footer.push(child);
+      } else {
+        body.push(child);
+      }
+    });
+  } else {
+    if (children?.type === Footer) {
+      footer.push(children);
+    } else {
+      body.push(children);
+    }
+  }
+
   return (
     <>
       <div className="modal-backdrop" onClick={onClose} />
@@ -62,9 +83,21 @@ export default function Modal({ isOpen, onClose, title, children }) {
           </button>
         </div>
         <div className="modal-content">
-          {children}
+          {body}
         </div>
+        {footer.length > 0 && (
+          <>
+            <div className="modal-divider" />
+            <div className="modal-footer">
+              {footer}
+            </div>
+          </>
+        )}
       </div>
     </>
   );
 }
+
+Modal.Footer = Footer;
+
+export default Modal;

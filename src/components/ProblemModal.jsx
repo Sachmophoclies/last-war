@@ -1,5 +1,5 @@
 import { useState } from "react";
-import Modal from "./Modal";
+import Modal from "./modal/Modal";
 
 const GITHUB_REPO = "https://github.com/Sachmophoclies/last-war";
 const EMAIL = "Sachmophoclies@gmail.com";

@@ -85,3 +85,58 @@
 .modal-button:active {
   transform: translateY(1px);
 }
+
+.modal-divider {
+  border-top: 1px solid var(--card-border);
+  margin: 16px 2px;
+}
+
+.modal-footer {
+  padding-top: 0;
+}
+
+.modal-footer-actions {
+  display: flex;
+  gap: 12px;
+  align-items: center;
+  justify-content: space-between;
+  position: relative;
+}
+
+.modal-footer-actions::before {
+  content: '';
+  position: absolute;
+  left: 50%;
+  top: 4px;
+  bottom: 4px;
+  width: 1px;
+  background-color: var(--card-border);
+  transform: translateX(-50%);
+}
+
+.modal-footer-checkbox {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  cursor: pointer;
+  padding: 8px;
+  border-radius: 4px;
+  transition: background-color 0.2s;
+}
+
+.modal-footer-checkbox:hover {
+  background-color: var(--card-border);
+}
+
+.modal-footer-checkbox input[type="checkbox"] {
+  cursor: pointer;
+  flex-shrink: 0;
+  margin: 0;
+  vertical-align: middle;
+}
+
+.modal-footer-checkbox span {
+  user-select: none;
+  line-height: 1;
+  display: inline-block;
+}
