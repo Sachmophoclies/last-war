@@ -130,14 +130,40 @@ export default function UnitProgression() {
     return `${newHours}:${newMinutes}`;
   });
 
-  // Settings - load from cookies or default to empty string
-  const [barracksCapacityStrongest, setBarracksCapacityStrongest] = useState(() => getCookie("barracksCapacityStrongest") || "");
-  const [totalTrainingTime, setTotalTrainingTime] = useState(() => getCookie("totalTrainingTime") || "");
+  // Buffed mode toggle - load from cookie
+  const [isBuffed, setIsBuffed] = useState(() => getCookie("isBuffed") === "true");
+
+  // Track if we're showing placeholder buffed values (first time toggling to buffed mode)
+  const [showingPlaceholderBuffed, setShowingPlaceholderBuffed] = useState(false);
+
+  // Settings - load from cookies based on buffed mode
+  const [barracksCapacityStrongest, setBarracksCapacityStrongest] = useState(() => {
+    const key = isBuffed ? "barracksCapacityStrongest_buffed" : "barracksCapacityStrongest";
+    return getCookie(key) || "";
+  });
+  const [totalTrainingTime, setTotalTrainingTime] = useState(() => {
+    const key = isBuffed ? "totalTrainingTime_buffed" : "totalTrainingTime";
+    return getCookie(key) || "";
+  });
+  const [barracks1, setBarracks1] = useState(() => {
+    const key = isBuffed ? "barracks1_buffed" : "barracks1";
+    return getCookie(key) || "";
+  });
+  const [barracks2, setBarracks2] = useState(() => {
+    const key = isBuffed ? "barracks2_buffed" : "barracks2";
+    return getCookie(key) || "";
+  });
+  const [barracks3, setBarracks3] = useState(() => {
+    const key = isBuffed ? "barracks3_buffed" : "barracks3";
+    return getCookie(key) || "";
+  });
+  const [barracks4, setBarracks4] = useState(() => {
+    const key = isBuffed ? "barracks4_buffed" : "barracks4";
+    return getCookie(key) || "";
+  });
+
+  // These don't change based on buffed mode
   const [unitLevel, setUnitLevel] = useState(() => getCookie("unitLevel") || "7");
-  const [barracks1, setBarracks1] = useState(() => getCookie("barracks1") || "");
-  const [barracks2, setBarracks2] = useState(() => getCookie("barracks2") || "");
-  const [barracks3, setBarracks3] = useState(() => getCookie("barracks3") || "");
-  const [barracks4, setBarracks4] = useState(() => getCookie("barracks4") || "");
 
   // Starting Points - session storage only (resets when page is closed)
   const [startingPoints, setStartingPoints] = useState(() => {
@@ -152,34 +178,45 @@ export default function UnitProgression() {
 
   const navigate = useNavigate();
 
-  // Save barracksCapacityStrongest to cookie when it changes
+  // Save buffed mode to cookie when it changes
   useEffect(() => {
-    setCookie("barracksCapacityStrongest", barracksCapacityStrongest);
-  }, [barracksCapacityStrongest]);
+    setCookie("isBuffed", isBuffed.toString());
+  }, [isBuffed]);
 
-  // Save totalTrainingTime to cookie when it changes
+  // Save barracksCapacityStrongest to appropriate cookie based on buffed mode
   useEffect(() => {
-    setCookie("totalTrainingTime", totalTrainingTime);
-  }, [totalTrainingTime]);
+    const key = isBuffed ? "barracksCapacityStrongest_buffed" : "barracksCapacityStrongest";
+    setCookie(key, barracksCapacityStrongest);
+  }, [barracksCapacityStrongest, isBuffed]);
+
+  // Save totalTrainingTime to appropriate cookie based on buffed mode
+  useEffect(() => {
+    const key = isBuffed ? "totalTrainingTime_buffed" : "totalTrainingTime";
+    setCookie(key, totalTrainingTime);
+  }, [totalTrainingTime, isBuffed]);
 
   // Save unitLevel to cookie when it changes
   useEffect(() => {
     setCookie("unitLevel", unitLevel);
   }, [unitLevel]);
 
-  // Save barracks values to cookies when they change
+  // Save barracks values to appropriate cookies based on buffed mode
   useEffect(() => {
-    setCookie("barracks1", barracks1);
-  }, [barracks1]);
+    const key = isBuffed ? "barracks1_buffed" : "barracks1";
+    setCookie(key, barracks1);
+  }, [barracks1, isBuffed]);
   useEffect(() => {
-    setCookie("barracks2", barracks2);
-  }, [barracks2]);
+    const key = isBuffed ? "barracks2_buffed" : "barracks2";
+    setCookie(key, barracks2);
+  }, [barracks2, isBuffed]);
   useEffect(() => {
-    setCookie("barracks3", barracks3);
-  }, [barracks3]);
+    const key = isBuffed ? "barracks3_buffed" : "barracks3";
+    setCookie(key, barracks3);
+  }, [barracks3, isBuffed]);
   useEffect(() => {
-    setCookie("barracks4", barracks4);
-  }, [barracks4]);
+    const key = isBuffed ? "barracks4_buffed" : "barracks4";
+    setCookie(key, barracks4);
+  }, [barracks4, isBuffed]);
 
   // Save starting points to session storage when it changes
   useEffect(() => {
@@ -385,6 +422,53 @@ export default function UnitProgression() {
     }
   };
 
+  // Toggle buffed mode - loads values from appropriate cookies
+  const toggleBuffedMode = () => {
+    const newBuffedState = !isBuffed;
+
+    // Load values from the appropriate cookie set
+    if (newBuffedState) {
+      // Switching to buffed mode
+      const buffedCapacity = getCookie("barracksCapacityStrongest_buffed");
+      const buffedTime = getCookie("totalTrainingTime_buffed");
+      const buffedB1 = getCookie("barracks1_buffed");
+      const buffedB2 = getCookie("barracks2_buffed");
+      const buffedB3 = getCookie("barracks3_buffed");
+      const buffedB4 = getCookie("barracks4_buffed");
+
+      // If buffed cookies are empty, pre-populate with current (unbuffed) values
+      if (!buffedCapacity && !buffedTime && !buffedB1 && !buffedB2 && !buffedB3 && !buffedB4) {
+        setBarracksCapacityStrongest(barracksCapacityStrongest);
+        setTotalTrainingTime(totalTrainingTime);
+        setBarracks1(barracks1);
+        setBarracks2(barracks2);
+        setBarracks3(barracks3);
+        setBarracks4(barracks4);
+        setShowingPlaceholderBuffed(true); // Mark as showing placeholder values
+      } else {
+        // Load from buffed cookies
+        setBarracksCapacityStrongest(buffedCapacity || "");
+        setTotalTrainingTime(buffedTime || "");
+        setBarracks1(buffedB1 || "");
+        setBarracks2(buffedB2 || "");
+        setBarracks3(buffedB3 || "");
+        setBarracks4(buffedB4 || "");
+        setShowingPlaceholderBuffed(false);
+      }
+    } else {
+      // Switching to unbuffed mode
+      setBarracksCapacityStrongest(getCookie("barracksCapacityStrongest") || "");
+      setTotalTrainingTime(getCookie("totalTrainingTime") || "");
+      setBarracks1(getCookie("barracks1") || "");
+      setBarracks2(getCookie("barracks2") || "");
+      setBarracks3(getCookie("barracks3") || "");
+      setBarracks4(getCookie("barracks4") || "");
+      setShowingPlaceholderBuffed(false);
+    }
+
+    setIsBuffed(newBuffedState);
+  };
+
   // Handle Enter key press
   const handleKeyDown = (e) => {
     if (e.key === "Enter") {
@@ -492,6 +576,27 @@ export default function UnitProgression() {
             </div>
           </div>
         </label>
+
+        <div style={{ marginTop: '16px', display: 'flex', alignItems: 'center', gap: '12px' }}>
+          <input
+            type="checkbox"
+            checked={isBuffed}
+            onChange={toggleBuffedMode}
+            style={{
+              width: '20px',
+              height: '20px',
+              cursor: 'pointer',
+              accentColor: 'var(--primary-color)',
+              flexShrink: 0
+            }}
+          />
+          <label style={{ display: 'flex', alignItems: 'center', cursor: 'pointer', margin: 0 }} onClick={toggleBuffedMode}>
+            <span>
+              Secretary Bonus{' '}
+              <InfoIcon text="Check this if you're using the Secretary bonus. You'll need to put in the new values below." />
+            </span>
+          </label>
+        </div>
       </div>
 
       {validationError && (
@@ -518,8 +623,12 @@ export default function UnitProgression() {
                   type="number"
                   placeholder="729"
                   value={barracksCapacityStrongest}
-                  onChange={(e) => setBarracksCapacityStrongest(e.target.value)}
+                  onChange={(e) => {
+                    setBarracksCapacityStrongest(e.target.value);
+                    if (showingPlaceholderBuffed) setShowingPlaceholderBuffed(false);
+                  }}
                   onKeyDown={handleKeyDown}
+                  style={showingPlaceholderBuffed ? { color: 'var(--text-muted)' } : {}}
                 />
               </label>
             </li>
@@ -533,8 +642,12 @@ export default function UnitProgression() {
                   type="text"
                   placeholder="25:12:51"
                   value={totalTrainingTime}
-                  onChange={(e) => setTotalTrainingTime(e.target.value)}
+                  onChange={(e) => {
+                    setTotalTrainingTime(e.target.value);
+                    if (showingPlaceholderBuffed) setShowingPlaceholderBuffed(false);
+                  }}
                   onKeyDown={handleKeyDown}
+                  style={showingPlaceholderBuffed ? { color: 'var(--text-muted)' } : {}}
                 />
               </label>
             </li>
@@ -578,29 +691,45 @@ export default function UnitProgression() {
                     type="number"
                     placeholder="Barracks 1 (strongest)"
                     value={barracks1}
-                    onChange={(e) => setBarracks1(e.target.value)}
+                    onChange={(e) => {
+                      setBarracks1(e.target.value);
+                      if (showingPlaceholderBuffed) setShowingPlaceholderBuffed(false);
+                    }}
                     onKeyDown={handleKeyDown}
+                    style={showingPlaceholderBuffed ? { color: 'var(--text-muted)' } : {}}
                   />
                   <input
                     type="number"
                     placeholder="Barracks 2"
                     value={barracks2}
-                    onChange={(e) => setBarracks2(e.target.value)}
+                    onChange={(e) => {
+                      setBarracks2(e.target.value);
+                      if (showingPlaceholderBuffed) setShowingPlaceholderBuffed(false);
+                    }}
                     onKeyDown={handleKeyDown}
+                    style={showingPlaceholderBuffed ? { color: 'var(--text-muted)' } : {}}
                   />
                   <input
                     type="number"
                     placeholder="Barracks 3"
                     value={barracks3}
-                    onChange={(e) => setBarracks3(e.target.value)}
+                    onChange={(e) => {
+                      setBarracks3(e.target.value);
+                      if (showingPlaceholderBuffed) setShowingPlaceholderBuffed(false);
+                    }}
                     onKeyDown={handleKeyDown}
+                    style={showingPlaceholderBuffed ? { color: 'var(--text-muted)' } : {}}
                   />
                   <input
                     type="number"
                     placeholder="Barracks 4"
                     value={barracks4}
-                    onChange={(e) => setBarracks4(e.target.value)}
+                    onChange={(e) => {
+                      setBarracks4(e.target.value);
+                      if (showingPlaceholderBuffed) setShowingPlaceholderBuffed(false);
+                    }}
                     onKeyDown={handleKeyDown}
+                    style={showingPlaceholderBuffed ? { color: 'var(--text-muted)' } : {}}
                   />
                 </div>
               </label>
