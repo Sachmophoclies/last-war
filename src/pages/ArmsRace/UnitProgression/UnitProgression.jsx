@@ -230,8 +230,19 @@ export default function UnitProgression() {
   const calculateTimeUntil = (targetTime) => {
     if (!targetTime) return 0;
 
+    const trimmed = targetTime.trim();
+    let daysToAdd = 0;
+    let timeString = trimmed;
+
+    // Check for "1d HH:MM" format
+    const dayMatch = trimmed.match(/^(\d+)d\s+(.+)$/);
+    if (dayMatch) {
+      daysToAdd = parseInt(dayMatch[1], 10);
+      timeString = dayMatch[2];
+    }
+
     // Parse target time (HH:MM format)
-    const parts = targetTime.trim().split(':');
+    const parts = timeString.split(':');
     if (parts.length !== 2) return 0;
 
     const targetHour = parseInt(parts[0], 10);
@@ -242,12 +253,12 @@ export default function UnitProgression() {
     // Get current time
     const now = new Date();
 
-    // Create target date (today)
+    // Create target date (today + specified days)
     const target = new Date();
     target.setHours(targetHour, targetMinute, 0, 0);
+    target.setDate(target.getDate() + daysToAdd);
 
-    // If target time is in the past, it could be tomorrow or later
-    // Keep adding days until we find a future time
+    // If target time is in the past, keep adding days until we find a future time
     while (target <= now) {
       target.setDate(target.getDate() + 1);
     }
@@ -502,7 +513,7 @@ export default function UnitProgression() {
         </h2>
 
         <label className="field">
-          <span>Time of next Unit Progression (HH:MM) - Auto-calculated in your timezone</span>
+          <span>Time of next Unit Progression (HH:MM or 1d HH:MM) - Local Time</span>
           <div style={{ display: 'flex', gap: '8px', alignItems: 'center' }}>
             <input
               type="text"
@@ -624,6 +635,8 @@ export default function UnitProgression() {
                   value={barracksCapacityStrongest}
                   onChange={(e) => {
                     setBarracksCapacityStrongest(e.target.value);
+                    // Autofill barracks1 with the same value
+                    setBarracks1(e.target.value);
                     if (showingPlaceholderBuffed) setShowingPlaceholderBuffed(false);
                   }}
                   onKeyDown={handleKeyDown}
@@ -685,7 +698,7 @@ export default function UnitProgression() {
                   Maximum troops per barracks
                   <InfoIcon text="Enter the maximum capacity for each of your 4 barracks. This helps calculate when barracks will be full during training" />
                 </span>
-                <div className="grid2">
+                <div style={{ display: 'flex', flexDirection: 'column', gap: '8px' }}>
                   <input
                     type="number"
                     placeholder="Barracks 1 (strongest)"

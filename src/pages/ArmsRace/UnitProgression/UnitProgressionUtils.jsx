@@ -115,9 +115,16 @@ export function calculateTrainingStrategy(trueTimeSeconds, timePerUnitSeconds, p
   const adjustedGoal = Math.max(0, GOAL - startingPoints);
 
   // Parse barracks capacities (barracks 1, 2, 3, 4)
+  // null means no value provided (use time-based), 0 means explicitly set to 0
   const capacities = barracksCapacities.map(cap => {
+    if (cap === '' || cap === null || cap === undefined) {
+      return null; // No value provided
+    }
     const parsed = parseInt(cap, 10);
-    return isNaN(parsed) || parsed <= 0 ? 0 : parsed;
+    if (isNaN(parsed) || parsed < 0) {
+      return null; // Invalid value, treat as not provided
+    }
+    return parsed; // Valid value (including 0)
   });
 
   // Calculate units based on available time
@@ -125,8 +132,8 @@ export function calculateTrainingStrategy(trueTimeSeconds, timePerUnitSeconds, p
 
   // Cap each barracks at its capacity (if provided), otherwise use time-based calculation
   const barracks = capacities.map((capacity, index) => {
-    if (capacity > 0) {
-      // Cap at the barracks capacity
+    if (capacity !== null) {
+      // Capacity was explicitly provided (including 0)
       return Math.min(unitsBasedOnTime, capacity);
     }
     // No capacity limit specified, use time-based calculation
