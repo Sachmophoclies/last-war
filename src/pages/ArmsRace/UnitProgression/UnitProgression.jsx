@@ -77,13 +77,12 @@ function getNextUnitProgressionDate() {
 
       // Check if this time is in the future (in server time)
       if (eventDateServer > nowServerTime) {
-        // Convert server time to UTC
+        // Convert server time (UTC-2) to UTC, then to local time
+        // Add 2 hours to convert from UTC-2 to UTC
         const eventDateUTC = new Date(eventDateServer.getTime() + 2 * 3600000);
 
-        // Convert UTC to user's local timezone
-        const localDate = new Date(eventDateUTC.getTime() - now.getTimezoneOffset() * 60000);
-
-        return localDate;
+        // Date objects automatically display in local timezone, so just return it
+        return eventDateUTC;
       }
     }
   }
