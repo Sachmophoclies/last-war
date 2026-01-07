@@ -63,7 +63,7 @@ export default function FirstViewPopup({ pageKey, content }) {
       </div>
 
       <Modal.Footer>
-        <div className="modal-footer-actions">
+        <div className="modal-footer-item">
           <div className="modal-footer-checkbox" onClick={toggleDontShowAgain}>
             <input
               type="checkbox"
@@ -73,10 +73,12 @@ export default function FirstViewPopup({ pageKey, content }) {
             />
             <span>Do Not Show Again</span>
           </div>
+        </div>
+        <div className="modal-footer-separator"></div>
+        <div className="modal-footer-item">
           <button
             className="modal-button"
             onClick={handleAccept}
-            style={{ minWidth: '100px', flexShrink: 0 }}
           >
             Got it
           </button>

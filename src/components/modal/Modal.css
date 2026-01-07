@@ -93,25 +93,22 @@
 
 .modal-footer {
   padding-top: 0;
-}
-
-.modal-footer-actions {
   display: flex;
-  gap: 12px;
   align-items: center;
-  justify-content: space-between;
-  position: relative;
 }
 
-.modal-footer-actions::before {
-  content: '';
-  position: absolute;
-  left: 50%;
-  top: 4px;
-  bottom: 4px;
+.modal-footer-item {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.modal-footer-separator {
   width: 1px;
   background-color: var(--card-border);
-  transform: translateX(-50%);
+  align-self: stretch;
+  margin: 4px 0;
 }
 
 .modal-footer-checkbox {
@@ -132,11 +129,13 @@
   cursor: pointer;
   flex-shrink: 0;
   margin: 0;
-  vertical-align: middle;
+  width: 18px;
+  height: 18px;
 }
 
 .modal-footer-checkbox span {
   user-select: none;
-  line-height: 1;
-  display: inline-block;
+  line-height: 1.2;
+  display: flex;
+  align-items: center;
 }
