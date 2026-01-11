@@ -375,7 +375,7 @@ export default function SundayGathering() {
       <div className="card">
         <h2>About This Tool</h2>
         <p style={{ margin: 0, color: 'var(--text-muted)' }}>
-          This is a placeholder description for the Sunday Gathering tool. We will update this with detailed information about how to use this tool to optimize your gathering times for VS events.
+          Use this tool on Sundays to see what time to send your troops out to gather for VS.
         </p>
       </div>
 

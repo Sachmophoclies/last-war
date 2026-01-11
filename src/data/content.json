@@ -11,10 +11,11 @@
       "sections": [
         {
           "paragraphs": [
-            "Use this tool on Sundays to see what time to send your troops out to gather for VS."
+            "I wish I could just ask \"What's your level?\", but alas, there are too many variables. Science research, alliance buffs, etc... It's easier for you to enter numbers here."
           ]
         }
-      ]
+      ],
+      "doNotShowAgain": false
     },
     "armsRace": {
       "title": "Arms Race - Unit Progression Calculator",
