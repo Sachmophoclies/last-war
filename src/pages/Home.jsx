@@ -11,6 +11,7 @@ export default function Home() {
     {
       title: "Satch's Utilities",
       children: [
+        { title: "Sunday Gathering", path: "/sunday-gathering" },
         { title: "Arms Race", path: "/unit-progression" }
       ]
     },

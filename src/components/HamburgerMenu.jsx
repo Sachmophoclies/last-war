@@ -155,6 +155,15 @@ export default function HamburgerMenu() {
               <ul className="submenu">
                 <li>
                   <NavLink
+                    to="/sunday-gathering"
+                    onClick={close}
+                    className={({isActive}) => isActive ? "active" : ""}
+                  >
+                    Sunday Gathering
+                  </NavLink>
+                </li>
+                <li>
+                  <NavLink
                     to="/unit-progression"
                     onClick={close}
                     className={({isActive}) => isActive ? "active" : ""}

@@ -53,17 +53,17 @@ const UNIT_POINTS_PER_LEVEL = {
 function getNextUnitProgressionDate() {
   const now = new Date();
 
-  // Get current UTC time
-  const nowUTC = new Date(now.getTime() + now.getTimezoneOffset() * 60000);
+  // Get current time as UTC timestamp
+  const nowUTC = Date.now();
 
-  // Convert to server time (UTC-2)
-  const nowServerTime = new Date(nowUTC.getTime() - 2 * 3600000);
+  // Convert to server time (UTC-2) by subtracting 2 hours
+  const nowServerTime = nowUTC - 2 * 3600000;
 
   // Check upcoming times for the next 7 days
   for (let daysAhead = 0; daysAhead < 7; daysAhead++) {
     const checkDate = new Date(nowServerTime);
-    checkDate.setDate(checkDate.getDate() + daysAhead);
-    const dayOfWeek = checkDate.getDay();
+    checkDate.setUTCDate(checkDate.getUTCDate() + daysAhead);
+    const dayOfWeek = checkDate.getUTCDay();
 
     const times = UNIT_PROGRESSION_SCHEDULE[dayOfWeek];
     if (!times) continue;
@@ -71,14 +71,13 @@ function getNextUnitProgressionDate() {
     for (const timeStr of times) {
       const [hours, minutes] = timeStr.split(':').map(Number);
 
-      // Create the event time in server time (UTC-2)
+      // Create the event time in UTC (representing server time UTC-2)
       const eventDateServer = new Date(checkDate);
-      eventDateServer.setHours(hours, minutes, 0, 0);
+      eventDateServer.setUTCHours(hours, minutes, 0, 0);
 
-      // Check if this time is in the future (in server time)
-      if (eventDateServer > nowServerTime) {
-        // Convert server time (UTC-2) to UTC, then to local time
-        // Add 2 hours to convert from UTC-2 to UTC
+      // Check if this time is in the future (comparing timestamps)
+      if (eventDateServer.getTime() > nowServerTime) {
+        // Convert from UTC-2 representation to actual UTC by adding 2 hours
         const eventDateUTC = new Date(eventDateServer.getTime() + 2 * 3600000);
 
         // Date objects automatically display in local timezone, so just return it

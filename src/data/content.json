@@ -6,6 +6,16 @@
     "description": "This app is a pet project of mine. I don't like having to search around for guides, so I put them in one place. I will also be adding some utilities over time."
   },
   "satchsGuides": {
+    "sundayGathering": {
+      "title": "Sunday Gathering",
+      "sections": [
+        {
+          "paragraphs": [
+            "Use this tool on Sundays to see what time to send your troops out to gather for VS."
+          ]
+        }
+      ]
+    },
     "armsRace": {
       "title": "Arms Race - Unit Progression Calculator",
       "sections": [

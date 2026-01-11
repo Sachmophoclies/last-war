@@ -695,3 +695,22 @@ body:not([data-debug="true"]) .debug-only{
 .first-view-footer-label span{
   white-space: nowrap;
 }
+
+/* Sunday Gathering - Squad Inputs */
+.squad-inputs {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+@media (min-width: 375px) {
+  .squad-inputs {
+    flex-direction: row;
+    flex-wrap: wrap;
+    align-items: center;
+  }
+  .squad-inputs > * {
+    flex: 1;
+    min-width: 150px;
+  }
+}
