@@ -29,9 +29,11 @@ export default function FirstViewPopup({ pageKey, content }) {
   }, [pageKey]);
 
   const handleAccept = () => {
-    // Always save the current state of dontShowAgain when accepting
+    // If doNotShowAgain feature is disabled in content, always save as true
+    // Otherwise save the current state of the checkbox
     const cookieName = `satchsGuides.${pageKey}.dismissed`;
-    setCookie(cookieName, dontShowAgain.toString());
+    const shouldDismiss = content.doNotShowAgain === false ? true : dontShowAgain;
+    setCookie(cookieName, shouldDismiss.toString());
     setShow(false);
   };
 
@@ -63,18 +65,22 @@ export default function FirstViewPopup({ pageKey, content }) {
       </div>
 
       <Modal.Footer>
-        <div className="modal-footer-item">
-          <div className="modal-footer-checkbox" onClick={toggleDontShowAgain}>
-            <input
-              type="checkbox"
-              checked={dontShowAgain}
-              onChange={toggleDontShowAgain}
-              onClick={(e) => e.stopPropagation()}
-            />
-            <span>Do Not Show Again</span>
-          </div>
-        </div>
-        <div className="modal-footer-separator"></div>
+        {content.doNotShowAgain !== false && (
+          <>
+            <div className="modal-footer-item">
+              <div className="modal-footer-checkbox" onClick={toggleDontShowAgain}>
+                <input
+                  type="checkbox"
+                  checked={dontShowAgain}
+                  onChange={toggleDontShowAgain}
+                  onClick={(e) => e.stopPropagation()}
+                />
+                <span>Do Not Show Again</span>
+              </div>
+            </div>
+            <div className="modal-footer-separator"></div>
+          </>
+        )}
         <div className="modal-footer-item">
           <button
             className="modal-button"

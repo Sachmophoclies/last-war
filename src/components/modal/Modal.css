@@ -92,7 +92,8 @@
 }
 
 .modal-footer {
-  padding-top: 0;
+  margin: -16px -24px -24px -24px;
+  padding: 12px 24px;
   display: flex;
   align-items: center;
 }
@@ -114,6 +115,7 @@
 .modal-footer-checkbox {
   display: flex;
   align-items: center;
+  justify-content: center;
   gap: 8px;
   cursor: pointer;
   padding: 8px;
