@@ -158,6 +158,7 @@ function calculateSquadGathering(timeStr, level, type) {
 
 export default function SundayGathering() {
   const navigate = useNavigate();
+  const [imageExpanded, setImageExpanded] = useState(false);
 
   // Squad 1 state
   const [squad1Time, setSquad1Time] = useState(() => getCookie("squad1Time") || "");
@@ -374,9 +375,28 @@ export default function SundayGathering() {
       {/* Card 1: About This Tool */}
       <div className="card">
         <h2>About This Tool</h2>
-        <p style={{ margin: 0, color: 'var(--text-muted)' }}>
-          This is a placeholder description for the Sunday Gathering tool. We will update this with detailed information about how to use this tool to optimize your gathering times for VS events.
-        </p>
+        <div style={{ display: 'flex', gap: '16px', alignItems: 'flex-start' }}>
+          <p style={{ margin: 0, color: 'var(--text-muted)', flex: 1 }}>
+            {content.satchsGuides.sundayGathering.aboutThisTool?.description || 'Use this tool on Sundays to see what time to send your troops out to gather for VS.'}
+          </p>
+          {content.satchsGuides.sundayGathering.aboutThisTool?.image && (
+            <div style={{ flexShrink: 0 }}>
+              <img
+                src={content.satchsGuides.sundayGathering.aboutThisTool.image}
+                alt="Sunday Gathering Guide"
+                onClick={() => setImageExpanded(!imageExpanded)}
+                style={{
+                  width: imageExpanded ? '400px' : '120px',
+                  height: 'auto',
+                  borderRadius: '8px',
+                  cursor: 'pointer',
+                  transition: 'width 0.3s ease',
+                  border: '1px solid var(--card-border)'
+                }}
+              />
+            </div>
+          )}
+        </div>
       </div>
 
       {/* Card 2: Squad Times */}

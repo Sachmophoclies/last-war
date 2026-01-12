@@ -14,7 +14,11 @@
             "Use this tool on Sundays to see what time to send your troops out to gather for VS."
           ]
         }
-      ]
+      ],
+      "aboutThisTool": {
+        "description": "Click on a RSS tile, see how much time it takes, put the information down below. Do this for each of your squads.",
+        "image": "https://i.imgur.com/cPzrZW9.jpeg"
+      }
     },
     "armsRace": {
       "title": "Arms Race - Unit Progression Calculator",
