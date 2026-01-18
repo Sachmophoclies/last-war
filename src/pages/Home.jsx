@@ -45,7 +45,7 @@ export default function Home() {
               title: "HQ",
               children: [
                 { title: "1-30", path: "/guides/buildings/hq/1-30" },
-                { title: "25-30", path: "/guides/buildings/hq/25-30" }
+                { title: "25-35", path: "/guides/buildings/hq/25-30" }
               ]
             }
           ]

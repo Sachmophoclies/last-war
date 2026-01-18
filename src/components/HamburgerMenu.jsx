@@ -276,7 +276,7 @@ export default function HamburgerMenu() {
                             </li>
                             <li>
                               <NavLink to="/guides/buildings/hq/25-30" onClick={close} className={({isActive}) => isActive ? "active" : ""}>
-                                25-30
+                                25-35
                               </NavLink>
                             </li>
                           </ul>
