@@ -160,8 +160,23 @@ export default function UnitProgression() {
     return getCookie(key) || "";
   });
 
-  // These don't change based on buffed mode
-  const [unitLevel, setUnitLevel] = useState(() => getCookie("unitLevel") || "7");
+  // Per-barracks levels - load from cookies based on buffed mode, with cascading defaults
+  const [barracks1Level, setBarracks1Level] = useState(() => {
+    const key = isBuffed ? "barracks1Level_buffed" : "barracks1Level";
+    return getCookie(key) || "7";
+  });
+  const [barracks2Level, setBarracks2Level] = useState(() => {
+    const key = isBuffed ? "barracks2Level_buffed" : "barracks2Level";
+    return getCookie(key) || "7";
+  });
+  const [barracks3Level, setBarracks3Level] = useState(() => {
+    const key = isBuffed ? "barracks3Level_buffed" : "barracks3Level";
+    return getCookie(key) || "7";
+  });
+  const [barracks4Level, setBarracks4Level] = useState(() => {
+    const key = isBuffed ? "barracks4Level_buffed" : "barracks4Level";
+    return getCookie(key) || "7";
+  });
 
   // Starting Points - session storage only (resets when page is closed)
   const [startingPoints, setStartingPoints] = useState(() => {
@@ -193,10 +208,23 @@ export default function UnitProgression() {
     setCookie(key, totalTrainingTime);
   }, [totalTrainingTime, isBuffed]);
 
-  // Save unitLevel to cookie when it changes
+  // Save per-barracks levels to appropriate cookies based on buffed mode
   useEffect(() => {
-    setCookie("unitLevel", unitLevel);
-  }, [unitLevel]);
+    const key = isBuffed ? "barracks1Level_buffed" : "barracks1Level";
+    setCookie(key, barracks1Level);
+  }, [barracks1Level, isBuffed]);
+  useEffect(() => {
+    const key = isBuffed ? "barracks2Level_buffed" : "barracks2Level";
+    setCookie(key, barracks2Level);
+  }, [barracks2Level, isBuffed]);
+  useEffect(() => {
+    const key = isBuffed ? "barracks3Level_buffed" : "barracks3Level";
+    setCookie(key, barracks3Level);
+  }, [barracks3Level, isBuffed]);
+  useEffect(() => {
+    const key = isBuffed ? "barracks4Level_buffed" : "barracks4Level";
+    setCookie(key, barracks4Level);
+  }, [barracks4Level, isBuffed]);
 
   // Save barracks values to appropriate cookies based on buffed mode
   useEffect(() => {
@@ -379,15 +407,19 @@ export default function UnitProgression() {
     // Calculate exact time per unit (with sub-second precision)
     const timePerUnitSeconds = maxUnits > 0 ? maxTimeSeconds / maxUnits : 0;
 
-    // Look up points per unit based on unit level
-    const ppu = UNIT_POINTS_PER_LEVEL[parseInt(unitLevel, 10)] || UNIT_POINTS_PER_LEVEL[7];
+    // Look up points per unit for each barracks based on their levels
+    const barracksLevels = [barracks1Level, barracks2Level, barracks3Level, barracks4Level];
+    const pointsPerUnitByBarracks = barracksLevels.map(level => {
+      const lvl = parseInt(level, 10);
+      return UNIT_POINTS_PER_LEVEL[lvl] || UNIT_POINTS_PER_LEVEL[7];
+    });
 
     // Calculate true time and strategy
     const trueTimeSeconds = calculateTrueTime(totalTimeSeconds, timePerUnitSeconds);
     const strategy = calculateTrainingStrategy(
       trueTimeSeconds,
       timePerUnitSeconds,
-      ppu,
+      pointsPerUnitByBarracks,
       barracksCapacities,
       startingPointsValue
     );
@@ -398,7 +430,8 @@ export default function UnitProgression() {
         availableTime,
         barracksCapacityStrongest,
         totalTrainingTime,
-        pointsPerUnit: ppu,
+        pointsPerUnitByBarracks,
+        barracksLevels,
         barracksCapacities,
         totalTimeSeconds,
         timePerUnitSeconds,
@@ -444,6 +477,10 @@ export default function UnitProgression() {
       const buffedB2 = getCookie("barracks2_buffed");
       const buffedB3 = getCookie("barracks3_buffed");
       const buffedB4 = getCookie("barracks4_buffed");
+      const buffedB1Level = getCookie("barracks1Level_buffed");
+      const buffedB2Level = getCookie("barracks2Level_buffed");
+      const buffedB3Level = getCookie("barracks3Level_buffed");
+      const buffedB4Level = getCookie("barracks4Level_buffed");
 
       // If buffed cookies are empty, pre-populate with current (unbuffed) values
       if (!buffedCapacity && !buffedTime && !buffedB1 && !buffedB2 && !buffedB3 && !buffedB4) {
@@ -453,6 +490,10 @@ export default function UnitProgression() {
         setBarracks2(barracks2);
         setBarracks3(barracks3);
         setBarracks4(barracks4);
+        setBarracks1Level(barracks1Level);
+        setBarracks2Level(barracks2Level);
+        setBarracks3Level(barracks3Level);
+        setBarracks4Level(barracks4Level);
         setShowingPlaceholderBuffed(true); // Mark as showing placeholder values
       } else {
         // Load from buffed cookies
@@ -462,6 +503,10 @@ export default function UnitProgression() {
         setBarracks2(buffedB2 || "");
         setBarracks3(buffedB3 || "");
         setBarracks4(buffedB4 || "");
+        setBarracks1Level(buffedB1Level || "7");
+        setBarracks2Level(buffedB2Level || "7");
+        setBarracks3Level(buffedB3Level || "7");
+        setBarracks4Level(buffedB4Level || "7");
         setShowingPlaceholderBuffed(false);
       }
     } else {
@@ -472,6 +517,10 @@ export default function UnitProgression() {
       setBarracks2(getCookie("barracks2") || "");
       setBarracks3(getCookie("barracks3") || "");
       setBarracks4(getCookie("barracks4") || "");
+      setBarracks1Level(getCookie("barracks1Level") || "7");
+      setBarracks2Level(getCookie("barracks2Level") || "7");
+      setBarracks3Level(getCookie("barracks3Level") || "7");
+      setBarracks4Level(getCookie("barracks4Level") || "7");
       setShowingPlaceholderBuffed(false);
     }
 
@@ -672,76 +721,145 @@ export default function UnitProgression() {
           <ul className="list">
             <li>
               <label className="field">
-                <span>Unit Level</span>
-                <select
-                  value={unitLevel}
-                  onChange={(e) => setUnitLevel(e.target.value)}
-                >
-                  <option value="1">Level 1 (5 points)</option>
-                  <option value="2">Level 2 (6 points)</option>
-                  <option value="3">Level 3 (7 points)</option>
-                  <option value="4">Level 4 (13 points)</option>
-                  <option value="5">Level 5 (15 points)</option>
-                  <option value="6">Level 6 (19 points)</option>
-                  <option value="7">Level 7 (22 points)</option>
-                  <option value="8">Level 8 (25 points)</option>
-                  <option value="9">Level 9 (28 points)</option>
-                  <option value="10">Level 10 (31 points)</option>
-                </select>
-              </label>
-            </li>
-
-            <li>
-              <label className="field">
                 <span>
-                  Maximum troops per barracks
-                  <InfoIcon text="Enter the maximum capacity for each of your 4 barracks. This helps calculate when barracks will be full during training" />
+                  Maximum troops and level per barracks
+                  <InfoIcon text="Enter the maximum capacity and unit level for each of your 4 barracks. Levels cascade: changing a barracks level updates all lower barracks to match." />
                 </span>
                 <div style={{ display: 'flex', flexDirection: 'column', gap: '8px' }}>
-                  <input
-                    type="number"
-                    placeholder="Barracks 1 (strongest)"
-                    value={barracks1}
-                    onChange={(e) => {
-                      setBarracks1(e.target.value);
-                      if (showingPlaceholderBuffed) setShowingPlaceholderBuffed(false);
-                    }}
-                    onKeyDown={handleKeyDown}
-                    style={showingPlaceholderBuffed ? { color: 'var(--text-muted)' } : {}}
-                  />
-                  <input
-                    type="number"
-                    placeholder="Barracks 2"
-                    value={barracks2}
-                    onChange={(e) => {
-                      setBarracks2(e.target.value);
-                      if (showingPlaceholderBuffed) setShowingPlaceholderBuffed(false);
-                    }}
-                    onKeyDown={handleKeyDown}
-                    style={showingPlaceholderBuffed ? { color: 'var(--text-muted)' } : {}}
-                  />
-                  <input
-                    type="number"
-                    placeholder="Barracks 3"
-                    value={barracks3}
-                    onChange={(e) => {
-                      setBarracks3(e.target.value);
-                      if (showingPlaceholderBuffed) setShowingPlaceholderBuffed(false);
-                    }}
-                    onKeyDown={handleKeyDown}
-                    style={showingPlaceholderBuffed ? { color: 'var(--text-muted)' } : {}}
-                  />
-                  <input
-                    type="number"
-                    placeholder="Barracks 4"
-                    value={barracks4}
-                    onChange={(e) => {
-                      setBarracks4(e.target.value);
-                      if (showingPlaceholderBuffed) setShowingPlaceholderBuffed(false);
-                    }}
-                    onKeyDown={handleKeyDown}
-                    style={showingPlaceholderBuffed ? { color: 'var(--text-muted)' } : {}}
-                  />
+                  <div style={{ display: 'flex', gap: '8px', alignItems: 'center' }}>
+                    <input
+                      type="number"
+                      placeholder="Barracks 1 (strongest)"
+                      value={barracks1}
+                      onChange={(e) => {
+                        setBarracks1(e.target.value);
+                        if (showingPlaceholderBuffed) setShowingPlaceholderBuffed(false);
+                      }}
+                      onKeyDown={handleKeyDown}
+                      style={{ flex: '0 0 50%', ...(showingPlaceholderBuffed ? { color: 'var(--text-muted)' } : {}) }}
+                    />
+                    <select
+                      value={barracks1Level}
+                      onChange={(e) => {
+                        const newLevel = e.target.value;
+                        setBarracks1Level(newLevel);
+                        // Cascade to all lower barracks
+                        setBarracks2Level(newLevel);
+                        setBarracks3Level(newLevel);
+                        setBarracks4Level(newLevel);
+                      }}
+                      style={{ flex: 1 }}
+                    >
+                      <option value="1">Lv 1 (5 pts)</option>
+                      <option value="2">Lv 2 (6 pts)</option>
+                      <option value="3">Lv 3 (7 pts)</option>
+                      <option value="4">Lv 4 (13 pts)</option>
+                      <option value="5">Lv 5 (15 pts)</option>
+                      <option value="6">Lv 6 (19 pts)</option>
+                      <option value="7">Lv 7 (22 pts)</option>
+                      <option value="8">Lv 8 (25 pts)</option>
+                      <option value="9">Lv 9 (28 pts)</option>
+                      <option value="10">Lv 10 (31 pts)</option>
+                    </select>
+                  </div>
+                  <div style={{ display: 'flex', gap: '8px', alignItems: 'center' }}>
+                    <input
+                      type="number"
+                      placeholder="Barracks 2"
+                      value={barracks2}
+                      onChange={(e) => {
+                        setBarracks2(e.target.value);
+                        if (showingPlaceholderBuffed) setShowingPlaceholderBuffed(false);
+                      }}
+                      onKeyDown={handleKeyDown}
+                      style={{ flex: '0 0 50%', ...(showingPlaceholderBuffed ? { color: 'var(--text-muted)' } : {}) }}
+                    />
+                    <select
+                      value={barracks2Level}
+                      onChange={(e) => {
+                        const newLevel = e.target.value;
+                        setBarracks2Level(newLevel);
+                        // Cascade to lower barracks
+                        setBarracks3Level(newLevel);
+                        setBarracks4Level(newLevel);
+                      }}
+                      style={{ flex: 1 }}
+                    >
+                      <option value="1">Lv 1 (5 pts)</option>
+                      <option value="2">Lv 2 (6 pts)</option>
+                      <option value="3">Lv 3 (7 pts)</option>
+                      <option value="4">Lv 4 (13 pts)</option>
+                      <option value="5">Lv 5 (15 pts)</option>
+                      <option value="6">Lv 6 (19 pts)</option>
+                      <option value="7">Lv 7 (22 pts)</option>
+                      <option value="8">Lv 8 (25 pts)</option>
+                      <option value="9">Lv 9 (28 pts)</option>
+                      <option value="10">Lv 10 (31 pts)</option>
+                    </select>
+                  </div>
+                  <div style={{ display: 'flex', gap: '8px', alignItems: 'center' }}>
+                    <input
+                      type="number"
+                      placeholder="Barracks 3"
+                      value={barracks3}
+                      onChange={(e) => {
+                        setBarracks3(e.target.value);
+                        if (showingPlaceholderBuffed) setShowingPlaceholderBuffed(false);
+                      }}
+                      onKeyDown={handleKeyDown}
+                      style={{ flex: '0 0 50%', ...(showingPlaceholderBuffed ? { color: 'var(--text-muted)' } : {}) }}
+                    />
+                    <select
+                      value={barracks3Level}
+                      onChange={(e) => {
+                        const newLevel = e.target.value;
+                        setBarracks3Level(newLevel);
+                        // Cascade to lower barracks
+                        setBarracks4Level(newLevel);
+                      }}
+                      style={{ flex: 1 }}
+                    >
+                      <option value="1">Lv 1 (5 pts)</option>
+                      <option value="2">Lv 2 (6 pts)</option>
+                      <option value="3">Lv 3 (7 pts)</option>
+                      <option value="4">Lv 4 (13 pts)</option>
+                      <option value="5">Lv 5 (15 pts)</option>
+                      <option value="6">Lv 6 (19 pts)</option>
+                      <option value="7">Lv 7 (22 pts)</option>
+                      <option value="8">Lv 8 (25 pts)</option>
+                      <option value="9">Lv 9 (28 pts)</option>
+                      <option value="10">Lv 10 (31 pts)</option>
+                    </select>
+                  </div>
+                  <div style={{ display: 'flex', gap: '8px', alignItems: 'center' }}>
+                    <input
+                      type="number"
+                      placeholder="Barracks 4"
+                      value={barracks4}
+                      onChange={(e) => {
+                        setBarracks4(e.target.value);
+                        if (showingPlaceholderBuffed) setShowingPlaceholderBuffed(false);
+                      }}
+                      onKeyDown={handleKeyDown}
+                      style={{ flex: '0 0 50%', ...(showingPlaceholderBuffed ? { color: 'var(--text-muted)' } : {}) }}
+                    />
+                    <select
+                      value={barracks4Level}
+                      onChange={(e) => setBarracks4Level(e.target.value)}
+                      style={{ flex: 1 }}
+                    >
+                      <option value="1">Lv 1 (5 pts)</option>
+                      <option value="2">Lv 2 (6 pts)</option>
+                      <option value="3">Lv 3 (7 pts)</option>
+                      <option value="4">Lv 4 (13 pts)</option>
+                      <option value="5">Lv 5 (15 pts)</option>
+                      <option value="6">Lv 6 (19 pts)</option>
+                      <option value="7">Lv 7 (22 pts)</option>
+                      <option value="8">Lv 8 (25 pts)</option>
+                      <option value="9">Lv 9 (28 pts)</option>
+                      <option value="10">Lv 10 (31 pts)</option>
+                    </select>
+                  </div>
                 </div>
               </label>
             </li>

@@ -94,13 +94,21 @@ export const PPSU = 10; // Points per minute of speed up
  * Each barracks trains to its full capacity
  * @param {number} trueTimeSeconds - The true time in seconds (rounded up to nearest unit time)
  * @param {number} timePerUnitSeconds - Time to train one unit in seconds
- * @param {number} pointsPerUnit - Points earned per unit trained
+ * @param {number[]} pointsPerUnitByBarracks - Points earned per unit for each barracks [b1, b2, b3, b4]
  * @param {number[]} barracksCapacities - Array of max capacities for each barracks (optional)
  * @param {number} startingPoints - Points already earned (default 0)
  * @returns {Object} Training strategy with units to train normally and units to speed up
  */
-export function calculateTrainingStrategy(trueTimeSeconds, timePerUnitSeconds, pointsPerUnit, barracksCapacities = [], startingPoints = 0) {
-  if (timePerUnitSeconds <= 0 || pointsPerUnit <= 0) {
+export function calculateTrainingStrategy(trueTimeSeconds, timePerUnitSeconds, pointsPerUnitByBarracks, barracksCapacities = [], startingPoints = 0) {
+  // Handle both legacy single value and new array format
+  const pointsArray = Array.isArray(pointsPerUnitByBarracks)
+    ? pointsPerUnitByBarracks
+    : [pointsPerUnitByBarracks, pointsPerUnitByBarracks, pointsPerUnitByBarracks, pointsPerUnitByBarracks];
+
+  // Validate we have valid points for at least one barracks
+  const hasValidPoints = pointsArray.some(p => p > 0);
+
+  if (timePerUnitSeconds <= 0 || !hasValidPoints) {
     return {
       totalUnits: 0,
       barracks: [0, 0, 0, 0],
@@ -140,11 +148,14 @@ export function calculateTrainingStrategy(trueTimeSeconds, timePerUnitSeconds, p
     return unitsBasedOnTime;
   });
 
-  // Calculate points from barracks 2-4 normal training
-  const pointsFromBarracks234 = (barracks[1] + barracks[2] + barracks[3]) * pointsPerUnit;
+  // Calculate points from barracks 2-4 normal training (each with their own level)
+  const pointsFromBarracks234 =
+    (barracks[1] * pointsArray[1]) +
+    (barracks[2] * pointsArray[2]) +
+    (barracks[3] * pointsArray[3]);
 
   // Calculate points from barracks 1 normal training
-  const pointsFromBarracks1Normal = barracks[0] * pointsPerUnit;
+  const pointsFromBarracks1Normal = barracks[0] * pointsArray[0];
 
   // Total points from normal training
   const totalNormalPoints = pointsFromBarracks1Normal + pointsFromBarracks234;
@@ -170,10 +181,10 @@ export function calculateTrainingStrategy(trueTimeSeconds, timePerUnitSeconds, p
 
   // Need to use speed-ups in barracks 1 to make up the deficit
   // When we speed up training, we get:
-  // - Points from training the unit (pointsPerUnit)
+  // - Points from training the unit (using barracks 1's level)
   // - Points from the speed up (PPSU * minutes)
   const timePerUnitMinutes = timePerUnitSeconds / 60;
-  const pointsPerSpeedUpUnit = pointsPerUnit + (PPSU * timePerUnitMinutes);
+  const pointsPerSpeedUpUnit = pointsArray[0] + (PPSU * timePerUnitMinutes);
 
   // Calculate how many units need to be sped up to cover the deficit
   const speedUpUnitsNeeded = Math.ceil(deficit / pointsPerSpeedUpUnit);

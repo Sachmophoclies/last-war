@@ -9,13 +9,6 @@ export default function Home() {
   // Define menu structure
   const menuStructure = [
     {
-      title: "Satch's Utilities",
-      children: [
-        { title: "Sunday Gathering", path: "/sunday-gathering" },
-        { title: "Arms Race", path: "/unit-progression" }
-      ]
-    },
-    {
       title: "External Guides",
       children: [
         {

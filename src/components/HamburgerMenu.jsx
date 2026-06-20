@@ -22,7 +22,6 @@ export default function HamburgerMenu() {
   const [open, setOpen] = useState(false);
   const [darkMode, setDarkMode] = useState(true);
   const [problemModalOpen, setProblemModalOpen] = useState(false);
-  const [utilitiesOpen, setUtilitiesOpen] = useState(false);
   const [guidesOpen, setGuidesOpen] = useState(false);
   const [squadOpen, setSquadOpen] = useState(false);
   const [skillsOpen, setSkillsOpen] = useState(false);
@@ -144,42 +143,10 @@ export default function HamburgerMenu() {
         <ul className="menu">
           <li>
             <button
-              className={`menu-toggle ${utilitiesOpen ? 'open' : ''}`}
-              onClick={() => setUtilitiesOpen(!utilitiesOpen)}
-              aria-expanded={utilitiesOpen}
-              ref={firstMenuItemRef}
-            >
-              Satch's Utilities <span className="arrow">{utilitiesOpen ? '▼' : '▶'}</span>
-            </button>
-            {utilitiesOpen && (
-              <ul className="submenu">
-                <li>
-                  <NavLink
-                    to="/sunday-gathering"
-                    onClick={close}
-                    className={({isActive}) => isActive ? "active" : ""}
-                  >
-                    Sunday Gathering
-                  </NavLink>
-                </li>
-                <li>
-                  <NavLink
-                    to="/unit-progression"
-                    onClick={close}
-                    className={({isActive}) => isActive ? "active" : ""}
-                  >
-                    Arms Race
-                  </NavLink>
-                </li>
-              </ul>
-            )}
-          </li>
-
-          <li>
-            <button
               className={`menu-toggle ${guidesOpen ? 'open' : ''}`}
               onClick={() => setGuidesOpen(!guidesOpen)}
               aria-expanded={guidesOpen}
+              ref={firstMenuItemRef}
             >
               External Guides <span className="arrow">{guidesOpen ? '▼' : '▶'}</span>
             </button>
