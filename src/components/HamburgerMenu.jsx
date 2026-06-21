@@ -22,7 +22,6 @@ export default function HamburgerMenu() {
   const [open, setOpen] = useState(false);
   const [darkMode, setDarkMode] = useState(true);
   const [problemModalOpen, setProblemModalOpen] = useState(false);
-  const [guidesOpen, setGuidesOpen] = useState(false);
   const [squadOpen, setSquadOpen] = useState(false);
   const [skillsOpen, setSkillsOpen] = useState(false);
   const [equipmentOpen, setEquipmentOpen] = useState(false);
@@ -143,138 +142,38 @@ export default function HamburgerMenu() {
         <ul className="menu">
           <li>
             <button
-              className={`menu-toggle ${guidesOpen ? 'open' : ''}`}
-              onClick={() => setGuidesOpen(!guidesOpen)}
-              aria-expanded={guidesOpen}
+              className={`menu-toggle ${squadOpen ? 'open' : ''}`}
+              onClick={() => setSquadOpen(!squadOpen)}
+              aria-expanded={squadOpen}
               ref={firstMenuItemRef}
             >
-              External Guides <span className="arrow">{guidesOpen ? '▼' : '▶'}</span>
+              Squad <span className="arrow">{squadOpen ? '▼' : '▶'}</span>
             </button>
-            {guidesOpen && (
+            {squadOpen && (
               <ul className="submenu">
                 <li>
-                  <button
-                    className={`menu-toggle ${squadOpen ? 'open' : ''}`}
-                    onClick={() => setSquadOpen(!squadOpen)}
-                    aria-expanded={squadOpen}
-                  >
-                    Squad <span className="arrow">{squadOpen ? '▼' : '▶'}</span>
-                  </button>
-                  {squadOpen && (
-                    <ul className="submenu">
-                      <li>
-                        <NavLink to="/guides/squad/basic-setup" onClick={close} className={({isActive}) => isActive ? "active" : ""}>
-                          Hero Guide
-                        </NavLink>
-                      </li>
-                      <li>
-                        <button
-                          className={`menu-toggle ${skillsOpen ? 'open' : ''}`}
-                          onClick={() => setSkillsOpen(!skillsOpen)}
-                          aria-expanded={skillsOpen}
-                        >
-                          Skills <span className="arrow">{skillsOpen ? '▼' : '▶'}</span>
-                        </button>
-                        {skillsOpen && (
-                          <ul className="submenu">
-                            <li>
-                              <NavLink to="/guides/squad/skills/tank-heroes" onClick={close} className={({isActive}) => isActive ? "active" : ""}>
-                                Tank Heroes
-                              </NavLink>
-                            </li>
-                            <li>
-                              <NavLink to="/guides/squad/skills/air-heroes" onClick={close} className={({isActive}) => isActive ? "active" : ""}>
-                                Air Heroes
-                              </NavLink>
-                            </li>
-                          </ul>
-                        )}
-                      </li>
-                      <li>
-                        <button
-                          className={`menu-toggle ${equipmentOpen ? 'open' : ''}`}
-                          onClick={() => setEquipmentOpen(!equipmentOpen)}
-                          aria-expanded={equipmentOpen}
-                        >
-                          Equipment <span className="arrow">{equipmentOpen ? '▼' : '▶'}</span>
-                        </button>
-                        {equipmentOpen && (
-                          <ul className="submenu">
-                            <li>
-                              <NavLink to="/guides/squad/equipment/leveling-guide" onClick={close} className={({isActive}) => isActive ? "active" : ""}>
-                                Leveling Guide
-                              </NavLink>
-                            </li>
-                            <li>
-                              <NavLink to="/guides/squad/equipment/resource-cost" onClick={close} className={({isActive}) => isActive ? "active" : ""}>
-                                Resource Cost
-                              </NavLink>
-                            </li>
-                          </ul>
-                        )}
-                      </li>
-                    </ul>
-                  )}
-                </li>
-                <li>
-                  <button
-                    className={`menu-toggle ${buildingsOpen ? 'open' : ''}`}
-                    onClick={() => setBuildingsOpen(!buildingsOpen)}
-                    aria-expanded={buildingsOpen}
-                  >
-                    Buildings <span className="arrow">{buildingsOpen ? '▼' : '▶'}</span>
-                  </button>
-                  {buildingsOpen && (
-                    <ul className="submenu">
-                      <li>
-                        <button
-                          className={`menu-toggle ${hqOpen ? 'open' : ''}`}
-                          onClick={() => setHqOpen(!hqOpen)}
-                          aria-expanded={hqOpen}
-                        >
-                          HQ <span className="arrow">{hqOpen ? '▼' : '▶'}</span>
-                        </button>
-                        {hqOpen && (
-                          <ul className="submenu">
-                            <li>
-                              <NavLink to="/guides/buildings/hq/1-30" onClick={close} className={({isActive}) => isActive ? "active" : ""}>
-                                1-30
-                              </NavLink>
-                            </li>
-                            <li>
-                              <NavLink to="/guides/buildings/hq/25-30" onClick={close} className={({isActive}) => isActive ? "active" : ""}>
-                                25-35
-                              </NavLink>
-                            </li>
-                          </ul>
-                        )}
-                      </li>
-                    </ul>
-                  )}
-                </li>
-                <li>
-                  <NavLink to="/guides/store" onClick={close} className={({isActive}) => isActive ? "active" : ""}>
-                    Store
+                  <NavLink to="/guides/squad/basic-setup" onClick={close} className={({isActive}) => isActive ? "active" : ""}>
+                    Hero Guide
                   </NavLink>
                 </li>
                 <li>
                   <button
-                    className={`menu-toggle ${eventsOpen ? 'open' : ''}`}
-                    onClick={() => setEventsOpen(!eventsOpen)}
-                    aria-expanded={eventsOpen}
+                    className={`menu-toggle ${skillsOpen ? 'open' : ''}`}
+                    onClick={() => setSkillsOpen(!skillsOpen)}
+                    aria-expanded={skillsOpen}
                   >
-                    Events <span className="arrow">{eventsOpen ? '▼' : '▶'}</span>
+                    Skills <span className="arrow">{skillsOpen ? '▼' : '▶'}</span>
                   </button>
-                  {eventsOpen && (
+                  {skillsOpen && (
                     <ul className="submenu">
                       <li>
-                        <NavLink to="/guides/events/wanted-boss" onClick={close} className={({isActive}) => isActive ? "active" : ""}>
-                          Wanted Boss
+                        <NavLink to="/guides/squad/skills/tank-heroes" onClick={close} className={({isActive}) => isActive ? "active" : ""}>
+                          Tank Heroes
                         </NavLink>
                       </li>
                       <li>
-                        <NavLink to="/guides/events/desert-storm" onClick={close} className={({isActive}) => isActive ? "active" : ""}>
-                          Desert Storm
+                        <NavLink to="/guides/squad/skills/air-heroes" onClick={close} className={({isActive}) => isActive ? "active" : ""}>
+                          Air Heroes
                         </NavLink>
                       </li>
                     </ul>
@@ -282,46 +181,133 @@ export default function HamburgerMenu() {
                 </li>
                 <li>
                   <button
-                    className={`menu-toggle ${seasonsOpen ? 'open' : ''}`}
-                    onClick={() => setSeasonsOpen(!seasonsOpen)}
-                    aria-expanded={seasonsOpen}
+                    className={`menu-toggle ${equipmentOpen ? 'open' : ''}`}
+                    onClick={() => setEquipmentOpen(!equipmentOpen)}
+                    aria-expanded={equipmentOpen}
                   >
-                    Seasons <span className="arrow">{seasonsOpen ? '▼' : '▶'}</span>
+                    Equipment <span className="arrow">{equipmentOpen ? '▼' : '▶'}</span>
                   </button>
-                  {seasonsOpen && (
+                  {equipmentOpen && (
                     <ul className="submenu">
                       <li>
-                        <NavLink to="/guides/seasons/1" onClick={close} className={({isActive}) => isActive ? "active" : ""}>
-                          Season 1
+                        <NavLink to="/guides/squad/equipment/leveling-guide" onClick={close} className={({isActive}) => isActive ? "active" : ""}>
+                          Leveling Guide
                         </NavLink>
                       </li>
                       <li>
-                        <NavLink to="/guides/seasons/2" onClick={close} className={({isActive}) => isActive ? "active" : ""}>
-                          Season 2
-                        </NavLink>
-                      </li>
-                      <li>
-                        <NavLink to="/guides/seasons/3" onClick={close} className={({isActive}) => isActive ? "active" : ""}>
-                          Season 3
-                        </NavLink>
-                      </li>
-                      <li>
-                        <NavLink to="/guides/seasons/4" onClick={close} className={({isActive}) => isActive ? "active" : ""}>
-                          Season 4
-                        </NavLink>
-                      </li>
-                      <li>
-                        <NavLink to="/guides/seasons/5" onClick={close} className={({isActive}) => isActive ? "active" : ""}>
-                          Season 5
-                        </NavLink>
-                      </li>
-                      <li>
-                        <NavLink to="/guides/seasons/6" onClick={close} className={({isActive}) => isActive ? "active" : ""}>
-                          Season 6
+                        <NavLink to="/guides/squad/equipment/resource-cost" onClick={close} className={({isActive}) => isActive ? "active" : ""}>
+                          Resource Cost
                         </NavLink>
                       </li>
                     </ul>
                   )}
+                </li>
+              </ul>
+            )}
+          </li>
+          <li>
+            <button
+              className={`menu-toggle ${buildingsOpen ? 'open' : ''}`}
+              onClick={() => setBuildingsOpen(!buildingsOpen)}
+              aria-expanded={buildingsOpen}
+            >
+              Buildings <span className="arrow">{buildingsOpen ? '▼' : '▶'}</span>
+            </button>
+            {buildingsOpen && (
+              <ul className="submenu">
+                <li>
+                  <button
+                    className={`menu-toggle ${hqOpen ? 'open' : ''}`}
+                    onClick={() => setHqOpen(!hqOpen)}
+                    aria-expanded={hqOpen}
+                  >
+                    HQ <span className="arrow">{hqOpen ? '▼' : '▶'}</span>
+                  </button>
+                  {hqOpen && (
+                    <ul className="submenu">
+                      <li>
+                        <NavLink to="/guides/buildings/hq/1-30" onClick={close} className={({isActive}) => isActive ? "active" : ""}>
+                          1-30
+                        </NavLink>
+                      </li>
+                      <li>
+                        <NavLink to="/guides/buildings/hq/25-30" onClick={close} className={({isActive}) => isActive ? "active" : ""}>
+                          25-35
+                        </NavLink>
+                      </li>
+                    </ul>
+                  )}
+                </li>
+              </ul>
+            )}
+          </li>
+          <li>
+            <NavLink to="/guides/store" onClick={close} className={({isActive}) => isActive ? "active" : ""}>
+              Store
+            </NavLink>
+          </li>
+          <li>
+            <button
+              className={`menu-toggle ${eventsOpen ? 'open' : ''}`}
+              onClick={() => setEventsOpen(!eventsOpen)}
+              aria-expanded={eventsOpen}
+            >
+              Events <span className="arrow">{eventsOpen ? '▼' : '▶'}</span>
+            </button>
+            {eventsOpen && (
+              <ul className="submenu">
+                <li>
+                  <NavLink to="/guides/events/wanted-boss" onClick={close} className={({isActive}) => isActive ? "active" : ""}>
+                    Wanted Boss
+                  </NavLink>
+                </li>
+                <li>
+                  <NavLink to="/guides/events/desert-storm" onClick={close} className={({isActive}) => isActive ? "active" : ""}>
+                    Desert Storm
+                  </NavLink>
+                </li>
+              </ul>
+            )}
+          </li>
+          <li>
+            <button
+              className={`menu-toggle ${seasonsOpen ? 'open' : ''}`}
+              onClick={() => setSeasonsOpen(!seasonsOpen)}
+              aria-expanded={seasonsOpen}
+            >
+              Season <span className="arrow">{seasonsOpen ? '▼' : '▶'}</span>
+            </button>
+            {seasonsOpen && (
+              <ul className="submenu">
+                <li>
+                  <NavLink to="/guides/seasons/1" onClick={close} className={({isActive}) => isActive ? "active" : ""}>
+                    Season 1
+                  </NavLink>
+                </li>
+                <li>
+                  <NavLink to="/guides/seasons/2" onClick={close} className={({isActive}) => isActive ? "active" : ""}>
+                    Season 2
+                  </NavLink>
+                </li>
+                <li>
+                  <NavLink to="/guides/seasons/3" onClick={close} className={({isActive}) => isActive ? "active" : ""}>
+                    Season 3
+                  </NavLink>
+                </li>
+                <li>
+                  <NavLink to="/guides/seasons/4" onClick={close} className={({isActive}) => isActive ? "active" : ""}>
+                    Season 4
+                  </NavLink>
+                </li>
+                <li>
+                  <NavLink to="/guides/seasons/5" onClick={close} className={({isActive}) => isActive ? "active" : ""}>
+                    Season 5
+                  </NavLink>
+                </li>
+                <li>
+                  <NavLink to="/guides/seasons/6" onClick={close} className={({isActive}) => isActive ? "active" : ""}>
+                    Season 6
+                  </NavLink>
                 </li>
               </ul>
             )}
