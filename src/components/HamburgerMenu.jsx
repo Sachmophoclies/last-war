@@ -2,8 +2,7 @@ import { useState, useEffect, useRef } from "react";
 import { NavLink } from "react-router-dom";
 import versionData from "../data/version.json";
 import ProblemModal from "./ProblemModal";
-
-const PACK_URL = "https://www.lastwar.com/"; // official site :contentReference[oaicite:1]{index=1}
+import { NAV_TREE } from "../data/navigation.js";
 
 // Cookie helper functions
 function getCookie(name) {
@@ -18,21 +17,81 @@ function setCookie(name, value, days = 365) {
   document.cookie = `${name}=${encodeURIComponent(value)}; expires=${expires}; path=/`;
 }
 
+function NavItems({ nodes, keyPrefix = "", close, openNodes, toggle, firstRef }) {
+  return nodes
+    .filter(node => !node.homeOnly)
+    .map((node, i) => {
+      const key = keyPrefix ? `${keyPrefix}.${i}` : `${i}`;
+      const isOpen = openNodes.has(key);
+
+      if (node.href) {
+        return (
+          <li key={key}>
+            <a href={node.href} target="_blank" rel="noreferrer" onClick={close}>
+              {node.title}
+            </a>
+          </li>
+        );
+      }
+
+      if (node.path) {
+        return (
+          <li key={key}>
+            <NavLink
+              to={node.path}
+              onClick={close}
+              className={({ isActive }) => isActive ? "active" : ""}
+              ref={key === "0" ? firstRef : undefined}
+            >
+              {node.title}
+            </NavLink>
+          </li>
+        );
+      }
+
+      // Branch node
+      return (
+        <li key={key}>
+          <button
+            className={`menu-toggle ${isOpen ? "open" : ""}`}
+            onClick={() => toggle(key)}
+            aria-expanded={isOpen}
+            ref={key === "0" ? firstRef : undefined}
+          >
+            {node.title} <span className="arrow">{isOpen ? "▼" : "▶"}</span>
+          </button>
+          {isOpen && (
+            <ul className="submenu">
+              <NavItems
+                nodes={node.children}
+                keyPrefix={key}
+                close={close}
+                openNodes={openNodes}
+                toggle={toggle}
+                firstRef={undefined}
+              />
+            </ul>
+          )}
+        </li>
+      );
+    });
+}
+
 export default function HamburgerMenu() {
   const [open, setOpen] = useState(false);
   const [darkMode, setDarkMode] = useState(true);
   const [problemModalOpen, setProblemModalOpen] = useState(false);
-  const [squadOpen, setSquadOpen] = useState(false);
-  const [skillsOpen, setSkillsOpen] = useState(false);
-  const [equipmentOpen, setEquipmentOpen] = useState(false);
-  const [buildingsOpen, setBuildingsOpen] = useState(false);
-  const [hqOpen, setHqOpen] = useState(false);
-  const [eventsOpen, setEventsOpen] = useState(false);
-  const [seasonsOpen, setSeasonsOpen] = useState(false);
-  const [aboutOpen, setAboutOpen] = useState(false);
+  const [openNodes, setOpenNodes] = useState(new Set());
   const close = () => setOpen(false);
   const drawerRef = useRef(null);
   const firstMenuItemRef = useRef(null);
+
+  const toggle = (key) =>
+    setOpenNodes(prev => {
+      const next = new Set(prev);
+      next.has(key) ? next.delete(key) : next.add(key);
+      return next;
+    });
 
   // Load theme from localStorage on mount
   useEffect(() => {
@@ -41,12 +100,10 @@ export default function HamburgerMenu() {
       setDarkMode(false);
       document.body.removeAttribute("data-theme");
     } else {
-      // Default to dark mode if no preference or if dark is saved
       setDarkMode(true);
       document.body.setAttribute("data-theme", "dark");
     }
   }, []);
-
 
   // Toggle dark mode
   const toggleDarkMode = () => {
@@ -61,7 +118,6 @@ export default function HamburgerMenu() {
       localStorage.setItem("theme", "light");
     }
   };
-
 
   // Handle Escape key to close menu
   useEffect(() => {
@@ -99,13 +155,11 @@ export default function HamburgerMenu() {
       const lastElement = focusableElements[focusableElements.length - 1];
 
       if (e.shiftKey) {
-        // Shift + Tab: if focus is on first element, move to last
         if (document.activeElement === firstElement) {
           e.preventDefault();
           lastElement.focus();
         }
       } else {
-        // Tab: if focus is on last element, move to first
         if (document.activeElement === lastElement) {
           e.preventDefault();
           firstElement.focus();
@@ -140,212 +194,13 @@ export default function HamburgerMenu() {
         </div>
 
         <ul className="menu">
-          <li>
-            <button
-              className={`menu-toggle ${squadOpen ? 'open' : ''}`}
-              onClick={() => setSquadOpen(!squadOpen)}
-              aria-expanded={squadOpen}
-              ref={firstMenuItemRef}
-            >
-              Squad <span className="arrow">{squadOpen ? '▼' : '▶'}</span>
-            </button>
-            {squadOpen && (
-              <ul className="submenu">
-                <li>
-                  <NavLink to="/guides/squad/basic-setup" onClick={close} className={({isActive}) => isActive ? "active" : ""}>
-                    Hero Guide
-                  </NavLink>
-                </li>
-                <li>
-                  <button
-                    className={`menu-toggle ${skillsOpen ? 'open' : ''}`}
-                    onClick={() => setSkillsOpen(!skillsOpen)}
-                    aria-expanded={skillsOpen}
-                  >
-                    Skills <span className="arrow">{skillsOpen ? '▼' : '▶'}</span>
-                  </button>
-                  {skillsOpen && (
-                    <ul className="submenu">
-                      <li>
-                        <NavLink to="/guides/squad/skills/tank-heroes" onClick={close} className={({isActive}) => isActive ? "active" : ""}>
-                          Tank Heroes
-                        </NavLink>
-                      </li>
-                      <li>
-                        <NavLink to="/guides/squad/skills/air-heroes" onClick={close} className={({isActive}) => isActive ? "active" : ""}>
-                          Air Heroes
-                        </NavLink>
-                      </li>
-                    </ul>
-                  )}
-                </li>
-                <li>
-                  <button
-                    className={`menu-toggle ${equipmentOpen ? 'open' : ''}`}
-                    onClick={() => setEquipmentOpen(!equipmentOpen)}
-                    aria-expanded={equipmentOpen}
-                  >
-                    Equipment <span className="arrow">{equipmentOpen ? '▼' : '▶'}</span>
-                  </button>
-                  {equipmentOpen && (
-                    <ul className="submenu">
-                      <li>
-                        <NavLink to="/guides/squad/equipment/leveling-guide" onClick={close} className={({isActive}) => isActive ? "active" : ""}>
-                          Leveling Guide
-                        </NavLink>
-                      </li>
-                      <li>
-                        <NavLink to="/guides/squad/equipment/resource-cost" onClick={close} className={({isActive}) => isActive ? "active" : ""}>
-                          Resource Cost
-                        </NavLink>
-                      </li>
-                    </ul>
-                  )}
-                </li>
-              </ul>
-            )}
-          </li>
-          <li>
-            <button
-              className={`menu-toggle ${buildingsOpen ? 'open' : ''}`}
-              onClick={() => setBuildingsOpen(!buildingsOpen)}
-              aria-expanded={buildingsOpen}
-            >
-              Buildings <span className="arrow">{buildingsOpen ? '▼' : '▶'}</span>
-            </button>
-            {buildingsOpen && (
-              <ul className="submenu">
-                <li>
-                  <button
-                    className={`menu-toggle ${hqOpen ? 'open' : ''}`}
-                    onClick={() => setHqOpen(!hqOpen)}
-                    aria-expanded={hqOpen}
-                  >
-                    HQ <span className="arrow">{hqOpen ? '▼' : '▶'}</span>
-                  </button>
-                  {hqOpen && (
-                    <ul className="submenu">
-                      <li>
-                        <NavLink to="/guides/buildings/hq/1-30" onClick={close} className={({isActive}) => isActive ? "active" : ""}>
-                          1-30
-                        </NavLink>
-                      </li>
-                      <li>
-                        <NavLink to="/guides/buildings/hq/25-30" onClick={close} className={({isActive}) => isActive ? "active" : ""}>
-                          25-35
-                        </NavLink>
-                      </li>
-                    </ul>
-                  )}
-                </li>
-              </ul>
-            )}
-          </li>
-          <li>
-            <NavLink to="/guides/store" onClick={close} className={({isActive}) => isActive ? "active" : ""}>
-              Store
-            </NavLink>
-          </li>
-          <li>
-            <button
-              className={`menu-toggle ${eventsOpen ? 'open' : ''}`}
-              onClick={() => setEventsOpen(!eventsOpen)}
-              aria-expanded={eventsOpen}
-            >
-              Events <span className="arrow">{eventsOpen ? '▼' : '▶'}</span>
-            </button>
-            {eventsOpen && (
-              <ul className="submenu">
-                <li>
-                  <NavLink to="/guides/events/wanted-boss" onClick={close} className={({isActive}) => isActive ? "active" : ""}>
-                    Wanted Boss
-                  </NavLink>
-                </li>
-                <li>
-                  <NavLink to="/guides/events/desert-storm" onClick={close} className={({isActive}) => isActive ? "active" : ""}>
-                    Desert Storm
-                  </NavLink>
-                </li>
-              </ul>
-            )}
-          </li>
-          <li>
-            <button
-              className={`menu-toggle ${seasonsOpen ? 'open' : ''}`}
-              onClick={() => setSeasonsOpen(!seasonsOpen)}
-              aria-expanded={seasonsOpen}
-            >
-              Season <span className="arrow">{seasonsOpen ? '▼' : '▶'}</span>
-            </button>
-            {seasonsOpen && (
-              <ul className="submenu">
-                <li>
-                  <NavLink to="/guides/seasons/1" onClick={close} className={({isActive}) => isActive ? "active" : ""}>
-                    Season 1
-                  </NavLink>
-                </li>
-                <li>
-                  <NavLink to="/guides/seasons/2" onClick={close} className={({isActive}) => isActive ? "active" : ""}>
-                    Season 2
-                  </NavLink>
-                </li>
-                <li>
-                  <NavLink to="/guides/seasons/3" onClick={close} className={({isActive}) => isActive ? "active" : ""}>
-                    Season 3
-                  </NavLink>
-                </li>
-                <li>
-                  <NavLink to="/guides/seasons/4" onClick={close} className={({isActive}) => isActive ? "active" : ""}>
-                    Season 4
-                  </NavLink>
-                </li>
-                <li>
-                  <NavLink to="/guides/seasons/5" onClick={close} className={({isActive}) => isActive ? "active" : ""}>
-                    Season 5
-                  </NavLink>
-                </li>
-                <li>
-                  <NavLink to="/guides/seasons/6" onClick={close} className={({isActive}) => isActive ? "active" : ""}>
-                    Season 6
-                  </NavLink>
-                </li>
-              </ul>
-            )}
-          </li>
-
-          <li>
-            <button
-              className={`menu-toggle ${aboutOpen ? 'open' : ''}`}
-              onClick={() => setAboutOpen(!aboutOpen)}
-              aria-expanded={aboutOpen}
-            >
-              About <span className="arrow">{aboutOpen ? '▼' : '▶'}</span>
-            </button>
-            {aboutOpen && (
-              <ul className="submenu">
-                <li>
-                  <NavLink to="/about/app" onClick={close} className={({isActive}) => isActive ? "active" : ""}>
-                    This App
-                  </NavLink>
-                </li>
-                <li>
-                  <NavLink to="/about/satch" onClick={close} className={({isActive}) => isActive ? "active" : ""}>
-                    Satch
-                  </NavLink>
-                </li>
-              </ul>
-            )}
-          </li>
-          <li>
-            <NavLink to="/shoutouts" onClick={close} className={({isActive}) => isActive ? "active" : ""}>
-              Shoutouts
-            </NavLink>
-          </li>
-          <li>
-            <a href={PACK_URL} target="_blank" rel="noreferrer" onClick={close}>
-              Official Site
-            </a>
-          </li>
+          <NavItems
+            nodes={NAV_TREE}
+            close={close}
+            openNodes={openNodes}
+            toggle={toggle}
+            firstRef={firstMenuItemRef}
+          />
         </ul>
 
         <div className="settings">
