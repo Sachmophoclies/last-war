@@ -154,7 +154,8 @@ export const PAGES_TREE = [
         content: {
           sections: [
             { type: "internalImage", src: "/last-war/images/Shiny_Task_1507_1572.jpg", alt: "Shiny Tasks for Servers 1507-1572" }
-          ]
+          ],
+          shoutout: { name: "#1532 Techdemon" }
         }
       }
     ]
