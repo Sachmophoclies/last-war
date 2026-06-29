@@ -1,16 +1,13 @@
-import aboutData from "../data/content.json";
-import BackButton from "../components/BackButton.jsx";
+import PageTemplate from "../components/PageTemplate.jsx";
+import { findPageByPath } from "../data/pages.js";
+
+const page = findPageByPath("/about/app");
 
 export default function AboutApp() {
   return (
-    <div className="page">
-      <h1>About This App</h1>
-
-      <div className="card">
-        <p>{aboutData.app.description}</p>
-      </div>
-
-      <BackButton />
-    </div>
+    <PageTemplate
+      title="About This App"
+      sections={page?.content?.sections}
+    />
   );
 }
