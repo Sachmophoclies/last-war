@@ -34,6 +34,21 @@ export const PAGES_TREE = [
               ],
               shoutout: { name: "Aethernis", url: "https://ko-fi.com/aethernis", urlText: "Support on Ko-fi" }
             }
+          },
+          {
+            title: "Misc",
+            children: [
+              {
+                title: "Offensive Skills Table",
+                path: "/guides/squad/skills/misc/offensive-skills-table",
+                content: {
+                  sections: [
+                    { type: "internalImage", src: "/last-war/images/OffensiveSkillsTableV4.png", alt: "Offensive Skills Table" }
+                  ],
+                  shoutout: { name: "#557 Grim Warhawk" }
+                }
+              }
+            ]
           }
         ]
       },
