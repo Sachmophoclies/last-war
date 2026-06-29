@@ -145,6 +145,21 @@ export const PAGES_TREE = [
     ]
   },
   {
+    title: "Shiny Tasks",
+    children: [
+      {
+        title: "1507-1572",
+        pageTitle: "Shiny Tasks for Servers 1507-1572",
+        path: "/guides/shiny-tasks/1507-1572",
+        content: {
+          sections: [
+            { type: "internalImage", src: "/last-war/images/Shiny_Task_1507_1572.jpg", alt: "Shiny Tasks for Servers 1507-1572" }
+          ]
+        }
+      }
+    ]
+  },
+  {
     title: "Season",
     children: [
       { title: "Season 1", path: "/guides/seasons/1", content: { sections: [{ type: "text", body: "Season 1 content coming soon." }] } },

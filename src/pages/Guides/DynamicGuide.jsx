@@ -20,7 +20,7 @@ export default function DynamicGuide() {
 
   return (
     <GuideImage
-      title={page.title}
+      title={page.pageTitle ?? page.title}
       imageUrl={imageUrl}
       author={author}
       authorUrl={authorUrl}

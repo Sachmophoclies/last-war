@@ -12,7 +12,7 @@ export default function Season() {
 
   return (
     <PageTemplate
-      title={page.title}
+      title={page.pageTitle ?? page.title}
       sections={page.content?.sections}
       shoutout={page.content?.shoutout}
     />
